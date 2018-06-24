@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +33,20 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<User> getUsers() {
         return userDAO.getUsers();
+    }
+
+    @Override
+    @Transactional
+    public User findByLogin(String login) {
+        List<User> users = getUsers();
+        User user = users.stream().filter(x->x.getLogin().equals(login)).collect(Collectors.toList()).get(0);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public User findUser(User user) {
+        return userDAO.findUserByFrom(user);
     }
 
 }

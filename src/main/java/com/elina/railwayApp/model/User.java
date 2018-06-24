@@ -5,17 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/*
-хз почему подчеркивает
-
-про персистентность пакет нужен
-?
-тут не подскажу, так не делал
-ие
-
-теперь дао
-
- */
 @Entity
 @Table(name = "user")
 public class User {
@@ -45,24 +34,4 @@ public class User {
     @Setter
     @Column(name = "password")
     private String password;
-/*
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }*/
 }

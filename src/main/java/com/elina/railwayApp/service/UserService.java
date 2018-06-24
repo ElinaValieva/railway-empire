@@ -11,4 +11,10 @@ public interface UserService {
     void removeUser(User user);
 
     List<User> getUsers();
+
+    User findByLogin(String login);
+
+    User findUser(User user);
+
+
 }
