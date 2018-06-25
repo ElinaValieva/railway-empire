@@ -3,11 +3,11 @@ package com.elina.railwayApp.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class ViewInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { HelloWorldConfiguration.class };
+        return new Class[] { ViewConfigurations.class };
     }
 
     @Override
