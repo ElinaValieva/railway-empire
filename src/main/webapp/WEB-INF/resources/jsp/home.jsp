@@ -20,7 +20,8 @@
 <body>
 <h1>${message}</h1>
 <a href="/login">Go to HOME page</a>
-<a href="/test">test</a>
+<a href="/home/update">test</a>
+<a href="/station">station page</a>
 
 <div class="wrapper">
     <div class="background"></div>

@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * @author Pavel.Krizskiy
- * @since 1.0.0
- */
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({"com.elina.railwayApp"})

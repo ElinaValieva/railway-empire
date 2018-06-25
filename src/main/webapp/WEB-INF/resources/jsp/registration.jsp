@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Elina
@@ -27,14 +28,18 @@
     <div class="moon"></div>
     <div class="login-page">
         <div class="form">
-            <form class="register-form" method="post" action="/registration">
-                <input name="firstName" type="text" placeholder="firstName" />
-                <input name="lastName" type="text" placeholder="lastName" />
-                <input name="login" type="text" placeholder="e-mail address"/>
-                <input name="password" type="password" placeholder="password"/>
+            <form:form class="register-form" method="post" action="/registration">
+                <input name="firstName" path="firstName" type="text" placeholder="firstName"/>
+                <form:errors path="firstName"/>
+                <input name="lastName" path="lastName" type="text" placeholder="lastName"/>
+                <form:errors path="lastName"/>
+                <input name="login" path="login" type="text" placeholder="e-mail address"/>
+                <form:errors path="login"/>
+                <input name="password" path="password" type="password" placeholder="password"/>
+                <form:errors path="password"/>
                 <button>create</button>
                 <p class="message">Already registered? <a href="/login">Sign In</a></p>
-            </form>
+            </form:form>
         </div>
     </div>
 </div>

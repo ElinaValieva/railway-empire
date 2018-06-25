@@ -1,13 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Elina
-  Date: 22.06.2018
-  Time: 14:41
+  Date: 25.06.2018
+  Time: 16:17
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Title</title>
@@ -29,14 +28,17 @@
     <div class="moon"></div>
     <div class="login-page">
         <div class="form">
-            <form:form class="login-form" action="/login" method="post">
-                <input name="login" type="text" placeholder="login"/>
-                <form:errors path="login"/>
-                <input name="password" type="password" placeholder="password"/>
-                <form:errors path="password"/>
-                <button>login</button>
-                <p class="message">Not registered? <a href="/registration">Create an account</a></p>
-            </form:form>
+            <form class="register-form" method="post" action="/home/profile">
+                <input name="firstName" path="firstName" type="text" placeholder="firstName"/>
+                <errors path="firstName"/>
+                <input name="lastName" path="lastName" type="text" placeholder="lastName"/>
+                <errors path="lastName"/>
+                <input name="login" path="login" type="text" placeholder="e-mail address"/>
+                <errors path="login"/>
+                <input name="password" path="password" type="password" placeholder="password"/>
+                <errors path="password"/>
+                <button>edit</button>
+            </form>
         </div>
     </div>
 </div>

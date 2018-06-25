@@ -5,8 +5,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.elina.railwayApp.configuration.common.Tables;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Set;
+
 @Entity
-@Table(name = "user")
+@Table(name = Tables.USER_TABLE)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,4 +41,14 @@ public class User {
     @Setter
     @Column(name = "password")
     private String password;
+
+    @Getter
+    @Setter
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = {
+            @JoinColumn(name = "user_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "role_id")
+            })
+    private Set<Role> roleSet;
 }

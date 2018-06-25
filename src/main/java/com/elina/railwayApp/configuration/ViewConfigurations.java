@@ -1,4 +1,5 @@
 package com.elina.railwayApp.configuration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.elina.railwayApp")
-public class HelloWorldConfiguration extends WebMvcConfigurationSupport {
+public class ViewConfigurations extends WebMvcConfigurationSupport {
 
 
     @Bean
@@ -30,3 +31,5 @@ public class HelloWorldConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/resources/**").addResourceLocations("webapp/WEB-INF/resources/");
     }
 }
+
+

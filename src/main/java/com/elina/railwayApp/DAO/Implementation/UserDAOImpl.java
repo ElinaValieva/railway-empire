@@ -15,27 +15,47 @@ public class UserDAOImpl implements UserDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from User").getResultList();
     }
 
     @Override
-    public void addUser(User user) {
+    public void add(User user) {
         sessionFactory.getCurrentSession().save(user);
     }
 
     @Override
-    public void removeUser(User user) {
+    public void remove(User user) {
         sessionFactory.getCurrentSession().remove(user);
     }
 
     @Override
-    public User findUserByFrom(User user) {
-        List<User> users = sessionFactory.getCurrentSession()
+    public void update(User user) {
+        sessionFactory.getCurrentSession().update(user);
+    }
+
+    @Override
+    public User findUserByForm(User user) {
+        return (User) sessionFactory.getCurrentSession()
                 .createQuery("FROM User where login = :login and password = :password")
                 .setParameter("login", user.getLogin())
                 .setParameter("password", user.getPassword())
-                .getResultList();
-        return users.get(0);
+                .uniqueResult();
+    }
+
+    @Override
+    public User findUserByEmail(User user) {
+        return (User) sessionFactory.getCurrentSession()
+                .createQuery("FROM User where login = :login")
+                .setParameter("login", user.getLogin())
+                .uniqueResult();
+    }
+
+    @Override
+    public User findUserByEmail(String login) {
+        return (User) sessionFactory.getCurrentSession()
+                .createQuery("FROM User where login = :login")
+                .setParameter("login", login)
+                .uniqueResult();
     }
 }
