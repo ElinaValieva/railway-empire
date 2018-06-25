@@ -58,4 +58,12 @@ public class UserDAOImpl implements UserDAO {
                 .setParameter("login", login)
                 .uniqueResult();
     }
+
+    @Override
+    public List<User> findUserByEmailTest(String login) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("FROM User where login = :login")
+                .setParameter("login", login)
+                .getResultList();
+    }
 }

@@ -56,4 +56,9 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public List<User> findUserByEmailTest(String login) {
+        return userDAO.findUserByEmailTest(login);
+    }
+
 }

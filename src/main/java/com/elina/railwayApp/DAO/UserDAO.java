@@ -3,7 +3,6 @@ package com.elina.railwayApp.DAO;
 import com.elina.railwayApp.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
 
@@ -20,4 +19,6 @@ public interface UserDAO {
     User findUserByEmail(User user);
 
     User findUserByEmail(String login);
+
+    List<User> findUserByEmailTest(String login);
 }
