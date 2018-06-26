@@ -19,12 +19,19 @@ public class StationController {
     @Autowired
     private StationService stationService;
 
+    /*
+    get all stations
+     */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
     public String getStation(Model model) {
         model.addAttribute("stations", stationService.getAll());
         return Views.STATION;
     }
+
+    /*
+    remove and add station
+     */
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(name = URLs.CREATE_STATION, method = RequestMethod.POST)
@@ -40,6 +47,9 @@ public class StationController {
         return Views.STATION;
     }
 
+    /*
+    update station
+     */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.STATION_UPDATE}, method = RequestMethod.GET)
     public String updateStation(@PathVariable String id, Model model) {
@@ -54,7 +64,5 @@ public class StationController {
         stationService.update(station);
         return Views.STATION;
     }
-
-
 }
 

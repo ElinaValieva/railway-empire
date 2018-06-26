@@ -27,17 +27,14 @@
     <div class="lights"></div>
     <div class="moon"></div>
     <div class="login-page">
-        <div class="form">
-            <form class="register-form" method="post" action="/registration">
-                <input name="firstName" path="firstName" type="text" placeholder="firstName" required/>
-                <input name="lastName" path="lastName" type="text" placeholder="lastName" required/>
-                <input name="login" path="login" type="email" placeholder="e-mail address" required/>
-                <input name="password" path="password" type="password" placeholder="password" required/>
-                <button>create</button>
-                <p class="message">Already registered? <a href="/login">Sign In</a></p>
-            </form>
-        </div>
+        <form class="form" method="post" action="/registration">
+            <input name="firstName" path="firstName" type="text" placeholder="firstName" required/>
+            <input name="lastName" path="lastName" type="text" placeholder="lastName" required/>
+            <input name="login" path="login" type="email" placeholder="e-mail address" required/>
+            <input name="password" path="password" type="password" placeholder="password" required/>
+            <button>create</button>
+            <p class="message">Already registered? <a href="/login">Sign In</a></p>
+        </form>
     </div>
-</div>
 </body>
 </html>

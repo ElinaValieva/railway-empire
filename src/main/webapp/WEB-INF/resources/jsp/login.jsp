@@ -28,15 +28,12 @@
     <div class="lights"></div>
     <div class="moon"></div>
     <div class="login-page">
-        <div class="form">
-            <form class="login-form" action="/login" method="post">
-                <input name="username" type="email" placeholder="login" required/>
-                <input name="password" type="password" placeholder="password" required/>
-                <button>login</button>
-                <p class="message">Not registered? <a href="/registration">Create an account</a></p>
-            </form>
-        </div>
+        <form class="form" action="/login" method="post">
+            <input name="username" type="email" placeholder="login" required/>
+            <input name="password" type="password" placeholder="password" required/>
+            <button>login</button>
+            <p class="message">Not registered? <a href="/registration">Create an account</a></p>
+        </form>
     </div>
-</div>
 </body>
 </html>

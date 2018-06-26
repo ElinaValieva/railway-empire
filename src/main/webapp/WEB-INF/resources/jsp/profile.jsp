@@ -13,7 +13,7 @@
 <head>
     <title>Title</title>
     <style type="text/css">
-        <%@include file="../css/login.css"%>
+        <%@include file="../css/profile.css"%>
         <%@include file="../css/style.css"%>
         <%@include file="../css/railway.css"%>
     </style>
@@ -29,26 +29,23 @@
     <div class="lights"></div>
     <div class="moon"></div>
     <div class="login-page">
-        <div class="form">
-            <form:form action="/home/update" method="post">
-                <dxa:csrf-token/>
-                <input type="hidden" name="id" value="${user.id}">
-                <input name="firstName" path="firstName" type="text" placeholder="firstName" value="${user.firstName}"
-                       required/>
-                <input name="lastName" path="lastName" type="text" placeholder="lastName" value="${user.lastName}"
-                       required/>
-                <input name="login" path="login" type="email" placeholder="login" value="${user.login}" required/>
-                <input name="password" path="password" type="password" placeholder="password" value="${user.password}"
-                       required/>
-                <input name="birthDay" path="birthday" type="date" placeholder="birthday" value="${user.birthDay}"/>
-                <input name="sex" path="sex" type="radio"
-                       value="${user.sex}"  ${user.sex.equals('male') ? 'checked' : ''}>male
-                <input name="sex" path="sex" type="radio"
-                       value="${user.sex}" ${user.sex.equals('female') ? 'checked' : ''}/>female
-                <%--<input name="sex" type="text" placeholder="sex" value="${user.sex}">--%>
-                <button>edit</button>
-            </form:form>
-        </div>
+        <form class="form" action="/home/update" method="post">
+            <dxa:csrf-token/>
+            <input type="hidden" name="id" value="${user.id}">
+            <input name="firstName" path="firstName" type="text" placeholder="firstName" value="${user.firstName}"
+                   required/>
+            <input name="lastName" path="lastName" type="text" placeholder="lastName" value="${user.lastName}"
+                   required/>
+            <input name="login" path="login" type="email" placeholder="login" value="${user.login}" required/>
+            <input name="password" path="password" type="password" placeholder="password" value="${user.password}"
+                   required/>
+            <input name="birthDay" path="birthday" type="date" placeholder="birthday" value="${user.birthDay}"/>
+            <input type="radio" name="sex" value="male" ${user.sex.equals('male') ? 'checked' : ''}/>
+            <label>male</label>
+            <input type="radio" name="sex" value="female" ${user.sex.equals('female') ? 'checked' : ''}/>
+            <label>female</label>
+            <button>edit</button>
+        </form>
     </div>
 </div>
 </body>

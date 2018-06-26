@@ -28,7 +28,7 @@ public class ViewConfigurations extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("webapp/WEB-INF/resources/");
+        registry.addResourceHandler("/webapp/WEB-INF/resources/**").addResourceLocations("webapp/WEB-INF/resources/");
     }
 }
 

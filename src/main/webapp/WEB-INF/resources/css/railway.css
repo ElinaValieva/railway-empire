@@ -49,6 +49,7 @@ body {
     bottom: -110px;
     height: 250px;
     width: 1920px;
+    /*background-image: url(images/rails.png);*/
     /*background: url(images/rails.png) top center repeat-x;*/
     background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QZmtCbjlIbjVwclk) top center repeat-x;
     background-size: contain;
