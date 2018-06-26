@@ -29,14 +29,12 @@
     <div class="moon"></div>
     <div class="login-page">
         <div class="form">
-            <form:form class="login-form" action="/login" method="post">
-                <input name="username" type="text" placeholder="login"/>
-                <form:errors path="login"/>
-                <input name="password" type="password" placeholder="password"/>
-                <form:errors path="password"/>
+            <form class="login-form" action="/login" method="post">
+                <input name="username" type="email" placeholder="login" required/>
+                <input name="password" type="password" placeholder="password" required/>
                 <button>login</button>
                 <p class="message">Not registered? <a href="/registration">Create an account</a></p>
-            </form:form>
+            </form>
         </div>
     </div>
 </div>

@@ -35,6 +35,20 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public void updateProfile(User user) {
+        sessionFactory.getCurrentSession().createQuery("UPDATE User SET " +
+                "firstName = :firstName, lastName = :lastName, login = :login, password = :password, birthDay = :birthday, sex = :sex where id =: id")
+                .setParameter("firstName", user.getFirstName())
+                .setParameter("lastName", user.getLastName())
+                .setParameter("login", user.getLogin())
+                .setParameter("password", user.getPassword())
+                .setParameter("birthday", user.getBirthDay())
+                .setParameter("sex", user.getSex())
+                .setParameter("id", user.getId())
+                .executeUpdate();
+    }
+
+    @Override
     public User findUserByForm(User user) {
         return (User) sessionFactory.getCurrentSession()
                 .createQuery("FROM User where login = :login and password = :password")
@@ -59,11 +73,4 @@ public class UserDAOImpl implements UserDAO {
                 .uniqueResult();
     }
 
-    @Override
-    public List<User> findUserByEmailTest(String login) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("FROM User where login = :login")
-                .setParameter("login", login)
-                .getResultList();
-    }
 }

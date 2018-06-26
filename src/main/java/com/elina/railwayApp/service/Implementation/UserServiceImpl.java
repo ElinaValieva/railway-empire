@@ -1,8 +1,10 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.UserDAO;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.UserService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Log4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User findByEmail(String login) {
         return userDAO.findUserByEmail(login);
     }
@@ -52,13 +56,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User update(User user) {
-        return null;
+    public void update(User user) {
+        userDAO.update(user);
     }
 
     @Override
-    public List<User> findUserByEmailTest(String login) {
-        return userDAO.findUserByEmailTest(login);
+    @Transactional
+    public void updateProfile(User user) {
+        String password = user.getPassword();
+        user.setPassword(Utils.encodePassword(password));
+        userDAO.updateProfile(user);
     }
 
 }

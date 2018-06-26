@@ -18,8 +18,8 @@ public interface UserService {
 
     User findUserByForm(User user);
 
-    User update(User user);
+    void update(User user);
 
-    List<User> findUserByEmailTest(String login);
+    void updateProfile(User user);
 
 }

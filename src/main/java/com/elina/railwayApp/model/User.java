@@ -1,15 +1,11 @@
 package com.elina.railwayApp.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
-
 import com.elina.railwayApp.configuration.common.Tables;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -29,6 +25,7 @@ public class User {
 
     @Getter
     @Setter
+    @NotNull
     @Column(name = "lastName")
     private String lastName;
 
@@ -44,6 +41,18 @@ public class User {
 
     @Getter
     @Setter
+    @Column(name = "sex")
+    private String sex;
+
+    @Getter
+    @Setter
+    @Column(name = "birthDay")
+    private String birthDay;
+
+
+    @Getter
+    @Setter
+    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {
             @JoinColumn(name = "user_id")},

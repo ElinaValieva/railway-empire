@@ -14,11 +14,14 @@ public interface UserDAO {
 
     void update(User user);
 
+    void updateProfile(User user);
+
     User findUserByForm(User user);
 
     User findUserByEmail(User user);
 
     User findUserByEmail(String login);
 
-    List<User> findUserByEmailTest(String login);
+
+
 }

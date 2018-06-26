@@ -28,18 +28,14 @@
     <div class="moon"></div>
     <div class="login-page">
         <div class="form">
-            <form:form class="register-form" method="post" action="/registration">
-                <input name="firstName" path="firstName" type="text" placeholder="firstName"/>
-                <form:errors path="firstName"/>
-                <input name="lastName" path="lastName" type="text" placeholder="lastName"/>
-                <form:errors path="lastName"/>
-                <input name="login" path="login" type="text" placeholder="e-mail address"/>
-                <form:errors path="login"/>
-                <input name="password" path="password" type="password" placeholder="password"/>
-                <form:errors path="password"/>
+            <form class="register-form" method="post" action="/registration">
+                <input name="firstName" path="firstName" type="text" placeholder="firstName" required/>
+                <input name="lastName" path="lastName" type="text" placeholder="lastName" required/>
+                <input name="login" path="login" type="email" placeholder="e-mail address" required/>
+                <input name="password" path="password" type="password" placeholder="password" required/>
                 <button>create</button>
                 <p class="message">Already registered? <a href="/login">Sign In</a></p>
-            </form:form>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 package com.elina.railwayApp.configuration;
 
+import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.service.Implementation.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,18 +24,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/registration").permitAll()
+                .authorizeRequests()
+                .antMatchers(URLs.REGISTRATION, URLs.LOGIN).permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                .formLogin().loginPage(URLs.LOGIN).defaultSuccessUrl(URLs.WELCOME).failureUrl("/login?error=true")
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/home").failureUrl("/login?error=true").permitAll()
-                .and()
+                .csrf().disable()
                 .logout().permitAll();
     }
 }
