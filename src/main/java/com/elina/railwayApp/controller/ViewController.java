@@ -4,14 +4,10 @@ import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.UserService;
-import com.elina.railwayApp.validator.UserValidator;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ViewController {
 
     @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
     private UserService userService;
-
 
     @RequestMapping(value = URLs.WELCOME)
     public String home(Model model) {
@@ -52,9 +44,11 @@ public class ViewController {
         model.addAttribute("user", user);
         return Views.PROFILE;
     }
-
-    @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
-    public String getStation() {
+/*
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @RequestMapping(name = URLs.UPDATE_STATION, method = RequestMethod.POST)
+    public String updateStation(@ModelAttribute("station") Station station) {
+        stationService.update(station);
         return Views.STATION;
-    }
+    }*/
 }

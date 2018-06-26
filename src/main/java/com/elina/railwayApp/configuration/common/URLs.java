@@ -12,7 +12,8 @@ public final class URLs {
      */
     public final static String STATION = "/station";
     public final static String CREATE_STATION = "/station/add";
-    public final static String DELETE_STATION = "/station/delete";
+    public final static String DELETE_STATION = "/station/delete/{id}";
     public final static String UPDATE_STATION = "/station/update";
+    public static final String STATION_UPDATE = "/station/update/{id}";
 }
 

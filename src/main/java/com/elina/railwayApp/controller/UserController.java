@@ -7,7 +7,6 @@ import com.elina.railwayApp.model.Role;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
-import com.elina.railwayApp.validator.LoginValidator;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
