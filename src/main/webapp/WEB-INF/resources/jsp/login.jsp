@@ -30,7 +30,7 @@
     <div class="login-page">
         <div class="form">
             <form:form class="login-form" action="/login" method="post">
-                <input name="login" type="text" placeholder="login"/>
+                <input name="username" type="text" placeholder="login"/>
                 <form:errors path="login"/>
                 <input name="password" type="password" placeholder="password"/>
                 <form:errors path="password"/>

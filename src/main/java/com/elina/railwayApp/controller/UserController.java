@@ -52,6 +52,7 @@ public class UserController {
     @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
         registrationValidator.validate(user, bindingResult);
+        User userN = userService.findByEmail(user);
         Role role = roleService.getRole();
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);

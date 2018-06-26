@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private UserService userService;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.findByEmail(s);
         if (user != null) {
