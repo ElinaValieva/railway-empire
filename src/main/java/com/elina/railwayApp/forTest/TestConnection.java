@@ -1,10 +1,13 @@
 package com.elina.railwayApp.forTest;
 
 
+import lombok.extern.log4j.Log4j;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Log4j
 public class TestConnection {
 
     private static final String DRIVER_NOT_FOUND_MSG = "DRIVER NOT FOUND!";
@@ -20,14 +23,18 @@ public class TestConnection {
     public static void main(String[] args) {
         try {
             Class.forName(DRIVER_TO_CHECK);
+            log.info(DRIVER_FOUND_MSG);
             System.out.println(DRIVER_FOUND_MSG);
         } catch (ClassNotFoundException e) {
+            log.warn(DRIVER_NOT_FOUND_MSG);
             System.out.println(DRIVER_NOT_FOUND_MSG);
         }
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             System.out.println(CONNECTED_MSG);
+            log.info(CONNECTED_MSG);
         } catch (SQLException e) {
+            log.warn(ERROR_MSG);
             System.out.println(ERROR_MSG + e.toString());
         }
     }

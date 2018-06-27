@@ -36,7 +36,7 @@ public class UserController {
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(role);
             user.setPassword(Utils.encodePassword(user.getPassword()));
-            user.setRoleSet(roleSet);
+            user.setRoles(roleSet);
             userService.add(user);
             log.info("Register user with username" + user.getLogin());
             return Views.LOGIN;
