@@ -44,11 +44,9 @@ public class ViewController {
         model.addAttribute("user", user);
         return Views.PROFILE;
     }
-/*
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(name = URLs.UPDATE_STATION, method = RequestMethod.POST)
-    public String updateStation(@ModelAttribute("station") Station station) {
-        stationService.update(station);
-        return Views.STATION;
-    }*/
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+        return "test";
+    }
 }

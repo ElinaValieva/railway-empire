@@ -13,9 +13,9 @@
 <head>
     <title>Title</title>
     <style type="text/css">
-        <%@include file="../css/profile.css"%>
-        <%@include file="../css/style.css"%>
-        <%@include file="../css/railway.css"%>
+        <%@include file="/resources/css/profile.css"%>
+        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/railway.css"%>
     </style>
 </head>
 <body>

@@ -13,7 +13,7 @@
 <html>
 <head>
     <style>
-        <%@include file="../css/style.css"%>
+        <%@include file="/resources/css/style.css"%>
     </style>
     <title>WELCOME BEACH</title>
 </head>

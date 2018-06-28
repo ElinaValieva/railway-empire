@@ -6,16 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Title</title>
     <style type="text/css">
-        <%@include file="../css/login.css"%>
-        <%@include file="../css/style.css"%>
-        <%@include file="../css/railway.css"%>
+        <%@include file="/resources/css/login.css"%>
+        <%@include file="/resources/css/railway.css"%>
+        <%@include file="/resources/css/style.css"%>
     </style>
+    <link href="<c:url value="/resources/css/login.css"/>" rel="stylesheet"/>
+    <script src="/resources/js/login.js" rel="script"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -35,5 +38,6 @@
             <p class="message">Not registered? <a href="/registration">Create an account</a></p>
         </form>
     </div>
+</div>
 </body>
 </html>

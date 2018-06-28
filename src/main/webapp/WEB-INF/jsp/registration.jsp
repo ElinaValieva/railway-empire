@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Elina
@@ -10,11 +11,21 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="<c:url value="/resources/css/login.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/railway.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/js/login.js" />"></script>
+    <script src="<c:url value = "/resources/js/login.js" />"></script>
     <style type="text/css">
-        <%@include file="../css/login.css"%>
-        <%@include file="../css/style.css"%>
-        <%@include file="../css/railway.css"%>
+        <%@include file="/resources/css/login.css"%>
+        <%@include file="/resources/css/railway.css"%>
+        <%@include file="/resources/css/style.css"%>
     </style>
+    <%--<script src="/resources/js/login.js"/>--%>
+    <script>
+        alert(':(');
+        <%--<%@include file="/resources/js/login.js"%>--%>
+    </script>
+    <link rel="stylesheet" href="css/railway.css">
 </head>
 <body>
 <div class="wrapper">
@@ -36,5 +47,6 @@
             <p class="message">Already registered? <a href="/login">Sign In</a></p>
         </form>
     </div>
+</div>
 </body>
 </html>

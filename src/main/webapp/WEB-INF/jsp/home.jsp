@@ -12,16 +12,16 @@
 <head>
     <title>${startPage}</title>
     <style>
-        <%@include file="../css/login.css"%>
-        <%@include file="../css/style.css"%>
-        <%@include file="../css/railway.css"%>
+        <%@include file="/resources/css/login.css"%>
+        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/railway.css"%>
     </style>
 </head>
 <body>
 <h1>${message}</h1>
-<a href="/login">Go to HOME page</a>
 <a href="/home/update">USER PROFILE</a>
 <a href="/station">STATION</a>
+<a href="/test">TEST</a>
 
 <div class="wrapper">
     <div class="background"></div>
