@@ -19,4 +19,6 @@ public interface TrainService {
     List<Train> getAll();
 
     Train getById(Long id);
+
+    Train getByName(String name);
 }

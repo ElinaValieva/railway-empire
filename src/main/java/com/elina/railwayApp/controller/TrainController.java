@@ -36,7 +36,7 @@ public class TrainController {
     }
 
     /**
-     * CREATE TRAIN
+     * CREATE unique TRAIN
      *
      * @param cntCarriage
      * @param cntSeats
@@ -45,9 +45,13 @@ public class TrainController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.CREATE_TRAIN, method = RequestMethod.POST)
     public String createTrain(@ModelAttribute("train") Train train, int cntCarriage, int cntSeats) {
-        log.info("CREATE TRAIN number = " + train.getName());
-        log.info("CNT carriage = " + cntCarriage + " CNT seats" + cntSeats);
-        trainService.add(train, cntCarriage, cntSeats);
+        Train trainCreating = trainService.getByName(train.getName());
+        if (trainCreating == null && cntCarriage > 0 && cntSeats > 0) {
+            log.info("CREATE TRAIN number = " + train.getName());
+            log.info("CNT carriage = " + cntCarriage + " CNT seats" + cntSeats);
+            trainService.add(train, cntCarriage, cntSeats);
+        }
+        log.warn("CAN'T CREATE NOT UNIQUE TRAIN");
         return Views.TRAIN;
     }
 

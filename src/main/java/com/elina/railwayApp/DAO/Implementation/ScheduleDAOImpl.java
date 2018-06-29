@@ -64,7 +64,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .createQuery("from Schedule where " +
                         "stationArrival = :stationArrival and " +
                         "stationDepartment = :stationDepartment and " +
-                        "dateArrival = :date")
+                        "cast(dateArrival as date) = :date")
                 .setParameter("stationArrival", stationArrival)
                 .setParameter("stationDepartment", stationDepartment)
                 .setParameter("date", date)

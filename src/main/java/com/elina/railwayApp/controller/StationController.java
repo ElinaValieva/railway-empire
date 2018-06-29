@@ -33,15 +33,20 @@ public class StationController {
     }
 
     /**
-     * ADD STATION
+     * ADD unique STATION
+     *
      * @param station with id, name
      */
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(name = URLs.CREATE_STATION, method = RequestMethod.POST)
     public String addStation(@ModelAttribute("station") Station station) {
-        log.info("CREATE STATION WITH name = " + station.getName());
-        stationService.add(station);
+        Station stationCreating = stationService.getByName(station.getName());
+        if (stationCreating == null) {
+            log.info("CREATE STATION WITH name = " + station.getName());
+            stationService.add(station);
+        }
+        log.warn("CAN'T CREATE NOT UNIQUE STATION");
         return Views.STATION;
     }
 

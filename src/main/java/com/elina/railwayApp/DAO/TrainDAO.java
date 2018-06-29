@@ -17,4 +17,6 @@ public interface TrainDAO {
     List<Train> getAll();
 
     Train getById(Long id);
+
+    Train getByName(String name);
 }

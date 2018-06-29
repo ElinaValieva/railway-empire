@@ -17,4 +17,6 @@ public interface StationDAO {
     void update(Station station);
 
     List<Station> getAll();
+
+    Station findByName(String name);
 }

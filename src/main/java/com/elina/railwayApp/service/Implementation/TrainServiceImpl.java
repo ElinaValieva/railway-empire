@@ -64,4 +64,10 @@ public class TrainServiceImpl implements TrainService {
     public Train getById(Long id) {
         return trainDAO.getById(id);
     }
+
+    @Override
+    @Transactional
+    public Train getByName(String name) {
+        return trainDAO.getByName(name);
+    }
 }

@@ -17,4 +17,6 @@ public interface StationService {
     List<Station> getAll();
 
     Station getById(Long id);
+
+    Station getByName(String name);
 }

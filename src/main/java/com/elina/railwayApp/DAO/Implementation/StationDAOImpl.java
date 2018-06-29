@@ -47,4 +47,12 @@ public class StationDAOImpl implements StationDAO {
                 .createQuery("from Station")
                 .getResultList();
     }
+
+    @Override
+    public Station findByName(String name) {
+        return (Station) sessionFactory.getCurrentSession()
+                .createQuery("from Station where name = :name")
+                .setParameter("name", name)
+                .uniqueResult();
+    }
 }

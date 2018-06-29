@@ -44,4 +44,10 @@ public class StationServiceImpl implements StationService {
     public Station getById(Long id) {
         return stationDAO.findById(id);
     }
+
+    @Override
+    @Transactional
+    public Station getByName(String name) {
+        return stationDAO.findByName(name);
+    }
 }

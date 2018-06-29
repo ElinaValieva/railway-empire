@@ -46,4 +46,12 @@ public class TrainDAOImpl implements TrainDAO {
                 .setParameter("id", id)
                 .uniqueResult();
     }
+
+    @Override
+    public Train getByName(String name) {
+        return (Train) sessionFactory.getCurrentSession()
+                .createQuery("from Train where name = :name")
+                .setParameter("name", name)
+                .uniqueResult();
+    }
 }
