@@ -25,5 +25,13 @@ public final class URLs {
     public final static String CREATE_TRAIN = "/train/add";
     public final static String DELETE_TRAIN = "/train/remove";
 
+    /*
+    SCHEDULE
+     */
+    public final static String SCHEDULE = "/schedule";
+    public final static String GET_SCHEDULES = "/schedule/all";
+    public final static String CREATE_SCHEDULE = "/schedule/add";
+    public final static String DELETE_SCHEDULE = "/schedule/remove";
+
 }
 
