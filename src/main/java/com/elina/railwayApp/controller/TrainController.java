@@ -23,8 +23,8 @@ public class TrainController {
     @Autowired
     private TrainService trainService;
 
-    /*
-    GET ALL TRAINS
+    /**
+     * GET ALL TRAINS
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.GET_TRAINS, method = RequestMethod.GET)
@@ -35,11 +35,12 @@ public class TrainController {
         return Views.TRAIN;
     }
 
-    /*
-    CREATE TRAIN WITH PARAMETERS:
-    - NAME
-    - CNT CARRIAGE
-    - CNT SEATS IN CARRIAGE
+    /**
+     * CREATE TRAIN
+     *
+     * @param cntCarriage
+     * @param cntSeats
+     * @param train
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.CREATE_TRAIN, method = RequestMethod.POST)
@@ -50,8 +51,8 @@ public class TrainController {
         return Views.TRAIN;
     }
 
-    /*
-    REMOVE TRAIN IF IT ISN'T EXIST IN SCHEDULE
+    /**
+     * REMOVE TRAIN IF IT ISN'T EXIST IN SCHEDULE
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.DELETE_TRAIN, method = RequestMethod.POST)

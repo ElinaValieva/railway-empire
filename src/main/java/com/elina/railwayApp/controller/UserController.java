@@ -31,6 +31,7 @@ public class UserController {
 
     @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") User user) {
+        log.info("PREPARING PROCESS FOR REGISTER");
         if (userService.findByEmail(user.getLogin()) == null) {
             Role role = roleService.getRole();
             Set<Role> roleSet = new HashSet<>();
@@ -38,16 +39,17 @@ public class UserController {
             user.setPassword(Utils.encodePassword(user.getPassword()));
             user.setRoles(roleSet);
             userService.add(user);
-            log.info("Register user with username" + user.getLogin());
+            log.info("REGISTRATION WAS SUCCESSFUL FOR USER login = " + user.getLogin());
             return Views.LOGIN;
         }
-        log.warn("Person with same login was added before");
+        log.warn("REGISTRATION FAILED FOR PERSON WITH SAME LOGIN");
         return Views.REGISTRATION;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = URLs.UPDATE_PROFILE, method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user") User user) {
+        log.info("UPDATE PROFILE FOR USER login = " + user.getLogin());
         userService.updateProfile(user);
         return Views.PROFILE;
     }

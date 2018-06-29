@@ -2,6 +2,7 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public Schedule getById(Long id) {
         return scheduleDAO.getById(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Schedule> getByDateArrival(String dateArrival) {
+        return scheduleDAO.getByDate(dateArrival);
+    }
+
+    @Override
+    @Transactional
+    public List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment) {
+        return scheduleDAO.getByStationAndDate(date, stationArrival, stationDepartment);
     }
 }
