@@ -11,6 +11,7 @@ public final class URLs {
     STATION
      */
     public final static String STATION = "/station";
+    public final static String GET_STATIONS = "/station/all";
     public final static String CREATE_STATION = "/station/add";
     public final static String DELETE_STATION = "/station/delete/{id}";
     public final static String UPDATE_STATION = "/station/update";
@@ -19,7 +20,10 @@ public final class URLs {
     /*
     TRAIN
      */
-    public final static String TRAIN = "/test";
+    public final static String TRAIN = "/train";
+    public final static String GET_TRAINS = "/train/all";
+    public final static String CREATE_TRAIN = "/train/add";
+    public final static String DELETE_TRAIN = "/train/remove";
 
 }
 

@@ -20,17 +20,17 @@ public class StationController {
     private StationService stationService;
 
     /*
-    get all stations
+    GET ALL STATIONS
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
-    public String getStation(Model model) {
+    @RequestMapping(value = URLs.GET_STATIONS, method = RequestMethod.GET)
+    public String getStations(Model model) {
         model.addAttribute("stations", stationService.getAll());
         return Views.STATION;
     }
 
     /*
-    remove and add station
+    ADD STATION
      */
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
@@ -40,15 +40,22 @@ public class StationController {
         return Views.STATION;
     }
 
+    /*
+    REMOVE STATION IF IT ISN'T EXIST IN SCHEDULE
+     */
+
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.DELETE_STATION}, method = RequestMethod.GET)
     public String removeStation(@PathVariable String id) {
+
+        //TODO
+        //CONDITION
         stationService.delete(Long.valueOf(id));
         return Views.STATION;
     }
 
     /*
-    update station
+    FIND STATION FOR UPDATE BY ID
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.STATION_UPDATE}, method = RequestMethod.GET)
@@ -58,6 +65,9 @@ public class StationController {
         return Views.STATION;
     }
 
+    /*
+    UPDATE STATION NAME
+     */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.UPDATE_STATION}, method = RequestMethod.POST)
     public String updateStation(@ModelAttribute("station") Station station) {

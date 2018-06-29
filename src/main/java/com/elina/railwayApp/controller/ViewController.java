@@ -45,8 +45,14 @@ public class ViewController {
         return Views.PROFILE;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test() {
-        return "test";
+    @RequestMapping(value = URLs.TRAIN, method = RequestMethod.GET)
+    public String train() {
+
+        return Views.TRAIN;
+    }
+
+    @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
+    public String station() {
+        return Views.STATION;
     }
 }

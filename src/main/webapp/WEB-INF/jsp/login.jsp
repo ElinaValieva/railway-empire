@@ -17,8 +17,8 @@
         <%@include file="/resources/css/railway.css"%>
         <%@include file="/resources/css/style.css"%>
     </style>
-    <link href="<c:url value="/resources/css/login.css"/>" rel="stylesheet"/>
-    <script src="/resources/js/login.js" rel="script"></script>
+    <%--<script src="/js/login.js" rel="script"></script>--%>
+    <%--<script src="js/script.js" rel="script"></script>--%>
 </head>
 <body>
 <div class="wrapper">

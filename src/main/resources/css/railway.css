@@ -16,8 +16,8 @@ body {
     position: absolute;
     height: 1080px;
     width: 1920px;
-    /*background: url(/images/train.png) top center repeat-x;*/
-    background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QSXhkaG1VaEhSTjA) top center repeat-x;
+    background: url(/images/train.png) top center repeat-x;
+    /*background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QSXhkaG1VaEhSTjA) top center repeat-x;*/
     /*background-image: url(images/bg.png);*/
     background-size: contain;
 }

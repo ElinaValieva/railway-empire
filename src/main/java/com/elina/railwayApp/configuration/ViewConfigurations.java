@@ -1,20 +1,22 @@
 package com.elina.railwayApp.configuration;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+@Log4j
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan(basePackages = "com.elina.railwayApp")
-public class ViewConfigurations extends WebMvcConfigurationSupport {
+public class ViewConfigurations extends WebMvcConfigurerAdapter{
 
 
     @Bean
@@ -26,10 +28,20 @@ public class ViewConfigurations extends WebMvcConfigurationSupport {
         return viewResolver;
     }
 
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        log.warn("ADD RESOURCE");
+        registry.addResourceHandler("/resource/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("*.css").addResourceLocations("/resources/css/");
+        registry.addResourceHandler("*.js").addResourceLocations("/resources/js/");
     }
 }
 

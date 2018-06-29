@@ -21,7 +21,7 @@
 <h1>${message}</h1>
 <a href="/home/update">USER PROFILE</a>
 <a href="/station">STATION</a>
-<a href="/test">TEST</a>
+<a href="/train">TEST</a>
 
 <div class="wrapper">
     <div class="background"></div>

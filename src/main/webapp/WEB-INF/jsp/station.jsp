@@ -19,16 +19,18 @@
     <input name="name" type="text" placeholder="name station" required>
     <button>add station</button>
 </form>
-<table>
-    <tr>name</tr>
-    <c:forEach items="${stations}" var="stations">
-        <tr>
-            <td><c:out value="${stations.name}"/></td>
-            <td><a href="<c:url value='/station/delete/${stations.id}'/>">delete</a></td>
-            <td><a href="/station/update/${stations.id}">edit</a></td>
-        </tr>
-    </c:forEach>
-</table>
+<form method="get" action="/station/all">
+    <table>
+        <tr>name</tr>
+        <c:forEach items="${stations}" var="stations">
+            <tr>
+                <td><c:out value="${stations.name}"/></td>
+                <td><a href="<c:url value='/station/delete/${stations.id}'/>">delete</a></td>
+                <td><a href="/station/update/${stations.id}">edit</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</form>
 <form method="post" action="/station/update">
     <dxa:csrf-token/>
     <input name="id" hidden value="${station.id}">

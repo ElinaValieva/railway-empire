@@ -8,6 +8,8 @@ import java.util.List;
 @Service
 public interface TrainService {
 
+    void add(Train train, int cntCarriage, int cntSeat);
+
     void add(Train train);
 
     void delete(Train train);
