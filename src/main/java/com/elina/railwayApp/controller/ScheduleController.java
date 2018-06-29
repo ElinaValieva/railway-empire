@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,11 @@ public class ScheduleController {
 
     /**
      * add schedule
+     * conditionals:
+     * 1. can't add same stations in schedule
+     * 2. can't add wrong times in schedule (arrival > department)
+     * 3. can't add intersection of schedules
+     * 4. can't add schedule for train which placed on another station!
      *
      * @param schedule with id, date arrival/department, stations arrival/department, train
      */
@@ -57,17 +63,17 @@ public class ScheduleController {
 
         //TODO
         /*
-        condition with train that schedule with this train not exist with same dates
-        condition with times timeA < timeB
         condition with train and station (train can't teleporting fast to another place
          */
         log.info("CREATE SCHEDULE");
-        schedule = new Schedule();
+        //for test
         String nameStationA = "station1";
         String nameStationB = "station6";
         String trainName = "train1";
-        String dateArrival = "2018-06-29 18:15:00";
-        String dateDepartment = "2018-06-29 19:15:00";
+        String dateArrival = "2018-06-29 13:45:00";
+        String dateDepartment = "2018-06-29 15:15:00";
+
+
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
         Station stationDepartment = stationService.getByName(nameStationB);
@@ -86,9 +92,17 @@ public class ScheduleController {
      * get schedule by date
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE_ARRIVAL}, method = RequestMethod.GET)
-    public String getByDateArrival(Model model, String dateArrival) {
+    public String getByDateArrival(Model model, String dateArrival) throws ParseException {
         log.info("GET ALL SCHEDULE BY DATE");
-        List<Schedule> schedules = scheduleService.getByDateArrival(dateArrival);
+        //test
+        dateArrival = "2018-06-29";
+
+
+        List<Schedule> schedules = scheduleService.getByDate(dateArrival);
+        if (schedules.isEmpty())
+            log.info(":(");
+        else
+            log.info(schedules.size()+"YEEEEEEEEAH");
         model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }

@@ -7,6 +7,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -49,25 +52,51 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .uniqueResult();
     }
 
+    /**
+     * @param date
+     * @return schedule by date
+     */
     @Override
-    public List<Schedule> getByDate(String date) {
+    public List<Schedule> getByDate(String date1) throws ParseException {
+        LocalDate localDate = LocalDate.of(2018,6,29);
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
-                        "where dateArrival = :date")
-                .setParameter("date", date)
+                        "where date(dateArrival) = :date")
+                .setParameter("date", localDate)
                 .getResultList();
     }
 
+    /**
+     * @param date
+     * @param stationArrival
+     * @param stationDepartment
+     * @return all schedule by stations and date
+     */
     @Override
     public List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where " +
                         "stationArrival = :stationArrival and " +
                         "stationDepartment = :stationDepartment and " +
-                        "cast(dateArrival as date) = :date")
+                        "dateArrival = :date")
                 .setParameter("stationArrival", stationArrival)
                 .setParameter("stationDepartment", stationDepartment)
                 .setParameter("date", date)
+                .getResultList();
+    }
+
+    /**
+     * @param schedule
+     * @return intersection schedules with current schedule
+     */
+    @Override
+    public List<Schedule> getByDateAndTrain(Schedule schedule) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule where train = :train " +
+                        "and (:dateA between dateArrival  and dateDepartment) or (:dateD between dateArrival and dateDepartment)")
+                .setParameter("train", schedule.getTrain())
+                .setParameter("dateA", schedule.getDateArrival())
+                .setParameter("dateD", schedule.getDateDepartment())
                 .getResultList();
     }
 }

@@ -17,5 +17,8 @@
 <form action="/schedule/all" method="get">
     <button>ALL</button>
 </form>
+<form action="/schedule/getByDate" method="get">
+    <button>GET BY DATE</button>
+</form>
 </body>
 </html>

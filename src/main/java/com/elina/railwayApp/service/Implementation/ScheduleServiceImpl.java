@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.List;
 
 @Log4j
@@ -28,7 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         DateTime dateArrival = dateTimeFormatter.parseDateTime(schedule.getDateArrival());
         DateTime dateDepartment = dateTimeFormatter.parseDateTime(schedule.getDateDepartment());
         if (schedule.getStationArrival().getId() != schedule.getStationDepartment().getId()) {
-            if (dateArrival.isBefore(dateDepartment)) {
+            if (dateArrival.isBefore(dateDepartment) && getByTrainAndDate(schedule).isEmpty()) {
                 scheduleDAO.add(schedule);
                 log.info("SUCCESS");
             } else log.warn("WRONG DATETIME FOR SCHEDULE");
@@ -61,7 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getByDateArrival(String dateArrival) {
+    public List<Schedule> getByDate(String dateArrival) throws ParseException {
         return scheduleDAO.getByDate(dateArrival);
     }
 
@@ -69,5 +70,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment) {
         return scheduleDAO.getByStationAndDate(date, stationArrival, stationDepartment);
+    }
+
+    @Override
+    public List<Schedule> getByTrainAndDate(Schedule schedule) {
+        return scheduleDAO.getByDateAndTrain(schedule);
     }
 }
