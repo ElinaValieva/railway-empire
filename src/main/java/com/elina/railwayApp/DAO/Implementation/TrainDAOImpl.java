@@ -35,7 +35,7 @@ public class TrainDAOImpl implements TrainDAO {
     @Override
     public List<Train> getAll() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Train ")
+                .createQuery("from Train")
                 .getResultList();
     }
 

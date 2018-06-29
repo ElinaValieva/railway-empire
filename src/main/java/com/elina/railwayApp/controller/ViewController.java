@@ -47,12 +47,16 @@ public class ViewController {
 
     @RequestMapping(value = URLs.TRAIN, method = RequestMethod.GET)
     public String train() {
-
         return Views.TRAIN;
     }
 
     @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
     public String station() {
         return Views.STATION;
+    }
+
+    @RequestMapping(value = URLs.SCHEDULE, method = RequestMethod.GET)
+    public String schedule() {
+        return Views.SCHEDULE;
     }
 }

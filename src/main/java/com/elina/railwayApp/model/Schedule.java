@@ -10,17 +10,11 @@ import javax.persistence.*;
 public class Schedule {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     @Setter
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-
-    @Getter
-    @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "train_id", nullable = false)
-    private Train train;
 
     @Getter
     @Setter
@@ -37,9 +31,14 @@ public class Schedule {
     @OneToOne
     private Station stationArrival;
 
-
     @Getter
     @Setter
     @OneToOne
     private Station stationDepartment;
+
+    @Getter
+    @Setter
+    @OneToOne
+    private Train train;
+
 }
