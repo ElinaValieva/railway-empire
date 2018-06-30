@@ -23,17 +23,10 @@ public class Station {
     @Column(name = "name")
     private String name;
 
-    public enum Status{
-        WORKED,
-        UN_USED,
-        DELETED
-    }
-
     @Getter
     @Setter
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", )
-    private String status;
+    @OneToOne
+    private Status status;
 
     @Override
     public boolean equals(Object o) {

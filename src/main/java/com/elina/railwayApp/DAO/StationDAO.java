@@ -12,8 +12,6 @@ public interface StationDAO {
 
     void add(Station station);
 
-    void delete(Long id);
-
     void update(Station station);
 
     List<Station> getAll();

@@ -10,7 +10,7 @@ public interface StationService {
 
     void add(Station station);
 
-    void delete(Long id);
+    void delete(Station station);
 
     void update(Station station);
 

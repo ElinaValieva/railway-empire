@@ -1,5 +1,6 @@
 package com.elina.railwayApp.configuration.common;
 
+import com.elina.railwayApp.model.Status;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

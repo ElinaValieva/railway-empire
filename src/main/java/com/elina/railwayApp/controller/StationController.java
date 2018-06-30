@@ -1,7 +1,7 @@
 package com.elina.railwayApp.controller;
 
+import com.elina.railwayApp.configuration.common.STATUS_ENTITY;
 import com.elina.railwayApp.configuration.common.URLs;
-import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.service.ScheduleService;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.text.ParseException;
-import java.util.Date;
 
 @Log4j
 @Controller
@@ -52,6 +49,7 @@ public class StationController {
         Station stationCreating = stationService.getByName(station.getName());
         if (stationCreating == null) {
             log.info("CREATE STATION WITH name = " + station.getName());
+            station.setStatus(STATUS_ENTITY.notUsed());
             stationService.add(station);
         }
         log.warn("CAN'T CREATE NOT UNIQUE STATION");
@@ -59,31 +57,28 @@ public class StationController {
     }
 
     /**
-     * REMOVE STATION IF IT ISN'T EXIST IN SCHEDULE
+     * REMOVE STATION IF IT NOT USED (only change status of station)
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.DELETE_STATION}, method = RequestMethod.GET)
-    public String removeStation(@PathVariable Long id) throws ParseException {
+    public String removeStation(@PathVariable Long id) {
         Station station = stationService.getById(id);
-        if (station != null) {
-            Date today = Utils.getCurrentDate();
-            if (scheduleService.checkWorkingStation(station, today))
-                stationService.delete(id);
-            else log.warn("CAN'T REMOVE WORKING STATION FROM SCHEDULE");
-        } else log.warn("STATION NOT FOUNDED");
+        if (station != null || station.getStatus().equals(STATUS_ENTITY.NOT_USED)) {
+            stationService.delete(station);
+        } else log.warn("STATION NOT FOUNDED or USED IN SCHEDULE");
         return Views.STATION;
     }
 
     /**
-     * FIND STATION FOR UPDATE BY ID IF ISN'T EXIST IN SCHEDULE
+     * FIND STATION FOR UPDATE BY ID IF NOT USED
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.STATION_UPDATE}, method = RequestMethod.GET)
-    public String updateStation(@PathVariable String id, Model model) {
-        //TODO
-        //CONDITION
-        Station station = stationService.getById(Long.valueOf(id));
-        model.addAttribute("station", station);
+    public String updateStation(@PathVariable Long id, Model model) {
+        Station station = stationService.getById(id);
+        if (station != null || station.getStatus().equals(STATUS_ENTITY.NOT_USED))
+            model.addAttribute("station", station);
+        else log.warn("CAN'T UPDATE WORKING STATION");
         return Views.STATION;
     }
 
