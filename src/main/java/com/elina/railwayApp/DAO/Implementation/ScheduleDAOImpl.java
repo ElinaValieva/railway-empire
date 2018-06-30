@@ -108,4 +108,18 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .setParameter("date", schedule.getDateArrival())
                 .getResultList();
     }
+
+    /**
+     * @param schedule
+     * @return schedules by station arrival and date
+     */
+    @Override
+    public List<Schedule> getByStationArrivalAndDate(Schedule schedule) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule  where " +
+                        "stationArrival = :stationArrival and date(dateArrival) = :date")
+                .setParameter("stationArrival", schedule.getStationArrival())
+                .setParameter("date", schedule.getDateArrival())
+                .getResultList();
+    }
 }

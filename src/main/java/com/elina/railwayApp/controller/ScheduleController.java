@@ -169,9 +169,17 @@ public class ScheduleController {
      * with transfer
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_TRANSFER}, method = RequestMethod.GET)
-    public String getTransferSchedules(Model model, String dateArrival) {
+    public String getTransferSchedules(Model model, String date) throws ParseException {
         log.info("GET TRANSFER SCHEDULE");
         //TODO
+        date = "2018-06-29";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateArrival = format.parse(date);
+        dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
+
+
+        scheduleService.getTransferList(dateArrival);
         return Views.SCHEDULE;
     }
+
 }

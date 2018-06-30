@@ -26,5 +26,8 @@
 <form action="/schedule/getByTrain" method="get">
     <button>GET BY DATE and TRAIN</button>
 </form>
+<form action="schedule/transfer" method="get">
+    <button>TRANSFER</button>
+</form>
 </body>
 </html>
