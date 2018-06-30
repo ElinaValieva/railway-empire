@@ -1,6 +1,7 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.service.ScheduleService;
@@ -62,8 +63,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getByDate(Date dateArrival) {
-        return scheduleDAO.getByDate(dateArrival);
+    public List<Schedule> getByDate(Date dateDeparture) {
+        return scheduleDAO.getByDate(dateDeparture);
+    }
+
+    @Override
+    public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) {
+        return scheduleDAO.getByDates(dateDeparture, dateArrival);
     }
 
     @Override
@@ -100,14 +106,10 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @return
      */
 
-    @Override
     @Transactional
     public Map<Long, List<Schedule>> getTransferList(Date date) {
-/**
- * надо сделать, чтобы он выбирал те станции которые укладываются в промежуток
- * сделать проверку на дельту, чтобы человек долго не ждал около  6 часов максимум
- */
-        List<Schedule> schedules = getByDate(date);
+        Date dateDeparture = Utils.getNextDay(date);
+        List<Schedule> schedules = getByDates(date, dateDeparture);
         Map<Long, List<Schedule>> mapStationsForTransfer = new HashMap<>();
         for (Schedule schedule :
                 schedules) {
@@ -121,13 +123,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * додумать учет времени
+     * trip with 1 transfer
+     * can add transfer - trip in schedule if 15 min < transfer < 6 hour
+     *
      * @param date
      * @param stationDeparture
      * @param stationArrival
      * @return
      */
 
+    @Override
     @Transactional
     public Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival) {
         Map<Long, List<Schedule>> mapStationForTransfer = getTransferList(date);
@@ -143,7 +148,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             } else {
                 transferSchedule = mapStationForTransfer.get(schedule.getStationArrival().getId())
                         .stream()
-                        .filter(x -> x.getStationArrival().equals(stationArrival))
+                        .filter(x -> x.getStationArrival().equals(stationArrival)
+                                && schedule.getDateArrival().before(x.getDateDeparture()) &&
+                                Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), 15, 360))
                         .collect(Collectors.toList());
                 if (!transferSchedule.isEmpty()) {
                     transferSchedule.add(schedule);

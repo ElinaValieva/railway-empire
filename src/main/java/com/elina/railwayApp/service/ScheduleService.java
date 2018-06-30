@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -22,7 +21,9 @@ public interface ScheduleService {
 
     Schedule getById(Long id);
 
-    List<Schedule> getByDate(Date dateArrival);
+    List<Schedule> getByDate(Date dateDeparture);
+
+    List<Schedule> getByDates(Date dateDeparture, Date dateArrival);
 
     List<Schedule> getByStationsAndDate(Schedule schedule);
 
@@ -31,8 +32,6 @@ public interface ScheduleService {
     List<Schedule> getByTrainAndDate(Schedule schedule);
 
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
-
-    Map<Long, List<Schedule>> getTransferList(Date date);
 
     Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival);
 }

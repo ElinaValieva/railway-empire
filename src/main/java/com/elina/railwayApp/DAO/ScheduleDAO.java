@@ -21,6 +21,8 @@ public interface ScheduleDAO {
 
     List<Schedule> getByDate(Date date);
 
+    List<Schedule> getByDates(Date dateDeparture, Date dateArrival);
+
     List<Schedule> getByStationsAndDate(Schedule schedule);
 
     List<Schedule> getByDateAndTrainToCheckIntersection(Schedule schedule);
