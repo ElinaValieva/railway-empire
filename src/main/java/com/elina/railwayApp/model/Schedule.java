@@ -2,8 +2,10 @@ package com.elina.railwayApp.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "schedule")
@@ -19,12 +21,14 @@ public class Schedule {
     @Getter
     @Setter
     @Column(name = "date_arrival")
-    private String dateArrival;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateArrival;
 
     @Getter
     @Setter
     @Column(name = "date_department")
-    private String dateDepartment;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDepartment;
 
     @Getter
     @Setter

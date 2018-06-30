@@ -5,14 +5,12 @@ import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.service.ScheduleService;
 import lombok.extern.log4j.Log4j;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Log4j
@@ -22,14 +20,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleDAO scheduleDAO;
 
+    /**
+     * create schedule (check intersection of times and correctness of times)
+     * @param schedule
+     */
     @Override
     @Transactional
     public void add(Schedule schedule) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTime dateArrival = dateTimeFormatter.parseDateTime(schedule.getDateArrival());
-        DateTime dateDepartment = dateTimeFormatter.parseDateTime(schedule.getDateDepartment());
         if (schedule.getStationArrival().getId() != schedule.getStationDepartment().getId()) {
-            if (dateArrival.isBefore(dateDepartment) && getByTrainAndDate(schedule).isEmpty()) {
+            if (schedule.getDateArrival().before(schedule.getDateDepartment())
+                    && getByTrainAndDate(schedule).isEmpty()) {
                 scheduleDAO.add(schedule);
                 log.info("SUCCESS");
             } else log.warn("WRONG DATETIME FOR SCHEDULE");
@@ -62,7 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getByDate(String dateArrival) throws ParseException {
+    public List<Schedule> getByDate(Date dateArrival) throws ParseException {
         return scheduleDAO.getByDate(dateArrival);
     }
 

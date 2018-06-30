@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -59,21 +61,23 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.CREATE_SCHEDULE}, method = RequestMethod.POST)
-    public String createSchedule(@ModelAttribute("schedule") Schedule schedule) {
+    public String createSchedule(@ModelAttribute("schedule") Schedule schedule) throws ParseException {
 
         //TODO
         /*
         condition with train and station (train can't teleporting fast to another place
          */
-        log.info("CREATE SCHEDULE");
+
         //for test
         String nameStationA = "station1";
         String nameStationB = "station6";
         String trainName = "train1";
-        String dateArrival = "2018-06-29 13:45:00";
-        String dateDepartment = "2018-06-29 15:15:00";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dateArrival = format.parse("2018-06-30 15:55:00");
+        Date dateDepartment = format.parse("2018-06-30 16:20:00");
 
 
+        log.info("CREATE SCHEDULE");
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
         Station stationDepartment = stationService.getByName(nameStationB);
@@ -92,17 +96,15 @@ public class ScheduleController {
      * get schedule by date
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE_ARRIVAL}, method = RequestMethod.GET)
-    public String getByDateArrival(Model model, String dateArrival) throws ParseException {
-        log.info("GET ALL SCHEDULE BY DATE");
+    public String getByDateArrival(Model model) throws ParseException {
         //test
-        dateArrival = "2018-06-29";
+        String date = "2018-06-29";
 
-
+        log.info("GET ALL SCHEDULE BY DATE");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateArrival = format.parse(date);
+        dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
         List<Schedule> schedules = scheduleService.getByDate(dateArrival);
-        if (schedules.isEmpty())
-            log.info(":(");
-        else
-            log.info(schedules.size()+"YEEEEEEEEAH");
         model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }

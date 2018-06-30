@@ -57,12 +57,11 @@ public class ScheduleDAOImpl implements ScheduleDAO {
      * @return schedule by date
      */
     @Override
-    public List<Schedule> getByDate(String date1) throws ParseException {
-        LocalDate localDate = LocalDate.of(2018,6,29);
+    public List<Schedule> getByDate(Date date) throws ParseException {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
-                        "where date(dateArrival) = :date")
-                .setParameter("date", localDate)
+                        "where date(dateArrival) = date(:date)")
+                .setParameter("date", date)
                 .getResultList();
     }
 

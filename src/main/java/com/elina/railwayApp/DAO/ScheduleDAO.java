@@ -6,6 +6,7 @@ import com.elina.railwayApp.model.Train;
 import org.springframework.stereotype.Repository;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -21,7 +22,7 @@ public interface ScheduleDAO {
 
     Schedule getById(Long id);
 
-    List<Schedule> getByDate(String date) throws ParseException;
+    List<Schedule> getByDate(Date date) throws ParseException;
 
     List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment);
 
