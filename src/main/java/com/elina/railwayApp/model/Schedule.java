@@ -20,25 +20,25 @@ public class Schedule {
 
     @Getter
     @Setter
+    @Column(name = "date_departure")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDeparture;
+
+    @Getter
+    @Setter
     @Column(name = "date_arrival")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateArrival;
 
     @Getter
     @Setter
-    @Column(name = "date_department")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateDepartment;
+    @OneToOne
+    private Station stationDeparture;
 
     @Getter
     @Setter
     @OneToOne
     private Station stationArrival;
-
-    @Getter
-    @Setter
-    @OneToOne
-    private Station stationDepartment;
 
     @Getter
     @Setter

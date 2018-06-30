@@ -31,6 +31,6 @@ public interface ScheduleService {
 
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
 
-    Map<Station, List<Schedule>> getTransferList(Date date);
+    Map<Station, List<Schedule>> getTransferList(Date date, Station stationArrival);
 }
 

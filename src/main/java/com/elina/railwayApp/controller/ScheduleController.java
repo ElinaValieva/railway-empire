@@ -53,11 +53,12 @@ public class ScheduleController {
      * add schedule
      * conditionals:
      * 1. can't add same stations in schedule
-     * 2. can't add wrong times in schedule (arrival > department)
+     * 2. can't add wrong times in schedule (arrival < departure)
      * 3. can't add intersection of schedules
      * 4. can't add schedule for train which placed on another station!
+     * 5. can't add duplicate schedule
      *
-     * @param schedule with id, date arrival/department, stations arrival/department, train
+     * @param schedule with id, date arrival/departure, stations arrival/departure, train
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.CREATE_SCHEDULE}, method = RequestMethod.POST)
@@ -73,20 +74,20 @@ public class ScheduleController {
         String nameStationB = "station6";
         String trainName = "train1";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date dateArrival = format.parse("2018-06-30 15:55:00");
-        Date dateDepartment = format.parse("2018-06-30 16:20:00");
+        Date dateDeparture = format.parse("2018-06-30 18:55:00");
+        Date dateArrival = format.parse("2018-06-30 20:20:00");
 
 
         log.info("CREATE SCHEDULE ...");
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
-        Station stationDepartment = stationService.getByName(nameStationB);
-        if (stationArrival != null && stationDepartment != null && train != null) {
+        Station stationDeparture = stationService.getByName(nameStationB);
+        if (stationArrival != null && stationDeparture != null && train != null) {
             schedule.setStationArrival(stationArrival);
-            schedule.setStationDepartment(stationDepartment);
+            schedule.setStationDeparture(stationDeparture);
             schedule.setTrain(train);
             schedule.setDateArrival(dateArrival);
-            schedule.setDateDepartment(dateDepartment);
+            schedule.setDateDeparture(dateDeparture);
             scheduleService.add(schedule);
             log.info("SCHEDULE WAS CREATED!");
         } else log.warn("STATIONS and TRAIN NOT FOUNDS, WRONG PARAMETERS");
@@ -103,9 +104,9 @@ public class ScheduleController {
 
         log.info("GET ALL SCHEDULE BY DATE");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateArrival = format.parse(date);
-        dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
-        List<Schedule> schedules = scheduleService.getByDate(dateArrival);
+        Date dateDeparture = format.parse(date);
+        dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
+        List<Schedule> schedules = scheduleService.getByDate(dateDeparture);
         model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }
@@ -115,18 +116,18 @@ public class ScheduleController {
      * only direct trip
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_DIRECT}, method = RequestMethod.GET)
-    public String getDirectSchedules(Model model, Station stationArrival, Station stationDepartment, String date) throws ParseException {
+    public String getDirectSchedules(Model model, Station stationArrival, Station stationDeparture, String date) throws ParseException {
         log.info("GET DIRECT SCHEDULES BY STATIONS");
 
         //test
         date = "2018-06-29";
-        stationArrival = stationService.getByName("station1");
-        stationDepartment = stationService.getByName("station6");
+        stationDeparture = stationService.getByName("station1");
+        stationArrival = stationService.getByName("station6");
 
 
-        if (stationArrival != null && stationDepartment != null) {
+        if (stationArrival != null && stationDeparture != null) {
             Schedule schedule = new Schedule();
-            schedule.setStationDepartment(stationDepartment);
+            schedule.setStationDeparture(stationDeparture);
             schedule.setStationArrival(stationArrival);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date dateArrival = format.parse(date);
@@ -153,9 +154,9 @@ public class ScheduleController {
 
         if (train != null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date dateArrival = format.parse(date);
-            dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
-            schedule.setDateArrival(dateArrival);
+            Date dateDeparture = format.parse(date);
+            dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
+            schedule.setDateArrival(dateDeparture);
             schedule.setTrain(train);
             List<Schedule> schedules = scheduleService.getByTrainAndDate(schedule);
             model.addAttribute("schedules", schedules);
@@ -172,13 +173,14 @@ public class ScheduleController {
     public String getTransferSchedules(Model model, String date) throws ParseException {
         log.info("GET TRANSFER SCHEDULE");
         //TODO
+        Station station = stationService.getByName("station6");
         date = "2018-06-29";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateArrival = format.parse(date);
-        dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
+        Date dateDeparture = format.parse(date);
+        dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
 
 
-        scheduleService.getTransferList(dateArrival);
+        scheduleService.getTransferList(dateDeparture, station);
         return Views.SCHEDULE;
     }
 

@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import java.util.TimeZone;
+
 @Log4j
 @Configuration
 @EnableWebMvc
@@ -18,13 +20,13 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.elina.railwayApp")
 public class ViewConfigurations extends WebMvcConfigurerAdapter{
 
-
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setSuffix(".jsp");
+        TimeZone.setDefault(TimeZone.getTimeZone("UTS"));
         return viewResolver;
     }
 

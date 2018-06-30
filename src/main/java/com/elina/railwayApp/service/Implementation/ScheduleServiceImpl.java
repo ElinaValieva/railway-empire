@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Log4j
 @Service
@@ -29,8 +27,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void add(Schedule schedule) {
-        if (schedule.getStationArrival().getId() != schedule.getStationDepartment().getId()) {
-            if (schedule.getDateArrival().before(schedule.getDateDepartment())
+        if (schedule.getStationArrival().getId() != schedule.getStationDeparture().getId()) {
+            boolean f = schedule.getDateDeparture().before(schedule.getDateArrival());
+            List<Schedule> schedules = getByDateAndTrainToCheckIntersection(schedule);
+            boolean g = getByDateAndTrainToCheckIntersection(schedule).isEmpty();
+            if (schedule.getDateDeparture().before(schedule.getDateArrival())
                     && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
                 scheduleDAO.add(schedule);
             } else log.warn("WRONG DATETIME FOR SCHEDULE");
@@ -93,16 +94,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     /**
      * structure:
-     * station1 : [station2, ...., stationN]
+     * station1 -> [station2, ...., stationN]
      * ....
-     * stationN : [station1,...,stationK]
+     * stationN -> [station1,...,stationK]
+     *
      * @param date
      * @return
      */
 
     @Override
     @Transactional
-    public Map<Station, List<Schedule>> getTransferList(Date date) {
+    public Map<Station, List<Schedule>> getTransferList(Date date, Station stationArrival) {
 /**
  * надо сделать, чтобы он выбирал те станции которые укладываются в промежуток
  * сделать проверку на дельту, чтобы человек долго не ждал около  6 часов максимум
@@ -113,11 +115,28 @@ public class ScheduleServiceImpl implements ScheduleService {
                 ) {
             if (mapStationsForTransfer.get(schedule.getStationArrival()) == null) {
                 List<Schedule> listSchedulesForCurrentSchedule = getByStationArrivalAndDate(schedule);
-                if (!listSchedulesForCurrentSchedule.isEmpty())
+                boolean flag = listSchedulesForCurrentSchedule.stream().filter(x -> x.getDateDeparture().equals(stationArrival)).collect(Collectors.toList()).isEmpty();
+                if (!listSchedulesForCurrentSchedule.isEmpty() && !flag)
                     mapStationsForTransfer.put(schedule.getStationArrival(), listSchedulesForCurrentSchedule);
 
             }
         }
         return mapStationsForTransfer;
     }
+
+
+    @Transactional
+    public Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival) {
+        Map<Station, List<Schedule>> mapStationForTransfer = getTransferList(date, stationArrival);
+        Set<List<Schedule>> set = new HashSet<>();
+
+        Station start = stationArrival;
+        Station end = stationDeparture;
+        List<Schedule> path = new ArrayList();
+        if (mapStationForTransfer.get(start).contains(end)) {
+        }
+        return null;
+    }
+
+
 }

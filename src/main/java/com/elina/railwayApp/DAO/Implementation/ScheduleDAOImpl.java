@@ -57,24 +57,24 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getByDate(Date date) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
-                        "where date(dateArrival) = :date")
+                        "where date(dateDeparture) = :date")
                 .setParameter("date", date)
                 .getResultList();
     }
 
     /**
      * @param schedule
-     * @return all schedule by arrival and department stations and date
+     * @return all schedule by arrival and departure stations and date
      */
     @Override
     public List<Schedule> getByStationsAndDate(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where " +
                         "stationArrival = :stationArrival and " +
-                        "stationDepartment = :stationDepartment and " +
-                        "date(dateArrival) = :date")
+                        "stationDeparture = :stationDeparture and " +
+                        "date(dateDeparture) = :date")
                 .setParameter("stationArrival", schedule.getStationArrival())
-                .setParameter("stationDepartment", schedule.getStationDepartment())
+                .setParameter("stationDeparture", schedule.getDateDeparture())
                 .setParameter("date", schedule.getDateArrival())
                 .getResultList();
     }
@@ -87,11 +87,11 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getByDateAndTrainToCheckIntersection(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where train = :train " +
-                        "and (:dateA between dateArrival  and dateDepartment) or " +
-                        "(:dateD between dateArrival and dateDepartment)")
+                        "and (:dateD between dateDeparture  and dateArrival) or " +
+                        "(:dateA between dateDeparture and dateArrival)")
                 .setParameter("train", schedule.getTrain())
+                .setParameter("dateD", schedule.getDateDeparture())
                 .setParameter("dateA", schedule.getDateArrival())
-                .setParameter("dateD", schedule.getDateDepartment())
                 .getResultList();
     }
 
@@ -103,23 +103,23 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getByTrainAndDate(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where train = :train and " +
-                        "date(dateArrival) = :date")
+                        "date(dateDeparture) = :date")
                 .setParameter("train", schedule.getTrain())
-                .setParameter("date", schedule.getDateArrival())
+                .setParameter("date", schedule.getDateDeparture())
                 .getResultList();
     }
 
     /**
      * @param schedule
-     * @return schedules by station arrival and date
+     * @return schedules by station departure and date
      */
     @Override
     public List<Schedule> getByStationArrivalAndDate(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule  where " +
-                        "stationArrival = :stationArrival and date(dateArrival) = :date")
-                .setParameter("stationArrival", schedule.getStationArrival())
-                .setParameter("date", schedule.getDateArrival())
+                        "stationDeparture = :stationDeparture and date(dateDeparture) = :date")
+                .setParameter("stationDeparture", schedule.getStationDeparture())
+                .setParameter("date", schedule.getDateDeparture())
                 .getResultList();
     }
 }
