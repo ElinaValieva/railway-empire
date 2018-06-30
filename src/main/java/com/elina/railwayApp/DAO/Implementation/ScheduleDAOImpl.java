@@ -87,8 +87,8 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getByDateAndTrainToCheckIntersection(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where train = :train " +
-                        "and (:dateD between dateDeparture  and dateArrival) or " +
-                        "(:dateA between dateDeparture and dateArrival)")
+                        "and ((:dateD between dateDeparture  and dateArrival) or " +
+                        "(:dateA between dateDeparture and dateArrival))")
                 .setParameter("train", schedule.getTrain())
                 .setParameter("dateD", schedule.getDateDeparture())
                 .setParameter("dateA", schedule.getDateArrival())

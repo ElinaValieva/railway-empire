@@ -28,12 +28,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public void add(Schedule schedule) {
         if (schedule.getStationArrival().getId() != schedule.getStationDeparture().getId()) {
-            boolean f = schedule.getDateDeparture().before(schedule.getDateArrival());
-            List<Schedule> schedules = getByDateAndTrainToCheckIntersection(schedule);
-            boolean g = getByDateAndTrainToCheckIntersection(schedule).isEmpty();
             if (schedule.getDateDeparture().before(schedule.getDateArrival())
                     && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
                 scheduleDAO.add(schedule);
+                log.info("SCHEDULE WAS CREATED!");
             } else log.warn("WRONG DATETIME FOR SCHEDULE");
         } else log.warn("CAN'T ADD SCHEDULE FOR SAME STATIONS");
     }
@@ -94,9 +92,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     /**
      * structure:
-     * station1 -> [station2, ...., stationN]
+     * station1 -> [schedule2, ...., scheduleN]
      * ....
-     * stationN -> [station1,...,stationK]
+     * stationN -> [schedule1,...,scheduleK]
      *
      * @param date
      * @return
@@ -104,38 +102,57 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public Map<Station, List<Schedule>> getTransferList(Date date, Station stationArrival) {
+    public Map<Long, List<Schedule>> getTransferList(Date date) {
 /**
  * надо сделать, чтобы он выбирал те станции которые укладываются в промежуток
  * сделать проверку на дельту, чтобы человек долго не ждал около  6 часов максимум
  */
         List<Schedule> schedules = getByDate(date);
-        Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
-        for (Schedule schedule : schedules
-                ) {
-            if (mapStationsForTransfer.get(schedule.getStationArrival()) == null) {
+        Map<Long, List<Schedule>> mapStationsForTransfer = new HashMap<>();
+        for (Schedule schedule :
+                schedules) {
+            if (mapStationsForTransfer.get(schedule.getStationDeparture().getId()) == null) {
                 List<Schedule> listSchedulesForCurrentSchedule = getByStationArrivalAndDate(schedule);
-                boolean flag = listSchedulesForCurrentSchedule.stream().filter(x -> x.getDateDeparture().equals(stationArrival)).collect(Collectors.toList()).isEmpty();
-                if (!listSchedulesForCurrentSchedule.isEmpty() && !flag)
-                    mapStationsForTransfer.put(schedule.getStationArrival(), listSchedulesForCurrentSchedule);
-
+                if (!listSchedulesForCurrentSchedule.isEmpty())
+                    mapStationsForTransfer.put(schedule.getStationDeparture().getId(), listSchedulesForCurrentSchedule);
             }
         }
         return mapStationsForTransfer;
     }
 
+    /**
+     * додумать учет времени
+     * @param date
+     * @param stationDeparture
+     * @param stationArrival
+     * @return
+     */
 
     @Transactional
     public Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival) {
-        Map<Station, List<Schedule>> mapStationForTransfer = getTransferList(date, stationArrival);
+        Map<Long, List<Schedule>> mapStationForTransfer = getTransferList(date);
         Set<List<Schedule>> set = new HashSet<>();
+        List<Schedule> schedules = mapStationForTransfer.get(stationDeparture.getId());
+        for (Schedule schedule :
+                schedules) {
+            List<Schedule> transferSchedule;
+            if (schedule.getStationArrival().equals(stationArrival)) {
+                transferSchedule = new ArrayList<>();
+                transferSchedule.add(schedule);
+                set.add(transferSchedule);
+            } else {
+                transferSchedule = mapStationForTransfer.get(schedule.getStationArrival().getId())
+                        .stream()
+                        .filter(x -> x.getStationArrival().equals(stationArrival))
+                        .collect(Collectors.toList());
+                if (!transferSchedule.isEmpty()) {
+                    transferSchedule.add(schedule);
+                    set.add(transferSchedule);
+                }
+            }
 
-        Station start = stationArrival;
-        Station end = stationDeparture;
-        List<Schedule> path = new ArrayList();
-        if (mapStationForTransfer.get(start).contains(end)) {
         }
-        return null;
+        return set;
     }
 
 

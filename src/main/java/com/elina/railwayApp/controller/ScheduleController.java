@@ -70,9 +70,9 @@ public class ScheduleController {
          */
 
         //for test
-        String nameStationA = "station1";
-        String nameStationB = "station6";
-        String trainName = "train1";
+        String nameStationA = "station12";
+        String nameStationB = "station67";
+        String trainName = "train5";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date dateDeparture = format.parse("2018-06-30 18:55:00");
         Date dateArrival = format.parse("2018-06-30 20:20:00");
@@ -89,7 +89,6 @@ public class ScheduleController {
             schedule.setDateArrival(dateArrival);
             schedule.setDateDeparture(dateDeparture);
             scheduleService.add(schedule);
-            log.info("SCHEDULE WAS CREATED!");
         } else log.warn("STATIONS and TRAIN NOT FOUNDS, WRONG PARAMETERS");
         return Views.SCHEDULE;
     }
@@ -173,14 +172,15 @@ public class ScheduleController {
     public String getTransferSchedules(Model model, String date) throws ParseException {
         log.info("GET TRANSFER SCHEDULE");
         //TODO
-        Station station = stationService.getByName("station6");
+        Station stationA = stationService.getByName("station4");
+        Station stationD = stationService.getByName("station1");
         date = "2018-06-29";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date dateDeparture = format.parse(date);
-        dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
+        //dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
 
 
-        scheduleService.getTransferList(dateDeparture, station);
+        scheduleService.getTransferSchedules(dateDeparture, stationD, stationA);
         return Views.SCHEDULE;
     }
 
