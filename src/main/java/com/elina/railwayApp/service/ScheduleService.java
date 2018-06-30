@@ -34,5 +34,8 @@ public interface ScheduleService {
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
 
     Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival);
+
+    boolean checkWorkingStation(Station station, Date date);
+
 }
 

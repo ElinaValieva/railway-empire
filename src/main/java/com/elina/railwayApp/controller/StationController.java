@@ -1,8 +1,10 @@
 package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.configuration.common.URLs;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.Station;
+import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.text.ParseException;
+import java.util.Date;
+
 @Log4j
 @Controller
 public class StationController {
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     /**
      * GET ALL STATIONS
@@ -53,14 +61,16 @@ public class StationController {
     /**
      * REMOVE STATION IF IT ISN'T EXIST IN SCHEDULE
      */
-
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = {URLs.DELETE_STATION}, method = RequestMethod.GET)
-    public String removeStation(@PathVariable String id) {
-
-        //TODO
-        //CONDITION
-        stationService.delete(Long.valueOf(id));
+    public String removeStation(@PathVariable Long id) throws ParseException {
+        Station station = stationService.getById(id);
+        if (station != null) {
+            Date today = Utils.getCurrentDate();
+            if (scheduleService.checkWorkingStation(station, today))
+                stationService.delete(id);
+            else log.warn("CAN'T REMOVE WORKING STATION FROM SCHEDULE");
+        } else log.warn("STATION NOT FOUNDED");
         return Views.STATION;
     }
 

@@ -1,6 +1,7 @@
 package com.elina.railwayApp.DAO;
 
 import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -30,4 +31,6 @@ public interface ScheduleDAO {
     List<Schedule> getByTrainAndDate(Schedule schedule);
 
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
+
+    List<Schedule> getWorkingStation(Station station, Date date);
 }

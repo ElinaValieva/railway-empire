@@ -20,6 +20,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleDAO scheduleDAO;
 
+    private static final int MIN_DELTA_TRANSFER = 15;
+    private static final int MAX_DELTA_TRANSFER = 360;
+
     /**
      * create schedule (check intersection of times and correctness of times)
      *
@@ -150,16 +153,21 @@ public class ScheduleServiceImpl implements ScheduleService {
                         .stream()
                         .filter(x -> x.getStationArrival().equals(stationArrival)
                                 && schedule.getDateArrival().before(x.getDateDeparture()) &&
-                                Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), 15, 360))
+                                Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
                         .collect(Collectors.toList());
                 if (!transferSchedule.isEmpty()) {
                     transferSchedule.add(schedule);
                     set.add(transferSchedule);
                 }
             }
-
         }
         return set;
+    }
+
+    @Override
+    @Transactional
+    public boolean checkWorkingStation(Station station, Date date) {
+        return scheduleDAO.getWorkingStation(station, date).isEmpty();
     }
 
 

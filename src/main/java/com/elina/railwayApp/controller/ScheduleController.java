@@ -1,6 +1,7 @@
 package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.configuration.common.URLs;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @Log4j
@@ -73,11 +74,11 @@ public class ScheduleController {
         String nameStationA = "station12";
         String nameStationB = "station67";
         String trainName = "train5";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date dateDeparture = format.parse("2018-06-30 18:55:00");
-        Date dateArrival = format.parse("2018-06-30 20:20:00");
+        String dateD = "2018-06-30 18:55:00";
+        String dateA = "2018-06-30 20:20:00";
 
-
+        Date dateDeparture = Utils.parseToDateTime(dateD);
+        Date dateArrival = Utils.parseToDateTime(dateA);
         log.info("CREATE SCHEDULE ...");
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
@@ -94,18 +95,33 @@ public class ScheduleController {
     }
 
     /**
-     * get schedules by date
+     * get schedules by date departure
      */
-    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE_ARRIVAL}, method = RequestMethod.GET)
-    public String getByDateArrival(Model model, String date) throws ParseException {
+    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE}, method = RequestMethod.GET)
+    public String getByDate(Model model, String date) throws ParseException {
         //test
         date = "2018-06-29";
 
         log.info("GET ALL SCHEDULE BY DATE");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateDeparture = format.parse(date);
-        dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
+        Date dateDeparture = Utils.parseToDate(date);
         List<Schedule> schedules = scheduleService.getByDate(dateDeparture);
+        model.addAttribute("schedules", schedules);
+        return Views.SCHEDULE;
+    }
+
+    /**
+     * get schedules by departure/arrival dates
+     */
+    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATES}, method = RequestMethod.GET)
+    public String getByDates(Model model, String dateDepartures, String dateArrivals) throws ParseException {
+        //test
+        dateDepartures = "2018-06-29";
+        dateArrivals = "2018-06-29";
+
+        log.info("GET ALL SCHEDULE BY DATES");
+        Date dateDeparture = Utils.parseToDate(dateDepartures);
+        Date dateArrival = Utils.parseToDate(dateArrivals);
+        List<Schedule> schedules = scheduleService.getByDates(dateDeparture, dateArrival);
         model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }
@@ -116,22 +132,18 @@ public class ScheduleController {
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_DIRECT}, method = RequestMethod.GET)
     public String getDirectSchedules(Model model, Station stationArrival, Station stationDeparture, String date) throws ParseException {
-        log.info("GET DIRECT SCHEDULES BY STATIONS");
-
         //test
         date = "2018-06-29";
         stationDeparture = stationService.getByName("station1");
         stationArrival = stationService.getByName("station6");
 
-
+        log.info("GET DIRECT SCHEDULES BY STATIONS");
         if (stationArrival != null && stationDeparture != null) {
             Schedule schedule = new Schedule();
             schedule.setStationDeparture(stationDeparture);
             schedule.setStationArrival(stationArrival);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date dateArrival = format.parse(date);
-            dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
-            schedule.setDateArrival(dateArrival);
+            Date dateDeparture = Utils.parseToDate(date);
+            schedule.setDateDeparture(dateDeparture);
             List<Schedule> schedules = scheduleService.getByStationsAndDate(schedule);
             model.addAttribute("schedules", schedules);
             log.info("FOUND SCHEDULES BY STATIONS AND DATE");
@@ -145,17 +157,15 @@ public class ScheduleController {
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_BY_TRAIN}, method = RequestMethod.GET)
     public String getScheduleByTrain(Model model, String date, Train train) throws ParseException {
-        log.info("GET DIRECT SCHEDULES BY TRAIN");
         //test
         date = "2018-06-29";
         Schedule schedule = new Schedule();
         train = trainService.getByName("train1");
 
+        log.info("GET DIRECT SCHEDULES BY TRAIN");
         if (train != null) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date dateDeparture = format.parse(date);
-            dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
-            schedule.setDateArrival(dateDeparture);
+            Date dateDeparture = Utils.parseToDate(date);
+            schedule.setDateDeparture(dateDeparture);
             schedule.setTrain(train);
             List<Schedule> schedules = scheduleService.getByTrainAndDate(schedule);
             model.addAttribute("schedules", schedules);
@@ -170,18 +180,21 @@ public class ScheduleController {
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_TRANSFER}, method = RequestMethod.GET)
     public String getTransferSchedules(Model model, String date) throws ParseException {
-        log.info("GET TRANSFER SCHEDULE");
-        //TODO
+        //test
         Station stationA = stationService.getByName("station4");
         Station stationD = stationService.getByName("station1");
         date = "2018-06-29";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateDeparture = format.parse(date);
-        //dateDeparture.setTime(dateDeparture.getTime() + (long) 1000 * 24 * 60 * 60);
 
-
-        scheduleService.getTransferSchedules(dateDeparture, stationD, stationA);
+        log.info("GET TRANSFER SCHEDULE");
+        Date dateDeparture = Utils.parseToDate(date);
+        Set<List<Schedule>> schedules = scheduleService.getTransferSchedules(dateDeparture, stationD, stationA);
+        model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }
+
+    /*
+    TODO
+    delete and update schedule
+     */
 
 }
