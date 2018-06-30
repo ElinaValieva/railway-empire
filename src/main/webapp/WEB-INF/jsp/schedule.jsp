@@ -20,5 +20,11 @@
 <form action="/schedule/getByDate" method="get">
     <button>GET BY DATE</button>
 </form>
+<form action="/schedule/direct" method="get">
+    <button>GET BY DATE and STATIONs</button>
+</form>
+<form action="/schedule/getByTrain" method="get">
+    <button>GET BY DATE and TRAIN</button>
+</form>
 </body>
 </html>

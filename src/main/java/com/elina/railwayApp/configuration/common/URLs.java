@@ -33,6 +33,7 @@ public final class URLs {
     public final static String CREATE_SCHEDULE = "/schedule/add";
     public final static String DELETE_SCHEDULE = "/schedule/remove";
     public final static String GET_SCHEDULE_BY_DATE_ARRIVAL = "/schedule/getByDate";
+    public final static String GET_SCHEDULE_BY_TRAIN = "/schedule/getByTrain";
     public final static String GET_SCHEDULE_DIRECT = "/schedule/direct";
     public final static String GET_SCHEDULE_TRANSFER = "/schedule/transfer";
 

@@ -1,10 +1,8 @@
 package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +19,11 @@ public interface ScheduleService {
 
     Schedule getById(Long id);
 
-    List<Schedule> getByDate(Date dateArrival) throws ParseException;
+    List<Schedule> getByDate(Date dateArrival);
 
-    List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment);
+    List<Schedule> getByStationsAndDate(Schedule schedule);
+
+    List<Schedule> getByDateAndTrainToCheckIntersection(Schedule schedule);
 
     List<Schedule> getByTrainAndDate(Schedule schedule);
 }

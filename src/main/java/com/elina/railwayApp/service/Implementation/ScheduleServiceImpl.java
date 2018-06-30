@@ -2,14 +2,12 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.service.ScheduleService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     /**
      * create schedule (check intersection of times and correctness of times)
+     *
      * @param schedule
      */
     @Override
@@ -29,9 +28,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void add(Schedule schedule) {
         if (schedule.getStationArrival().getId() != schedule.getStationDepartment().getId()) {
             if (schedule.getDateArrival().before(schedule.getDateDepartment())
-                    && getByTrainAndDate(schedule).isEmpty()) {
+                    && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
                 scheduleDAO.add(schedule);
-                log.info("SUCCESS");
             } else log.warn("WRONG DATETIME FOR SCHEDULE");
         } else log.warn("CAN'T ADD SCHEDULE FOR SAME STATIONS");
     }
@@ -62,18 +60,25 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getByDate(Date dateArrival) throws ParseException {
+    public List<Schedule> getByDate(Date dateArrival) {
         return scheduleDAO.getByDate(dateArrival);
     }
 
     @Override
     @Transactional
-    public List<Schedule> getByStationAndDate(String date, Station stationArrival, Station stationDepartment) {
-        return scheduleDAO.getByStationAndDate(date, stationArrival, stationDepartment);
+    public List<Schedule> getByStationsAndDate(Schedule schedule) {
+        return scheduleDAO.getByStationsAndDate(schedule);
     }
 
     @Override
+    @Transactional
+    public List<Schedule> getByDateAndTrainToCheckIntersection(Schedule schedule) {
+        return scheduleDAO.getByDateAndTrainToCheckIntersection(schedule);
+    }
+
+    @Override
+    @Transactional
     public List<Schedule> getByTrainAndDate(Schedule schedule) {
-        return scheduleDAO.getByDateAndTrain(schedule);
+        return scheduleDAO.getByTrainAndDate(schedule);
     }
 }

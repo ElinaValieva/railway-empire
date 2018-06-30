@@ -77,7 +77,7 @@ public class ScheduleController {
         Date dateDepartment = format.parse("2018-06-30 16:20:00");
 
 
-        log.info("CREATE SCHEDULE");
+        log.info("CREATE SCHEDULE ...");
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
         Station stationDepartment = stationService.getByName(nameStationB);
@@ -88,17 +88,18 @@ public class ScheduleController {
             schedule.setDateArrival(dateArrival);
             schedule.setDateDepartment(dateDepartment);
             scheduleService.add(schedule);
+            log.info("SCHEDULE WAS CREATED!");
         } else log.warn("STATIONS and TRAIN NOT FOUNDS, WRONG PARAMETERS");
         return Views.SCHEDULE;
     }
 
     /**
-     * get schedule by date
+     * get schedules by date
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE_ARRIVAL}, method = RequestMethod.GET)
-    public String getByDateArrival(Model model) throws ParseException {
+    public String getByDateArrival(Model model, String date) throws ParseException {
         //test
-        String date = "2018-06-29";
+        date = "2018-06-29";
 
         log.info("GET ALL SCHEDULE BY DATE");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -110,18 +111,61 @@ public class ScheduleController {
     }
 
     /**
-     * get schedule by stations and date
+     * get schedules by stations and date
      * only direct trip
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_DIRECT}, method = RequestMethod.GET)
-    public String getDirectSchedules(Model model, String date, Station stationArrival, Station stationDepartment) {
-        log.info("GET DIRECT SCHEDULE");
-        //TODO
+    public String getDirectSchedules(Model model, Station stationArrival, Station stationDepartment, String date) throws ParseException {
+        log.info("GET DIRECT SCHEDULES BY STATIONS");
+
+        //test
+        date = "2018-06-29";
+        stationArrival = stationService.getByName("station1");
+        stationDepartment = stationService.getByName("station6");
+
+
+        if (stationArrival != null && stationDepartment != null) {
+            Schedule schedule = new Schedule();
+            schedule.setStationDepartment(stationDepartment);
+            schedule.setStationArrival(stationArrival);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateArrival = format.parse(date);
+            dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
+            schedule.setDateArrival(dateArrival);
+            List<Schedule> schedules = scheduleService.getByStationsAndDate(schedule);
+            model.addAttribute("schedules", schedules);
+            log.info("FOUND SCHEDULES BY STATIONS AND DATE");
+        } else log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
         return Views.SCHEDULE;
     }
 
     /**
-     * get schedule by stations and date
+     * get schedules by train and date
+     * only direct trip
+     */
+    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_TRAIN}, method = RequestMethod.GET)
+    public String getScheduleByTrain(Model model, String date, Train train) throws ParseException {
+        log.info("GET DIRECT SCHEDULES BY TRAIN");
+        //test
+        date = "2018-06-29";
+        Schedule schedule = new Schedule();
+        train = trainService.getByName("train1");
+
+        if (train != null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateArrival = format.parse(date);
+            dateArrival.setTime(dateArrival.getTime() + (long) 1000 * 24 * 60 * 60);
+            schedule.setDateArrival(dateArrival);
+            schedule.setTrain(train);
+            List<Schedule> schedules = scheduleService.getByTrainAndDate(schedule);
+            model.addAttribute("schedules", schedules);
+            log.info("FOUND SCHEDULES BY TRAIN AND DATE");
+        } else log.warn("CAN'T FOUND SCHEDULES BY TRAIN AND DATE. WRONG PARAMETERS");
+        return Views.SCHEDULE;
+    }
+
+    /**
+     * get schedules by stations and date
      * with transfer
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_TRANSFER}, method = RequestMethod.GET)
