@@ -1,7 +1,6 @@
 package com.elina.railwayApp.DAO.Implementation;
 
 import com.elina.railwayApp.DAO.StationDAO;
-import com.elina.railwayApp.configuration.common.STATUS_ENTITY;
 import com.elina.railwayApp.model.Station;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -37,13 +37,16 @@
             <input name="lastName" path="lastName" type="text" placeholder="lastName" value="${user.lastName}"
                    required/>
             <input name="login" path="login" type="email" placeholder="login" value="${user.login}" required/>
-            <input name="password" path="password" type="password" placeholder="password" value="${user.password}"
+            <input name="password" hidden path="password" type="password" placeholder="password"
+                   value="${user.password}"
                    required/>
             <input name="birthDay" path="birthday" type="date" placeholder="birthday" value="${user.birthDay}"/>
-            <input type="radio" name="sex" value="male" ${user.sex.equals('male') ? 'checked' : ''}/>
-            <label>male</label>
-            <input type="radio" name="sex" value="female" ${user.sex.equals('female') ? 'checked' : ''}/>
-            <label>female</label>
+            <div>
+                <input type="radio" name="sex" value="male" ${user.sex.equals('male') ? 'checked' : ''}/>
+                <label>male</label>
+                <input type="radio" name="sex" value="female" ${user.sex.equals('female') ? 'checked' : ''}/>
+                <label>female</label>
+            </div>
             <button>edit</button>
         </form>
     </div>

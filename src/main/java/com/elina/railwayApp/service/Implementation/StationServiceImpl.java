@@ -1,7 +1,7 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.StationDAO;
-import com.elina.railwayApp.configuration.common.STATUS_ENTITY;
+import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.service.StationService;
@@ -17,17 +17,21 @@ public class StationServiceImpl implements StationService {
     @Autowired
     private StationDAO stationDAO;
 
+    @Autowired
+    private StatusDAO statusDAO;
+
     @Override
     @Transactional
     public void add(Station station) {
+        Status status = statusDAO.getByName("NOT_USED");
+        station.setStatus(status);
         stationDAO.add(station);
     }
 
     @Override
     @Transactional
     public void delete(Station station) {
-        Status status = new Status();
-        status.setStatusName(STATUS_ENTITY.DELETED);
+        Status status = statusDAO.getByName("DELETED");
         station.setStatus(status);
         stationDAO.update(station);
     }
@@ -35,6 +39,8 @@ public class StationServiceImpl implements StationService {
     @Override
     @Transactional
     public void update(Station station) {
+        Status status = statusDAO.getByName("NOT_USED");
+        station.setStatus(status);
         stationDAO.update(station);
     }
 

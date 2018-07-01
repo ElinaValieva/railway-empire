@@ -6,6 +6,8 @@ import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +39,9 @@ public class ViewController {
 
     @RequestMapping(value = URLs.UPDATE_PROFILE, method = RequestMethod.GET)
     public String getProfile(Model model) {
-        /*TODO
-        get id user
-         */
-        User user = userService.findByEmail("veaufa@mail.ru");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userService.findByEmail(userName);
         model.addAttribute("user", user);
         return Views.PROFILE;
     }

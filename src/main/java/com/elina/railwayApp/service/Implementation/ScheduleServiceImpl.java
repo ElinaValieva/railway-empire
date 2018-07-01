@@ -1,9 +1,11 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
+import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
+import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.service.ScheduleService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleDAO scheduleDAO;
 
+    @Autowired
+    private StatusDAO statusDAO;
+
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
 
@@ -34,6 +39,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (schedule.getStationArrival().getId() != schedule.getStationDeparture().getId()) {
             if (schedule.getDateDeparture().before(schedule.getDateArrival())
                     && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
+                Status status = statusDAO.getByName("WORKED");
+                schedule.getStationDeparture().setStatus(status);
+                schedule.getStationArrival().setStatus(status);
                 scheduleDAO.add(schedule);
                 log.info("SCHEDULE WAS CREATED!");
             } else log.warn("WRONG DATETIME FOR SCHEDULE");

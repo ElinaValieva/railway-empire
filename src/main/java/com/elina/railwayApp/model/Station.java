@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,7 @@ public class Station {
     @Getter
     @Setter
     @OneToOne
+    @NotNull
     private Status status;
 
     @Override

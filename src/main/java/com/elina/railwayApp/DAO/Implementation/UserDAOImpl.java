@@ -37,11 +37,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void updateProfile(User user) {
         sessionFactory.getCurrentSession().createQuery("UPDATE User SET " +
-                "firstName = :firstName, lastName = :lastName, login = :login, password = :password, birthDay = :birthday, sex = :sex where id =: id")
+                "firstName = :firstName, lastName = :lastName, login = :login, birthDay = :birthday, sex = :sex where id =: id")
                 .setParameter("firstName", user.getFirstName())
                 .setParameter("lastName", user.getLastName())
                 .setParameter("login", user.getLogin())
-                .setParameter("password", user.getPassword())
                 .setParameter("birthday", user.getBirthDay())
                 .setParameter("sex", user.getSex())
                 .setParameter("id", user.getId())

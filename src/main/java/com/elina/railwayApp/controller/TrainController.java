@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -49,7 +50,7 @@ public class TrainController {
         if (trainCreating == null && cntCarriage > 0 && cntSeats > 0) {
             log.info("CREATE TRAIN number = " + train.getName());
             log.info("CNT carriage = " + cntCarriage + " CNT seats" + cntSeats);
-            trainService.add(train, cntCarriage, cntSeats);
+            trainService.add(trainCreating, cntCarriage, cntSeats);
         }
         log.warn("CAN'T CREATE NOT UNIQUE TRAIN");
         return Views.TRAIN;
@@ -60,12 +61,11 @@ public class TrainController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @RequestMapping(value = URLs.DELETE_TRAIN, method = RequestMethod.POST)
-    public String removeTrain(@ModelAttribute("train") Train train) {
+    public String removeTrain(@PathVariable Long id) {
+        Train train = trainService.getById(id);
         log.info("PREPARE PROCESS TO REMOVE TRAIN number = " + train.getName());
-
-        //TODO
-        // condition with find in schedule
-        if (true) {
+        if (train != null
+                && train.getStatus().getStatusName().equals("NOT_USED")) {
             trainService.delete(train);
             log.info("TRAIN WAS REMOVED");
         } else log.warn("TRAIN WASN't REMOVED");

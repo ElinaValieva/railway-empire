@@ -1,11 +1,11 @@
 package com.elina.railwayApp.controller;
 
-import com.elina.railwayApp.configuration.common.STATUS_ENTITY;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
+import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
@@ -84,8 +84,6 @@ public class ScheduleController {
         Train train = trainService.getByName(trainName);
         Station stationArrival = stationService.getByName(nameStationA);
         Station stationDeparture = stationService.getByName(nameStationB);
-        stationDeparture.setStatus(STATUS_ENTITY.worked());
-        stationArrival.setStatus(STATUS_ENTITY.worked());
         if (stationArrival != null && stationDeparture != null && train != null) {
             schedule.setStationArrival(stationArrival);
             schedule.setStationDeparture(stationDeparture);
