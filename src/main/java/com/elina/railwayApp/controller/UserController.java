@@ -3,15 +3,15 @@ package com.elina.railwayApp.controller;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
+import com.elina.railwayApp.model.Message;
 import com.elina.railwayApp.model.Role;
 import com.elina.railwayApp.model.User;
+import com.elina.railwayApp.service.MailService;
 import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +31,9 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") User user) {
@@ -54,9 +57,22 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user) {
         log.info("UPDATE PROFILE FOR USER login = " + user.getLogin());
         System.out.println(BCrypt.gensalt());
-        System.out.println(BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
+        System.out.println(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userService.updateProfile(user);
         return Views.PROFILE;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = URLs.SEND_MESSAGE, method = RequestMethod.GET)
+    public String sendMessage(@ModelAttribute("user") User user) {
+        Message message = new Message();
+        message.setText("mime message -.-");
+        message.setSubject("test");
+        message.setAddressee("veaufa@mail.ru");
+        mailService.sendMimeMessage(message);
+        message.setText("simple message -.-");
+        mailService.sendSimpleMessage(message);
+        return Views.WELCOME;
     }
 }
 
