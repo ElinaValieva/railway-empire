@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class UserController {
     private MailService mailService;
 
     @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.POST)
-    public String registration(@ModelAttribute("user") User user) {
+    public String registration(@ModelAttribute("user") User user) throws IOException {
         log.info("PREPARING PROCESS FOR REGISTER");
         if (userService.findByEmail(user.getLogin()) == null) {
             Role role = roleService.getRole();
@@ -46,6 +47,8 @@ public class UserController {
             user.setRoles(roleSet);
             userService.add(user);
             log.info("REGISTRATION WAS SUCCESSFUL FOR USER login = " + user.getLogin());
+            Message message = Message.createWelcomeMessage(user.getLogin());
+            mailService.sendMimeMessage(message);
             return Views.LOGIN;
         }
         log.warn("REGISTRATION FAILED FOR PERSON WITH SAME LOGIN");
@@ -64,14 +67,12 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = URLs.SEND_MESSAGE, method = RequestMethod.GET)
-    public String sendMessage(@ModelAttribute("user") User user) {
-        Message message = new Message();
-        message.setText("mime message -.-");
-        message.setSubject("test");
-        message.setAddressee("veaufa@mail.ru");
+    public String sendMessage(@ModelAttribute("user") User user) throws IOException {
+        //test
+        user.setLogin("veaufa@mail.ru");
+
+        Message message = Message.createWelcomeMessage(user.getLogin());
         mailService.sendMimeMessage(message);
-        message.setText("simple message -.-");
-        mailService.sendSimpleMessage(message);
         return Views.WELCOME;
     }
 }

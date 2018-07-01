@@ -5,7 +5,6 @@ import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
-import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;

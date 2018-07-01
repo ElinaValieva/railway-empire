@@ -41,9 +41,11 @@ public class MailServiceImpl implements MailService {
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
             mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
+            mimeMailMessage.setContent(message.getContext(), "text/html");
             mimeMessageHelper.setTo(message.getAddressee());
             mimeMessageHelper.setSubject(message.getSubject());
-            mimeMessageHelper.setText(message.getText());
+            if (message.getText() != null)
+                mimeMessageHelper.setText(message.getText());
             javaMailSender.send(mimeMailMessage);
             log.info("SEND MESSAGE TO " + message.getAddressee());
         } catch (MessagingException e) {

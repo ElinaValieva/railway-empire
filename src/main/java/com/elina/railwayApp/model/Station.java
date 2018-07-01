@@ -8,24 +8,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = Tables.STATION_TABLE)
 public class Station {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
-    @Setter
     @Column(name = "id")
     private Long id;
 
-    @Getter
-    @Setter
     @Column(name = "name")
     private String name;
 
-    @Getter
-    @Setter
     @OneToOne
     @NotNull
     private Status status;

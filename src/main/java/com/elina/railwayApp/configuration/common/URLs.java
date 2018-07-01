@@ -38,5 +38,9 @@ public final class URLs {
     public final static String GET_SCHEDULE_DIRECT = "/schedule/direct";
     public final static String GET_SCHEDULE_TRANSFER = "/schedule/transfer";
 
+    /**
+     * MAIL
+     */
+    public final static String SEND_MESSAGE = "/send";
 }
 

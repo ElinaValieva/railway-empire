@@ -12,9 +12,9 @@
 <head>
     <title>${startPage}</title>
     <style>
-        <%@include file="/resources/css/login.css"%>
-        <%@include file="/resources/css/style.css"%>
-        <%@include file="/resources/css/railway.css"%>
+        <%@include file="/static/css/login.css"%>
+        <%@include file="/static/css/style.css"%>
+        <%@include file="/static/css/railway.css"%>
     </style>
 </head>
 <body>

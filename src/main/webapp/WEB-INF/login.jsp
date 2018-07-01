@@ -12,13 +12,20 @@
 <html>
 <head>
     <title>Title</title>
-    <style type="text/css">
-        <%@include file="/resources/css/login.css"%>
-        <%@include file="/resources/css/railway.css"%>
-        <%@include file="/resources/css/style.css"%>
+    <style>
+        <%@include file="/static/css/login.css"%>
+        <%@include file="/static/css/railway.css"%>
+        <%@include file="/static/css/style.css"%>
+        <%@include file="/static/js/login.js"%>
     </style>
-    <%--<script src="/js/login.js" rel="script"></script>--%>
-    <%--<script src="js/script.js" rel="script"></script>--%>
+
+    <%--<script rel="script" type="text/javascript" src="<c:url value="/static/js/login.js"/>"></script>--%>
+    <%--<link rel="stylesheet" type="text/css" href="/static/css/test.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="/static/css/login.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="/static/css/railway.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="/static/css/style.css">--%>
+
+    <base href="/">
 </head>
 <body>
 <div class="wrapper">

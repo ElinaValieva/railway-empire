@@ -1,9 +1,13 @@
 package com.elina.railwayApp.configuration.common;
 
-import com.elina.railwayApp.model.Status;
+import com.elina.railwayApp.model.Message;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,9 +39,8 @@ public class Utils {
         return format.parse(date);
     }
 
-    public static Date getCurrentDate() throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        return parseToDate(format.format(date));
+    public static String getContext() throws IOException {
+        File file = ResourceUtils.getFile("classpath:themesMessage/templateForEmailWelcomeMessage.txt");
+        return new String(Files.readAllBytes(file.toPath()));
     }
 }
