@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void remove(User user) {
-        sessionFactory.getCurrentSession().remove(user);
+        sessionFactory.getCurrentSession().delete(user);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findUserByEmail(User user) {
         return (User) sessionFactory.getCurrentSession()
-                .createQuery("FROM User where login = :login")
+                .createQuery("FROM User u where login = :login")
                 .setParameter("login", user.getLogin())
                 .uniqueResult();
     }
@@ -67,7 +67,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findUserByEmail(String login) {
         return (User) sessionFactory.getCurrentSession()
-                .createQuery("FROM User where login = :login")
+                .createQuery("FROM User u where login = :login")
                 .setParameter("login", login)
                 .uniqueResult();
     }

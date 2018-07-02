@@ -12,7 +12,6 @@ import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,8 +58,6 @@ public class UserController {
     @RequestMapping(value = URLs.UPDATE_PROFILE, method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user") User user) {
         log.info("UPDATE PROFILE FOR USER login = " + user.getLogin());
-        System.out.println(BCrypt.gensalt());
-        System.out.println(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userService.updateProfile(user);
         return Views.PROFILE;
     }

@@ -1,5 +1,6 @@
 package com.elina.railwayApp.model;
 
+import com.elina.railwayApp.configuration.common.Tables;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "schedule")
+@Table(name = Tables.SCHEDULE_TABLE)
 public class Schedule {
 
     @Id

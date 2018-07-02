@@ -1,8 +1,6 @@
 package com.elina.railwayApp.validator;
 
 import com.elina.railwayApp.model.User;
-import com.elina.railwayApp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

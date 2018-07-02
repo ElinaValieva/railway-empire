@@ -40,7 +40,7 @@ public class StationController {
      */
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(name = URLs.CREATE_STATION, method = RequestMethod.POST)
+    @RequestMapping(value = URLs.CREATE_STATION, method = RequestMethod.POST)
     public String addStation(@ModelAttribute("station") Station station) {
         Station stationCreating = stationService.getByName(station.getName());
         if (stationCreating == null) {

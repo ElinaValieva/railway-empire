@@ -12,13 +12,21 @@
 <html>
 <head>
     <title>Title</title>
-    <style type="text/css">
-        <%@include file="/static/css/login.css"%>
-        <%@include file="/static/css/style.css"%>
-        <%@include file="/static/css/railway.css"%>
-    </style>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="/static/css/railway.css">
 </head>
 <body>
+<div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-light" href="/home">Home</a>
+        <a class="p-2 text-light" href="/schedule">Schedule</a>
+        <a class="p-2 text-light" href="/train">Train</a>
+        <a class="p-2 text-light" href="/station">Station</a>
+    </nav>
+    <a class="btn btn-outline-warning" href="/login">Sign out</a>
+</div>
 <div class="wrapper">
     <div class="background"></div>
     <div class="rocks_1"></div>
@@ -41,11 +49,15 @@
                    value="${user.password}"
                    required/>
             <input name="birthDay" path="birthday" type="date" placeholder="birthday" value="${user.birthDay}"/>
-            <div>
-                <input type="radio" name="sex" value="male" ${user.sex.equals('male') ? 'checked' : ''}/>
-                <label>male</label>
-                <input type="radio" name="sex" value="female" ${user.sex.equals('female') ? 'checked' : ''}/>
-                <label>female</label>
+            <div class="row align-items-center">
+                <div class="col">
+                    <input type="radio" name="sex" value="male" ${user.sex.equals('male') ? 'checked' : ''}/>
+                    <label>male</label>
+                </div>
+                <div class="col"><input type="radio" name="sex"
+                                        value="female" ${user.sex.equals('female') ? 'checked' : ''}/>
+                    <label>female</label>
+                </div>
             </div>
             <button>edit</button>
         </form>

@@ -1,5 +1,6 @@
 package com.elina.railwayApp.model;
 
+import com.elina.railwayApp.configuration.common.Tables;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "ticket")
+@Table(name = Tables.TICKET_TABLE)
 public class Ticket {
 
     @Id

@@ -12,39 +12,79 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-<h1>HELLO</h1>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.js"></script>
-<div>
-    <form action="/train/add" method="post">
-        <input type="text" name="name" id="nameTrain" placeholder="name train">
-        <input type="number" name="cntCarriage" placeholder="Carriages">
-        <input type="number" name="cntSeats" placeholder="Seats">
-        <button>ADD TRAIN</button>
-    </form>
+<body class="bg-light">
+<div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-light" href="/home">Home</a>
+        <a class="p-2 text-light" href="/schedule">Schedule</a>
+        <a class="p-2 text-light" href="/station">Station</a>
+        <a class="p-2 text-light" href="/home/update">Profile</a>
+    </nav>
+    <a class="btn btn-outline-warning" href="#">Sign out</a>
 </div>
-<%--<script>--%>
-<%--$(function () {--%>
-<%--alert('hello');--%>
-<%--$('#btnAdd').click(function () {--%>
-<%--var train = {--%>
-<%--name: $('#nameTrain').val(),--%>
-<%--carriage: $('#cntCarriage').val()--%>
-<%--};--%>
-<%--alert(JSON.stringify(train));--%>
-
-<%--$.ajax({--%>
-<%--url: "http://localhost:8080/test/add/",--%>
-<%--method: "POST",--%>
-<%--data: JSON.stringify(train)--%>
-<%--}).done(function () {--%>
-<%--alert('access');--%>
-<%--}).fail(function () {--%>
-<%--alert('error')--%>
-<%--});--%>
-<%--});--%>
-<%--});--%>
-<%--</script>--%>
+<div class="container shadow p-3 mb-5 bg-white rounded">
+    <div class="row align-items-center">
+        <div class="col-lg-5">
+            <img src="/static/images/train.jpg" width="400" height="300">
+        </div>
+        <div class="col-lg-7">
+            <form class="form-control bg-danger text-center" method="post" action="/train/add">
+                <div><h3 class="display-5">Creating train</h3></div>
+                <div>
+                    <input type="text" class="form-control" placeholder="train" value="train number"><br>
+                </div>
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="number" class="form-control" placeholder="count carriages" aria-label="Large"
+                               aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                    <div class="col input-group">
+                        <input type="number" placeholder="count seats" class="form-control" aria-label="Large"
+                               aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                </div>
+                <br>
+                <div class="text-center">
+                    <button type="button" class="btn btn-outline-dark">add train</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">first</th>
+            <th scope="col">second</th>
+            <th scope="col">third</th>
+            <th scope="col">four</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <th scope="row">Elina</th>
+            <th scope="row">Valieva</th>
+            <th scope="row">Spb</th>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <th scope="row">Elina</th>
+            <th scope="row">Valieva</th>
+            <th scope="row">Spb</th>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <th scope="row">Elina</th>
+            <th scope="row">Valieva</th>
+            <th scope="row">Spb</th>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

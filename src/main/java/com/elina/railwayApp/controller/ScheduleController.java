@@ -131,11 +131,11 @@ public class ScheduleController {
      * only direct trip
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_DIRECT}, method = RequestMethod.GET)
-    public String getDirectSchedules(Model model, Station stationArrival, Station stationDeparture, String date) throws ParseException {
+    public String getDirectSchedules(Model model, String from, String to, String date) throws ParseException {
         //test
         date = "2018-06-29";
-        stationDeparture = stationService.getByName("station1");
-        stationArrival = stationService.getByName("station6");
+        Station stationDeparture = stationService.getByName("station1");
+        Station stationArrival = stationService.getByName("station6");
 
         log.info("GET DIRECT SCHEDULES BY STATIONS");
         if (stationArrival != null && stationDeparture != null) {
@@ -179,7 +179,7 @@ public class ScheduleController {
      * with transfer
      */
     @RequestMapping(value = {URLs.GET_SCHEDULE_TRANSFER}, method = RequestMethod.GET)
-    public String getTransferSchedules(Model model, String date) throws ParseException {
+    public String getTransferSchedules(Model model, String date, String from, String to) throws ParseException {
         //test
         Station stationA = stationService.getByName("station4");
         Station stationD = stationService.getByName("station1");

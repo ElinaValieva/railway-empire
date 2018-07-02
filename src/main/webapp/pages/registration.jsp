@@ -11,15 +11,9 @@
 <html>
 <head>
     <title>Title</title>
-    <%--<link href="<c:url value="resources//css/login.css" />" rel="stylesheet">--%>
-    <%--<link href="<c:url value="/resources/css/railway.css" />" rel="stylesheet">--%>
-    <%--<script src="<c:url value="/resources/js/login.js" />"></script>--%>
-    <%--<script src="<c:url value = "/resources/js/login.js" />"></script>--%>
-    <style type="text/css">
-        <%@include file="/static/css/login.css"%>
-        <%@include file="/static/css/style.css"%>
-        <%@include file="/static/css/railway.css"%>
-    </style>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/railway.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <script>
         alert(':(');
         <%--<%@include file="/resources/js/login.js"%>--%>

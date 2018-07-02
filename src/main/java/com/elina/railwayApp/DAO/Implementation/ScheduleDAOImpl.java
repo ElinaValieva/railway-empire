@@ -38,7 +38,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getAll() {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule ")
-                .getResultList();
+                .list();
     }
 
     @Override
