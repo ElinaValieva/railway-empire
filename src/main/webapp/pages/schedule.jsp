@@ -10,6 +10,8 @@
 <head>
     <title>Title</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/schedule.js"></script>
 </head>
 <body class="bg-light">
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
@@ -28,27 +30,29 @@
             <img src="/static/images/train.jpg" width="400" height="300">
         </div>
         <div class="col-lg-7">
-            <form class="form-control bg-danger text-center" action="/schedule/direct">
+            <form class="form-control bg-danger text-center">
                 <div><h3 class="display-5">Searching schedule</h3></div>
                 <div>
-                    <input type="text" class="form-control" placeholder="from" name="from"><br>
+                    <input id="stationDeparture" type="text" class="form-control" placeholder="from"><br>
                 </div>
                 <div>
-                    <input type="text" class="form-control" placeholder="to" name="to"><br>
+                    <input id="stationArrival" type="text" class="form-control" placeholder="to"><br>
                 </div>
                 <div class="row">
                     <div class="col input-group">
-                        <input name="date" type="date" class="form-control" placeholder="from" aria-label="Large"
+                        <input id="date" type="date" class="form-control" placeholder="from"
+                               aria-label="Large"
                                aria-describedby="inputGroup-sizing-sm">
                     </div>
                     <div class="col input-group">
-                        <input name="cnt" type="number" placeholder="count tickets" class="form-control" aria-label="Large"
+                        <input type="number" placeholder="count tickets" class="form-control"
+                               aria-label="Large"
                                aria-describedby="inputGroup-sizing-sm">
                     </div>
                 </div>
                 <br>
                 <div class="text-center">
-                    <button type="button" class="btn btn-outline-dark">search schedule</button>
+                    <button id="btnSearchSchedule" class="btn btn-outline-dark">search schedule</button>
                 </div>
             </form>
         </div>

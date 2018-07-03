@@ -60,4 +60,9 @@ public class ViewController {
     public String schedule() {
         return Views.SCHEDULE;
     }
+
+    @RequestMapping(value = "/fail", method = RequestMethod.GET)
+    public String fail() {
+        return "page";
+    }
 }

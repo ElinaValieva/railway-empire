@@ -14,11 +14,8 @@
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">
-    <script>
-        alert(':(');
-        <%--<%@include file="/resources/js/login.js"%>--%>
-    </script>
-    <link rel="stylesheet" href="css/railway.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/registration.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -31,12 +28,12 @@
     <div class="lights"></div>
     <div class="moon"></div>
     <div class="login-page">
-        <form class="form" method="post" action="/registration">
-            <input name="firstName" path="firstName" type="text" placeholder="firstName" required/>
-            <input name="lastName" path="lastName" type="text" placeholder="lastName" required/>
-            <input name="login" path="login" type="email" placeholder="e-mail address" required/>
-            <input name="password" path="password" type="password" placeholder="password" required/>
-            <button>create</button>
+        <form class="form">
+            <input id="firstName" type="text" placeholder="firstName" required/>
+            <input id="lastName" type="text" placeholder="lastName" required/>
+            <input id="login" type="email" placeholder="e-mail address" required/>
+            <input id="password" type="password" placeholder="password" required/>
+            <button id="registrationBtn" type="submit">create</button>
             <p class="message">Already registered? <a href="/login">Sign In</a></p>
         </form>
     </div>

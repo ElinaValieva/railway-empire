@@ -11,19 +11,21 @@ import com.elina.railwayApp.service.StationService;
 import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-@Controller
+@RestController
+@RequestMapping(value = URLs.SCHEDULE)
 @Log4j
 public class ScheduleController {
 
@@ -130,25 +132,28 @@ public class ScheduleController {
      * get schedules by stations and date
      * only direct trip
      */
-    @RequestMapping(value = {URLs.GET_SCHEDULE_DIRECT}, method = RequestMethod.GET)
-    public String getDirectSchedules(Model model, String from, String to, String date) throws ParseException {
-        //test
-        date = "2018-06-29";
-        Station stationDeparture = stationService.getByName("station1");
-        Station stationArrival = stationService.getByName("station6");
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @RequestMapping(value = URLs.GET_SCHEDULE_DIRECT + "/departure/{stationDeparture}/arrival/{stationArrival}/date/{date}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getDirectSchedules(@PathVariable String stationDeparture,
+                                                @PathVariable String stationArrival,
+                                                @PathVariable String date) throws ParseException {
 
+        Station stationDepartureForDirectSchedule = stationService.getByName(stationDeparture);
+        Station stationArrivalForDirectSchedule = stationService.getByName(stationArrival);
         log.info("GET DIRECT SCHEDULES BY STATIONS");
-        if (stationArrival != null && stationDeparture != null) {
+        if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
             Schedule schedule = new Schedule();
-            schedule.setStationDeparture(stationDeparture);
-            schedule.setStationArrival(stationArrival);
+            schedule.setStationDeparture(stationDepartureForDirectSchedule);
+            schedule.setStationArrival(stationArrivalForDirectSchedule);
             Date dateDeparture = Utils.parseToDate(date);
             schedule.setDateDeparture(dateDeparture);
             List<Schedule> schedules = scheduleService.getByStationsAndDate(schedule);
-            model.addAttribute("schedules", schedules);
             log.info("FOUND SCHEDULES BY STATIONS AND DATE");
-        } else log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
-        return Views.SCHEDULE;
+            return ResponseEntity.ok(schedules);
+        }
+        log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
+        return new ResponseEntity<>("wrong parameters", HttpStatus.NOT_FOUND);
     }
 
     /**

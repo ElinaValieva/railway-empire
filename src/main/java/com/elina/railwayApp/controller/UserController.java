@@ -11,18 +11,17 @@ import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 @Log4j
-@Controller
+@RestController
 public class UserController {
 
 
@@ -36,9 +35,9 @@ public class UserController {
     private MailService mailService;
 
     @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.POST)
-    public String registration(@ModelAttribute("user") User user) throws IOException {
+    public ResponseEntity<?> registration(@RequestBody User user) throws IOException {
         log.info("PREPARING PROCESS FOR REGISTER");
-        if (userService.findByEmail(user.getLogin()) == null) {
+        if (userService.findByEmail(user.getLogin()) == null && user != null) {
             Role role = roleService.getRole();
             Set<Role> roleSet = new HashSet<>();
             roleSet.add(role);
@@ -48,10 +47,10 @@ public class UserController {
             log.info("REGISTRATION WAS SUCCESSFUL FOR USER login = " + user.getLogin());
             Message message = Message.createWelcomeMessage(user.getLogin());
             mailService.sendMimeMessage(message);
-            return Views.LOGIN;
+            return ResponseEntity.ok("registration success");
         }
         log.warn("REGISTRATION FAILED FOR PERSON WITH SAME LOGIN");
-        return Views.REGISTRATION;
+        return new ResponseEntity<>("registration failed", HttpStatus.UNAUTHORIZED);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
