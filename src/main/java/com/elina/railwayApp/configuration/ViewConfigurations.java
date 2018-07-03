@@ -17,6 +17,8 @@ import java.util.TimeZone;
 @ComponentScan(basePackages = "com.elina.railwayApp")
 public class ViewConfigurations implements WebMvcConfigurer {
 
+
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

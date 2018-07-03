@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -52,7 +53,7 @@
                 </div>
                 <br>
                 <div class="text-center">
-                    <button id="btnSearchSchedule" class="btn btn-outline-dark">search schedule</button>
+                    <button id="btnSearchSchedule" type="submit" class="btn btn-outline-dark">search schedule</button>
                 </div>
             </form>
         </div>
@@ -65,27 +66,18 @@
             <th scope="col">first</th>
             <th scope="col">second</th>
             <th scope="col">third</th>
-            <th scope="col">four</th>
         </tr>
         </thead>
         <tbody>
+            <c:forEach items="${schedules}" var="stations">
         <tr>
-            <th scope="row">1</th>
-            <th scope="row">Elina</th>
-            <th scope="row">Valieva</th>
-            <th scope="row">Spb</th>
+            <td><c:out value="${schedule.date}"/></td>
         </tr>
+        </c:forEach>
         <tr>
             <th scope="row">1</th>
             <th scope="row">Elina</th>
             <th scope="row">Valieva</th>
-            <th scope="row">Spb</th>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <th scope="row">Elina</th>
-            <th scope="row">Valieva</th>
-            <th scope="row">Spb</th>
         </tr>
         </tbody>
     </table>

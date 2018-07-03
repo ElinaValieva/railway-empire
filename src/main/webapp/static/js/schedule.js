@@ -7,17 +7,16 @@ $(function () {
         var urlSearching = "/schedule/direct/departure/" + stationDeparture + "/arrival/" + stationArrival + "/date/" + date;
 
         $.ajax({
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/html; charset=utf-8'
+            },
             type: "GET",
-            url: urlSearching,
-            contentType: 'application/json',
-            dataType: 'json'
-        }).done(function () {
-            alert('success')
+            url: urlSearching
         }).fail(function () {
-            alert('error')
-        }).always(function (response) {
-            alert(response==null + response.length);
+            alert('er');
+        }).done(function () {
+            alert('ok');
         });
     });
-
 });

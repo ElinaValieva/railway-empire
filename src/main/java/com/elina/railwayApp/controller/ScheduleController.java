@@ -133,9 +133,8 @@ public class ScheduleController {
      * only direct trip
      */
     @PreAuthorize(value = "hasRole('ROLE_USER')")
-    @RequestMapping(value = URLs.GET_SCHEDULE_DIRECT + "/departure/{stationDeparture}/arrival/{stationArrival}/date/{date}",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getDirectSchedules(@PathVariable String stationDeparture,
+    @RequestMapping(value = URLs.GET_SCHEDULE_DIRECT + "/departure/{stationDeparture}/arrival/{stationArrival}/date/{date}")
+    public String getDirectSchedules(Model model, @PathVariable String stationDeparture,
                                                 @PathVariable String stationArrival,
                                                 @PathVariable String date) throws ParseException {
 
@@ -149,11 +148,12 @@ public class ScheduleController {
             Date dateDeparture = Utils.parseToDate(date);
             schedule.setDateDeparture(dateDeparture);
             List<Schedule> schedules = scheduleService.getByStationsAndDate(schedule);
+            model.addAttribute("schedules", schedules);
             log.info("FOUND SCHEDULES BY STATIONS AND DATE");
-            return ResponseEntity.ok(schedules);
+            return "ok";
         }
         log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
-        return new ResponseEntity<>("wrong parameters", HttpStatus.NOT_FOUND);
+        return "error";
     }
 
     /**
