@@ -13,6 +13,7 @@ $(function () {
             data: JSON.stringify(user),
             method: "POST",
             contentType: "application/json",
+            dataType: 'json'
         }).done(function () {
             alert('success');
             window.location.href = "/login"

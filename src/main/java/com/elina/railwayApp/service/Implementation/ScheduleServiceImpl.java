@@ -3,15 +3,18 @@ package com.elina.railwayApp.service.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.configuration.common.Utils;
+import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.service.ScheduleService;
+import com.elina.railwayApp.service.StationService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private StatusDAO statusDAO;
+
+    @Autowired
+    private StationService stationService;
 
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
@@ -178,5 +184,22 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleDAO.getWorkingStation(station, date).isEmpty();
     }
 
+    @Override
+    @Transactional
+    public List<Schedule> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException {
+        Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDeparture().getName());
+        Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrival().getName());
+        List<Schedule> schedules = null;
+        if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
+            Schedule schedule = new Schedule();
+            schedule.setStationDeparture(stationDepartureForDirectSchedule);
+            schedule.setStationArrival(stationArrivalForDirectSchedule);
+            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDate());
+            schedule.setDateDeparture(dateDeparture);
+            schedules = getByStationsAndDate(schedule);
+        }
+        return schedules;
+
+    }
 
 }

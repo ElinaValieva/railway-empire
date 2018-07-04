@@ -1,22 +1,28 @@
 $(function () {
 
     $('#btnSearchSchedule').click(function () {
-        var stationDeparture = $('#stationDeparture').val();
-        var stationArrival = $('#stationArrival').val();
-        var date = $('#date').val();
-        var urlSearching = "/schedule/direct/departure/" + stationDeparture + "/arrival/" + stationArrival + "/date/" + date;
-
+        var scheduleDTO = {
+            stationDeparture:
+                $('#stationDeparture').val(),
+            stationArrival:
+                $('#stationArrival').val(),
+            date:
+                $('#date').val()
+        };
+        var urlSearching = "/schedule/direct";
         $.ajax({
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'text/html; charset=utf-8'
-            },
-            type: "GET",
-            url: urlSearching
-        }).fail(function () {
-            alert('er');
-        }).done(function () {
-            alert('ok');
+            method: "POST",
+            url: urlSearching,
+            data: JSON.stringify(scheduleDTO),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function (response) {
+            alert(JSON.stringify(response));
+            alert('success');
+        }).fail(function (qXHR, textStatus, errorThrown) {
+            console.log('request: ', qXHR);
+            console.log('status text: ', textStatus);
+            console.log('thrown error: ', JSON.stringify(errorThrown));
         });
     });
 });

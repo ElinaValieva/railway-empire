@@ -3,6 +3,7 @@ package com.elina.railwayApp.controller;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
+import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Train;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = URLs.SCHEDULE)
 @Log4j
 public class ScheduleController {
 
@@ -132,28 +131,12 @@ public class ScheduleController {
      * get schedules by stations and date
      * only direct trip
      */
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
-    @RequestMapping(value = URLs.GET_SCHEDULE_DIRECT + "/departure/{stationDeparture}/arrival/{stationArrival}/date/{date}")
-    public String getDirectSchedules(Model model, @PathVariable String stationDeparture,
-                                                @PathVariable String stationArrival,
-                                                @PathVariable String date) throws ParseException {
 
-        Station stationDepartureForDirectSchedule = stationService.getByName(stationDeparture);
-        Station stationArrivalForDirectSchedule = stationService.getByName(stationArrival);
-        log.info("GET DIRECT SCHEDULES BY STATIONS");
-        if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
-            Schedule schedule = new Schedule();
-            schedule.setStationDeparture(stationDepartureForDirectSchedule);
-            schedule.setStationArrival(stationArrivalForDirectSchedule);
-            Date dateDeparture = Utils.parseToDate(date);
-            schedule.setDateDeparture(dateDeparture);
-            List<Schedule> schedules = scheduleService.getByStationsAndDate(schedule);
-            model.addAttribute("schedules", schedules);
-            log.info("FOUND SCHEDULES BY STATIONS AND DATE");
-            return "ok";
-        }
-        log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
-        return "error";
+    @PostMapping(path = "/schedule/direct", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getDirectSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+        System.out.println("aaa");
+        List<Schedule> schedules = scheduleService.getDirectSchedulesFromDTO(scheduleDTO);
+        return schedules.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(schedules);
     }
 
     /**
@@ -196,6 +179,7 @@ public class ScheduleController {
         model.addAttribute("schedules", schedules);
         return Views.SCHEDULE;
     }
+
 
     /*
     TODO
