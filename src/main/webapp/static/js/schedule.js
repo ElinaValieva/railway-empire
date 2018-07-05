@@ -16,7 +16,7 @@ $(function () {
         };
         var urlSearching = "/schedule/direct";
         $.ajax({
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', token);
             },
             headers: {
@@ -27,7 +27,18 @@ $(function () {
             url: urlSearching,
             data: JSON.stringify(scheduleDTO),
         }).done(function (response) {
-            alert(JSON.stringify(response));
+            if (response.length != 0) {
+                $('#mainScheduleContainer').show()
+                for (var i = 0; i < response.length; i++) {
+                    $('#tableSchedule').append("<th scope='row'>" + response[i].stationDepartureName + "</th>" +
+                        "<th scope='row'>" + response[i].stationArrivalName + "</th>" +
+                        "<th scope='row'>" + response[i].trainName + "</th>" +
+                        "<th scope='row'>" + response[i].dateDeparture + "</th>" +
+                        "<th scope='row'>" + response[i].dateArrival + "</th>");
+                }
+            }
+            else
+                $('#mainScheduleContainer').hide();
         }).fail(function (qXHR, textStatus, errorThrown) {
             alert(JSON.stringify(qXHR));
             console.log('request: ', qXHR);

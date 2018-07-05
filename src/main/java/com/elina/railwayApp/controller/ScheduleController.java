@@ -13,21 +13,18 @@ import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = URLs.SCHEDULE)
 @Log4j
 public class ScheduleController {
 
@@ -69,6 +66,8 @@ public class ScheduleController {
      * @param schedule with id, date arrival/departure, stations arrival/departure, train
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
+
+
     @RequestMapping(value = {URLs.CREATE_SCHEDULE}, method = RequestMethod.POST)
     public String createSchedule(@ModelAttribute("schedule") Schedule schedule) throws ParseException {
 
@@ -137,17 +136,10 @@ public class ScheduleController {
      * get schedules by stations and date
      * only direct trip
      */
-
-    @PostMapping(value = "/schedule/direct")
+    @PostMapping(URLs.GET_SCHEDULE_DIRECT)
     public ResponseEntity<?> getDirectSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
-        List<Schedule> schedules = scheduleService.getDirectSchedulesFromDTO(scheduleDTO.getStationDepartureName(),
-                scheduleDTO.getStationArrivalName(), scheduleDTO.getDateDeparture()
-        );
-        List<ScheduleDTO> scheduleDTOS = schedules.stream()
-                .map(x->modelMapper.map(x, ScheduleDTO.class))
-                .collect(Collectors.toList());
-        scheduleDTOS.forEach(System.out::println);
-        return ResponseEntity.ok(scheduleDTOS);
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTO(scheduleDTO);
+        return ResponseEntity.ok(scheduleDTOList);
     }
 
     /**

@@ -10,7 +10,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <sec:csrfMetaTags />
+    <sec:csrfMetaTags/>
     <title>Title</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="/static/js/jquery-3.3.1.js"></script>
@@ -61,26 +61,18 @@
         </div>
     </div>
 </div>
-<div class="container shadow p-3 mb-5 bg-white rounded">
+<div class="container shadow p-3 mb-5 bg-white rounded" id="mainScheduleContainer" style="display: none">
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">first</th>
-            <th scope="col">second</th>
-            <th scope="col">third</th>
+            <th scope="col">Station departure</th>
+            <th scope="col">Station arrival</th>
+            <th scope="col">Train</th>
+            <th scope="col">Date departure</th>
+            <th scope="col">Date arrival</th>
         </tr>
         </thead>
-        <tbody>
-            <c:forEach items="${schedules}" var="stations">
-        <tr>
-            <td><c:out value="${schedule.date}"/></td>
-        </tr>
-        </c:forEach>
-        <tr>
-            <th scope="row">1</th>
-            <th scope="row">Elina</th>
-            <th scope="row">Valieva</th>
-        </tr>
+        <tbody id="tableSchedule">
         </tbody>
     </table>
 </div>

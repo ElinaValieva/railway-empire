@@ -2,6 +2,7 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
+import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
@@ -9,6 +10,7 @@ import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
@@ -185,20 +190,20 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getDirectSchedulesFromDTO(String stationDeparture, String stationArrival, String date) throws ParseException {
-        Station stationDepartureForDirectSchedule = stationService.getByName(stationDeparture);
-        Station stationArrivalForDirectSchedule = stationService.getByName(stationArrival);
+    public List<ScheduleDTO> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException {
+        Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
         List<Schedule> schedules = null;
         if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
             Schedule schedule = new Schedule();
             schedule.setStationDeparture(stationDepartureForDirectSchedule);
             schedule.setStationArrival(stationArrivalForDirectSchedule);
-            Date dateDeparture = Utils.parseToDate(date);
+            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
             schedule.setDateDeparture(dateDeparture);
-            schedules = getByStationsAndDate(schedule);
+            schedules = scheduleDAO.getByStationsAndDate(schedule);
         }
-        return schedules;
-
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
     }
-
 }
