@@ -2,9 +2,6 @@ $(function () {
     $('#registrationBtn').click(function (event) {
         event.preventDefault();
         var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        alert(header);
-        alert(token);
         var user = {
             firstName: $('#firstName').val(),
             lastName: $('#lastName').val(),
@@ -12,14 +9,16 @@ $(function () {
             password: $('#password').val()
         }
         $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/html; charset=utf-8'
             },
             url: "/registration",
             data: JSON.stringify(user),
-            method: "POST",
-            contentType: "application/json",
-            dataType: 'json'
+            method: "POST"
         }).done(function () {
             window.location.href = "/login"
         }).fail(function (qXHR, textStatus, errorThrown) {

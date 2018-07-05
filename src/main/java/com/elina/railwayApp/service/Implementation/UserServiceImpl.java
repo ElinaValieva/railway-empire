@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
             user.setPassword(Utils.encodePassword(user.getPassword()));
             user.setRoles(roleSet);
             add(user);
-            Message message = Message.createWelcomeMessage(user.getLogin());
-            mailService.sendMimeMessage(message);
+            //Message message = Message.createWelcomeMessage(user.getLogin());
+            //mailService.sendMimeMessage(message);
         } else throw new UserNotFound();
     }
 

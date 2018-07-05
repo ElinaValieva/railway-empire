@@ -55,10 +55,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(URLs.REGISTRATION, URLs.LOGIN, "/static/**", "/").permitAll()
                 .anyRequest().authenticated()
                 .and()
+//                .csrf().disable()
                 .formLogin().loginPage(URLs.LOGIN).defaultSuccessUrl(URLs.WELCOME).failureUrl("/login?error=true")
                 .and()
-                .csrf().disable()
-                .logout().permitAll();
+                .logout().permitAll()
+        ;
 
     }
 }
