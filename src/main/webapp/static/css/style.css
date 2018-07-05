@@ -1,9 +1,4 @@
-body {
-    color: coral;
-    background-color: bisque;
-}
-
-h1 {
-    color: crimson;
-    font-family: "Arial Black";
+.pointer {
+    cursor: pointer;
+    cursor: hand;
 }

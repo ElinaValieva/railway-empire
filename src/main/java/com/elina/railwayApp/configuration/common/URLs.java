@@ -32,15 +32,11 @@ public final class URLs {
     public final static String GET_SCHEDULES = "/all";
     public final static String CREATE_SCHEDULE = "/add";
     public final static String DELETE_SCHEDULE = "/remove";
-    public final static String GET_SCHEDULE_BY_DATE = "/getByDate";
-    public final static String GET_SCHEDULE_BY_DATES = "/getByDates";
-    public final static String GET_SCHEDULE_BY_TRAIN = "/getByTrain";
     public final static String GET_SCHEDULE_DIRECT = "/direct";
+    public final static String GET_SCHEDULE_DIRECT_BY_STATIONS = "/directByStations";
+    public final static String GET_SCHEDULE_DIRECT_BY_TRAIN = "/directByTrain";
+    public final static String GET_SCHEDULE_DIRECT_BY_DATES = "/directByDates";
     public final static String GET_SCHEDULE_TRANSFER = "/transfer";
 
-    /**
-     * MAIL
-     */
-    public final static String SEND_MESSAGE = "/send";
 }
 

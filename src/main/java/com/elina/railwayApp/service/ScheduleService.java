@@ -39,7 +39,13 @@ public interface ScheduleService {
 
     boolean checkWorkingStation(Station station, Date date);
 
-    List<ScheduleDTO> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException;
+    List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws ParseException;
+
+    List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException;
+
+    List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException;
+
+    List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException;
 
 }
 

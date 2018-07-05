@@ -101,44 +101,33 @@ public class ScheduleController {
     }
 
     /**
-     * get schedules by date departure
+     * get schedules by all parameters: stations, dates and train
+     * only direct trip
      */
-    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATE}, method = RequestMethod.GET)
-    public String getByDate(Model model, String date) throws ParseException {
-        //test
-        date = "2018-06-29";
-
-        log.info("GET ALL SCHEDULE BY DATE");
-        Date dateDeparture = Utils.parseToDate(date);
-        List<Schedule> schedules = scheduleService.getByDate(dateDeparture);
-        model.addAttribute("schedules", schedules);
-        return Views.SCHEDULE;
+    @PostMapping(URLs.GET_SCHEDULE_DIRECT)
+    public ResponseEntity<?> getDirectSchedulesByStationsAndDatesAndTrain(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByStationsAndDatesAndTrain(scheduleDTO);
+        return ResponseEntity.ok(scheduleDTOList);
     }
 
     /**
-     * get schedules by departure/arrival dates
+     * get schedules by dates
+     * if dateArrival empty return schedule for dateDeparture
+     * only direct trip
      */
-    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_DATES}, method = RequestMethod.GET)
-    public String getByDates(Model model, String dateDepartures, String dateArrivals) throws ParseException {
-        //test
-        dateDepartures = "2018-06-29";
-        dateArrivals = "2018-06-29";
-
-        log.info("GET ALL SCHEDULE BY DATES");
-        Date dateDeparture = Utils.parseToDate(dateDepartures);
-        Date dateArrival = Utils.parseToDate(dateArrivals);
-        List<Schedule> schedules = scheduleService.getByDates(dateDeparture, dateArrival);
-        model.addAttribute("schedules", schedules);
-        return Views.SCHEDULE;
+    @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_DATES)
+    public ResponseEntity<?> getDirectSchedulesByDates(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByDates(scheduleDTO);
+        return ResponseEntity.ok(scheduleDTOList);
     }
 
     /**
      * get schedules by stations and date
      * only direct trip
      */
-    @PostMapping(URLs.GET_SCHEDULE_DIRECT)
-    public ResponseEntity<?> getDirectSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
-        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTO(scheduleDTO);
+    @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_STATIONS)
+    public ResponseEntity<?> getDirectSchedulesByStationsAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByStations(scheduleDTO);
         return ResponseEntity.ok(scheduleDTOList);
     }
 
@@ -146,23 +135,10 @@ public class ScheduleController {
      * get schedules by train and date
      * only direct trip
      */
-    @RequestMapping(value = {URLs.GET_SCHEDULE_BY_TRAIN}, method = RequestMethod.GET)
-    public String getScheduleByTrain(Model model, String date, Train train) throws ParseException {
-        //test
-        date = "2018-06-29";
-        Schedule schedule = new Schedule();
-        train = trainService.getByName("train1");
-
-        log.info("GET DIRECT SCHEDULES BY TRAIN");
-        if (train != null) {
-            Date dateDeparture = Utils.parseToDate(date);
-            schedule.setDateDeparture(dateDeparture);
-            schedule.setTrain(train);
-            List<Schedule> schedules = scheduleService.getByTrainAndDate(schedule);
-            model.addAttribute("schedules", schedules);
-            log.info("FOUND SCHEDULES BY TRAIN AND DATE");
-        } else log.warn("CAN'T FOUND SCHEDULES BY TRAIN AND DATE. WRONG PARAMETERS");
-        return Views.SCHEDULE;
+    @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_TRAIN)
+    public ResponseEntity<?> getDirectSchedulesByTrainAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+        List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByTrain(scheduleDTO);
+        return ResponseEntity.ok(scheduleDTOList);
     }
 
     /**

@@ -7,8 +7,10 @@ import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
+import com.elina.railwayApp.model.Train;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
+import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private TrainService trainService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -190,20 +195,89 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<ScheduleDTO> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws ParseException {
+        List<Schedule> schedules = new ArrayList<>();
+        Schedule schedule = new Schedule();
+        Train train = trainService.getByName(scheduleDTO.getTrainName());
+        Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
+        Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
+        Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+        if (train != null && stationArrival != null && stationDeparture != null) {
+            schedule.setTrain(train);
+            schedule.setDateArrival(dateArrival);
+            schedule.setDateDeparture(dateDeparture);
+            schedule.setStationDeparture(stationDeparture);
+            schedule.setStationArrival(stationArrival);
+            schedules = scheduleDAO.getByStationsAndDatesAndTrains(schedule);
+        }
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException {
         Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
-        List<Schedule> schedules = null;
+        List<Schedule> schedules = new ArrayList<>();
         if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
             Schedule schedule = new Schedule();
             schedule.setStationDeparture(stationDepartureForDirectSchedule);
             schedule.setStationArrival(stationArrivalForDirectSchedule);
             Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
             schedule.setDateDeparture(dateDeparture);
-            schedules = scheduleDAO.getByStationsAndDate(schedule);
-        }
+            if (!scheduleDTO.getDateArrival().isEmpty()) {
+                Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+                schedule.setDateArrival(dateArrival);
+                schedules = scheduleDAO.getByStationsAndDates(schedule);
+            } else schedules = scheduleDAO.getByStationsAndDate(schedule);
+            log.info("FOUND SCHEDULES BY STATIONS AND DATE");
+        } else log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
+
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException {
+        Train train = trainService.getByName(scheduleDTO.getTrainName());
+        List<Schedule> schedules = new ArrayList<>();
+        if (train != null) {
+            Schedule schedule = new Schedule();
+            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
+            schedule.setDateDeparture(dateDeparture);
+            schedule.setTrain(train);
+            if (!scheduleDTO.getDateArrival().isEmpty()) {
+                Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+                schedule.setDateArrival(dateArrival);
+                schedules = scheduleDAO.getByTrainAndDates(schedule);
+            } else schedules = scheduleDAO.getByTrainAndDate(schedule);
+            log.info("FOUND SCHEDULES BY TRAIN AND DATE");
+        } else log.warn("CAN'T FOUND SCHEDULES BY TRAIN AND DATE. WRONG PARAMETERS");
+
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException {
+        Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
+        List<Schedule> schedules;
+        if (!scheduleDTO.getDateArrival().isEmpty()) {
+            Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+            schedules = scheduleDAO.getByDates(dateDeparture, dateArrival);
+        } else schedules = scheduleDAO.getByDate(dateDeparture);
+
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 }
