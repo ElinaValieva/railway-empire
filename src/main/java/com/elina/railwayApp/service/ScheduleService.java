@@ -39,7 +39,7 @@ public interface ScheduleService {
 
     boolean checkWorkingStation(Station station, Date date);
 
-    List<Schedule> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException;
+    List<Schedule> getDirectSchedulesFromDTO(String stationDeparture, String stationArrival, String date) throws ParseException;
 
 }
 

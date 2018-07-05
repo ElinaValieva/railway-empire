@@ -3,7 +3,6 @@ package com.elina.railwayApp.service.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.configuration.common.Utils;
-import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
@@ -186,15 +185,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException {
-        Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDeparture().getName());
-        Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrival().getName());
+    public List<Schedule> getDirectSchedulesFromDTO(String stationDeparture, String stationArrival, String date) throws ParseException {
+        Station stationDepartureForDirectSchedule = stationService.getByName(stationDeparture);
+        Station stationArrivalForDirectSchedule = stationService.getByName(stationArrival);
         List<Schedule> schedules = null;
         if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
             Schedule schedule = new Schedule();
             schedule.setStationDeparture(stationDepartureForDirectSchedule);
             schedule.setStationArrival(stationArrivalForDirectSchedule);
-            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDate());
+            Date dateDeparture = Utils.parseToDate(date);
             schedule.setDateDeparture(dateDeparture);
             schedules = getByStationsAndDate(schedule);
         }

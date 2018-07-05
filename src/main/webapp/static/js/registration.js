@@ -22,6 +22,10 @@ $(function () {
         }).done(function () {
             window.location.href = "/login"
         }).fail(function (qXHR, textStatus, errorThrown) {
+            if (qXHR.status == 401)
+                alert('wrong parameters, user already exist');
+            else
+                alert('wrong e-mail');
             console.log('request: ', JSON.stringify(qXHR));
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));

@@ -1,9 +1,9 @@
 package com.elina.railwayApp.controller;
 
+import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.configuration.common.Views;
-import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Train;
@@ -11,18 +11,21 @@ import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
 import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j
@@ -36,6 +39,9 @@ public class ScheduleController {
 
     @Autowired
     private TrainService trainService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * get all schedules
@@ -132,11 +138,16 @@ public class ScheduleController {
      * only direct trip
      */
 
-    @PostMapping(path = "/schedule/direct", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/schedule/direct")
     public ResponseEntity<?> getDirectSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
-        System.out.println("aaa");
-        List<Schedule> schedules = scheduleService.getDirectSchedulesFromDTO(scheduleDTO);
-        return schedules.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(schedules);
+        List<Schedule> schedules = scheduleService.getDirectSchedulesFromDTO(scheduleDTO.getStationDepartureName(),
+                scheduleDTO.getStationArrivalName(), scheduleDTO.getDateDeparture()
+        );
+        List<ScheduleDTO> scheduleDTOS = schedules.stream()
+                .map(x->modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+        scheduleDTOS.forEach(System.out::println);
+        return ResponseEntity.ok(scheduleDTOS);
     }
 
     /**

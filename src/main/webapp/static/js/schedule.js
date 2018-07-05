@@ -1,25 +1,35 @@
 $(function () {
 
-    $('#btnSearchSchedule').click(function () {
+    $('#btnSearchSchedule').click(function (event) {
+        event.preventDefault();
+        var token = $("meta[name='_csrf']").attr("content");
+
         var scheduleDTO = {
-            stationDeparture:
+            stationDepartureName:
                 $('#stationDeparture').val(),
-            stationArrival:
+            stationArrivalName:
                 $('#stationArrival').val(),
-            date:
-                $('#date').val()
+            trainName: '',
+            dateDeparture:
+                $('#date').val(),
+            dateArrival: ''
         };
         var urlSearching = "/schedule/direct";
         $.ajax({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
             method: "POST",
             url: urlSearching,
             data: JSON.stringify(scheduleDTO),
-            contentType: 'application/json',
-            dataType: 'json'
         }).done(function (response) {
             alert(JSON.stringify(response));
-            alert('success');
         }).fail(function (qXHR, textStatus, errorThrown) {
+            alert(JSON.stringify(qXHR));
             console.log('request: ', qXHR);
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));
