@@ -1,9 +1,10 @@
 package com.elina.railwayApp.service;
 
-import com.elina.railwayApp.exception.UserNotFound;
+import com.elina.railwayApp.exception.UserNotFoundException;
 import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,5 +27,5 @@ public interface UserService {
 
     void updateProfile(User user);
 
-    void registration(User user) throws IOException, UserNotFound;
+    void registration(User user) throws IOException, UserNotFoundException, MessagingException;
 }

@@ -36,22 +36,17 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMimeMessage(Message message) {
+    public void sendMimeMessage(Message message) throws MessagingException {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
-            mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
-            mimeMailMessage.setContent(message.getContext(), "text/html");
-            mimeMessageHelper.setTo(message.getAddressee());
-            mimeMessageHelper.setSubject(message.getSubject());
-            if (message.getText() != null)
-                mimeMessageHelper.setText(message.getText());
-            javaMailSender.send(mimeMailMessage);
-            log.info("SEND MESSAGE TO " + message.getAddressee());
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            log.warn("CAN'T SEND MESSAGE TO " + message.getAddressee());
-        }
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
+        mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
+        mimeMailMessage.setContent(message.getContext(), "text/html");
+        mimeMessageHelper.setTo(message.getAddressee());
+        mimeMessageHelper.setSubject(message.getSubject());
+        if (message.getText() != null)
+            mimeMessageHelper.setText(message.getText());
+        javaMailSender.send(mimeMailMessage);
     }
+
 }
 
