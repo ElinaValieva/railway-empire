@@ -1,23 +1,30 @@
 $(function () {
-    $('#registrationBtn').click(function () {
-        alert('aaa');
-        var user = {};
-        user['firstName'] = $('#firstName').val();
-        user['lastName'] = $('#lastName').val();
-        user['login'] = $('#login').val();
-        user['password'] = $('#password').val();
-        user['birthDay'] = '';
-        user['sex'] = '';
+    $('#registrationBtn').click(function (event) {
+        event.preventDefault();
+        var token = $("meta[name='_csrf']").attr("content");
+        var user = {
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            login: $('#login').val(),
+            password: $('#password').val()
+        }
         $.ajax({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/html; charset=utf-8'
+            },
             url: "/registration",
             data: JSON.stringify(user),
-            method: "POST",
-            contentType: "application/json",
+            method: "POST"
         }).done(function () {
-            alert('success');
             window.location.href = "/login"
-        }).fail(function () {
-            alert('error');
-        })
+        }).fail(function (qXHR, textStatus, errorThrown) {
+            console.log('request: ', JSON.stringify(qXHR));
+            console.log('status text: ', textStatus);
+            console.log('thrown error: ', JSON.stringify(errorThrown));
+        });
     })
 });

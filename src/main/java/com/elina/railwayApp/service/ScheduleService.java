@@ -1,9 +1,11 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +38,8 @@ public interface ScheduleService {
     Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival);
 
     boolean checkWorkingStation(Station station, Date date);
+
+    List<Schedule> getDirectSchedulesFromDTO(ScheduleDTO scheduleDTO) throws ParseException;
 
 }
 
