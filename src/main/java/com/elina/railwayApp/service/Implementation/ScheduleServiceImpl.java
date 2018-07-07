@@ -189,22 +189,22 @@ public class ScheduleServiceImpl implements ScheduleService {
                                 && schedule.getDateArrival().before(x.getDateDeparture()) &&
                                 Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
                         .collect(Collectors.toList());
-            }
-            if (!transferSchedule.isEmpty()) {
-                for (Schedule transfer :
-                        transferSchedule) {
-                    TransferScheduleDTO transferScheduleDTO = new TransferScheduleDTO();
-                    transferScheduleDTO.setStationDepartureName(schedule.getStationDeparture().getName());
-                    transferScheduleDTO.setStationArrivalName(transfer.getStationArrival().getName());
-                    transferScheduleDTO.setStationIntermediateName(schedule.getStationArrival().getName());
-                    transferScheduleDTO.setDateDeparture(schedule.getDateDeparture().toString());
-                    transferScheduleDTO.setDateIntermediateDeparture(schedule.getDateArrival().toString());
-                    transferScheduleDTO.setDateIntermediateArrival(transfer.getDateDeparture().toString());
-                    transferScheduleDTO.setDateArrival(transfer.getDateArrival().toString());
-                    transferScheduleDTO.setTrainDepartureName(schedule.getTrain().getName());
-                    transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
-                    transferScheduleDTOS.add(transferScheduleDTO);
-                }
+
+                if (!transferSchedule.isEmpty())
+                    transferSchedule.stream().forEach(transfer -> {
+
+                        TransferScheduleDTO transferScheduleDTO = new TransferScheduleDTO();
+                        transferScheduleDTO.setStationDepartureName(schedule.getStationDeparture().getName());
+                        transferScheduleDTO.setStationArrivalName(transfer.getStationArrival().getName());
+                        transferScheduleDTO.setStationIntermediateName(schedule.getStationArrival().getName());
+                        transferScheduleDTO.setDateDeparture(schedule.getDateDeparture().toString());
+                        transferScheduleDTO.setDateIntermediateDeparture(schedule.getDateArrival().toString());
+                        transferScheduleDTO.setDateIntermediateArrival(transfer.getDateDeparture().toString());
+                        transferScheduleDTO.setDateArrival(transfer.getDateArrival().toString());
+                        transferScheduleDTO.setTrainDepartureName(schedule.getTrain().getName());
+                        transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
+                        transferScheduleDTOS.add(transferScheduleDTO);
+                    });
             }
         }
         return transferScheduleDTOS;
