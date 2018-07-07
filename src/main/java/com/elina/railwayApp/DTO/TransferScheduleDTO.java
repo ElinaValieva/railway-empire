@@ -1,9 +1,11 @@
 package com.elina.railwayApp.DTO;
 
+import com.elina.railwayApp.model.Seat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +28,8 @@ public class TransferScheduleDTO implements Serializable {
     String dateIntermediateArrival;
 
     String dateArrival;
+
+    List<SeatDTO> freeSeatsDeparture;
+
+    List<SeatDTO> freeSeatsArrival;
 }

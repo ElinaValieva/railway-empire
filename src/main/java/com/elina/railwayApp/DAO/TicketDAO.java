@@ -1,5 +1,7 @@
 package com.elina.railwayApp.DAO;
 
+import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +19,6 @@ public interface TicketDAO {
     List<Ticket> getAll();
 
     Ticket getById(Long id);
+
+    List<Ticket> getBySchedule(Schedule schedule);
 }

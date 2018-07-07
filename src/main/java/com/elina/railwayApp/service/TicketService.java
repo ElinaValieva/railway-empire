@@ -1,5 +1,7 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +19,6 @@ public interface TicketService {
     List<Ticket> getAll();
 
     Ticket getById(Long id);
+
+    List<Seat> getBookingSeatsBySchedule(Schedule schedule);
 }

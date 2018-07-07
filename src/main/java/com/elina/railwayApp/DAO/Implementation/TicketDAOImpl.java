@@ -1,6 +1,8 @@
 package com.elina.railwayApp.DAO.Implementation;
 
 import com.elina.railwayApp.DAO.TicketDAO;
+import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,13 @@ public class TicketDAOImpl implements TicketDAO {
                         "where id = :id")
                 .setParameter("id", id)
                 .uniqueResult();
+    }
+
+    @Override
+    public List<Ticket> getBySchedule(Schedule schedule) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Ticket where schedule = :schedule")
+                .setParameter("schedule", schedule)
+                .getResultList();
     }
 }

@@ -3,6 +3,7 @@ package com.elina.railwayApp.DAO.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
+import com.elina.railwayApp.model.Train;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -192,6 +193,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .setParameter("dateArrival", schedule.getDateArrival())
                 .getResultList();
     }
+
 
 
 }

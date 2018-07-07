@@ -18,12 +18,12 @@ public class Ticket {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", nullable = false)
-    private User user;
-
     @OneToOne
     private Schedule schedule;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToOne
     private Seat seat;

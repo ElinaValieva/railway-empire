@@ -3,14 +3,13 @@ package com.elina.railwayApp.service.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DTO.ScheduleDTO;
+import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
-import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Station;
-import com.elina.railwayApp.model.Status;
-import com.elina.railwayApp.model.Train;
+import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
+import com.elina.railwayApp.service.TicketService;
 import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
@@ -40,6 +39,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private TicketService ticketService;
 
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
@@ -208,6 +210,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                         transferScheduleDTO.setDateArrival(transfer.getDateArrival().toString());
                         transferScheduleDTO.setTrainDepartureName(schedule.getTrain().getName());
                         transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
+                        transferScheduleDTO.setFreeSeatsDeparture(getFreeSeats(schedule));
+                        transferScheduleDTO.setFreeSeatsArrival(getFreeSeats(transfer));
                         transferScheduleDTOS.add(transferScheduleDTO);
                     });
             }
@@ -221,6 +225,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleDAO.getWorkingStation(station, date).isEmpty();
     }
 
+    /**
+     * get all schedules for direct trip by all parameters
+     *
+     * @param scheduleDTO
+     * @return
+     * @throws ParseException
+     */
     @Override
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws
@@ -245,6 +256,13 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * get schedules by stations and date/dates
+     *
+     * @param scheduleDTO
+     * @return
+     * @throws ParseException
+     */
     @Override
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException {
@@ -270,6 +288,13 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * get direct schedules by train and date/dates
+     *
+     * @param scheduleDTO
+     * @return
+     * @throws ParseException
+     */
     @Override
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException {
@@ -293,6 +318,13 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * get direct schedules by date/dates
+     *
+     * @param scheduleDTO
+     * @return
+     * @throws ParseException
+     */
     @Override
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException {
@@ -306,6 +338,39 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * get free seats in train
+     *
+     * @param schedule
+     * @return
+     */
+    @Override
+    @Transactional
+    public List<SeatDTO> getFreeSeats(Schedule schedule) {
+        Train train = schedule.getTrain();
+        Set<Seat> allSeats = train.getSeats();
+        List<Seat> bookingSeatsBySchedule = ticketService.getBookingSeatsBySchedule(schedule);
+        List<SeatDTO> freeSeats = new ArrayList<>();
+        if (!bookingSeatsBySchedule.isEmpty())
+            for (Seat bookingSeat :
+                    bookingSeatsBySchedule) {
+                allSeats.stream().filter(seat -> !seat.equals(bookingSeat)).forEach(seat -> {
+                        SeatDTO seatDTO = new SeatDTO();
+                        seatDTO.setCarriage(seat.getCarriage());
+                        seatDTO.setSeat(seat.getSeat());
+                        freeSeats.add(seatDTO);
+                });
+            }
+        else
+            allSeats.stream().forEach(seat -> {
+                SeatDTO seatDTO = new SeatDTO();
+                seatDTO.setCarriage(seat.getCarriage());
+                seatDTO.setSeat(seat.getSeat());
+                freeSeats.add(seatDTO);
+            });
+        return freeSeats;
     }
 
 }

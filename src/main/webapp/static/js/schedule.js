@@ -160,7 +160,7 @@ $(function () {
      * @param token
      * @param direct
      */
-    var sendRequest = function (urlSearching, scheduleDTO, token, direct) {
+    var sendRequest = function (urlSearching, scheduleDTO, token) {
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', token);
