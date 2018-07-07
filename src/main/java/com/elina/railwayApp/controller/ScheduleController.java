@@ -41,8 +41,9 @@ public class ScheduleController {
      * 1. can't add same stations in schedule
      * 2. can't add wrong times in schedule (arrival < departure)
      * 3. can't add intersection of schedules
-     * 4. can't add schedule for train which placed on another station!
+     * 4. can't add schedule for train which placed on another station! //TODO
      * 5. can't add duplicate schedule
+     * 6. can't add schedule for current day or earlier day
      *
      * @param scheduleDTO with id, date arrival/departure, stations arrival/departure, train
      */

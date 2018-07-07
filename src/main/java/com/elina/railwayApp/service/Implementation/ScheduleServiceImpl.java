@@ -66,7 +66,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (stationArrival != null && stationDeparture != null && train != null) {
             if (!stationArrival.equals(stationDeparture)
                     && dateDeparture.before(dateArrival)
-                    && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
+                    && getByDateAndTrainToCheckIntersection(schedule).isEmpty()
+                    && !Utils.checkCurrentDay(dateDeparture)) {
                 Status status = statusDAO.getByName("WORKED");
                 schedule.getStationDeparture().setStatus(status);
                 schedule.getStationArrival().setStatus(status);

@@ -29,6 +29,7 @@ public final class URLs {
      * SCHEDULE
      */
     public final static String SCHEDULE = "/schedule";
+    public final static String SCHEDULE_CREATE = "/createSchedule";
     public final static String GET_SCHEDULES = "/all";
     public final static String CREATE_SCHEDULE = "/add";
     public final static String DELETE_SCHEDULE = "/remove";

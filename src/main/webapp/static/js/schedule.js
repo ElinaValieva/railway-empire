@@ -71,8 +71,7 @@ $(function () {
             dateDeparture:
                 $('#dateDeparture').val(),
             dateArrival:
-                $('#dateArrival').val(),
-            timeInTrip: ''
+                $('#dateArrival').val()
         };
         sendRequest(urlSearching, scheduleDTO, token);
     });

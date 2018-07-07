@@ -61,4 +61,8 @@ public class Utils {
         log.info("IMPORTANT " + result);
         return result;
     }
+
+    public static boolean checkCurrentDay(Date date){
+        return date.before(new Date());
+    }
 }

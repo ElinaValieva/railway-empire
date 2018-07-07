@@ -60,4 +60,9 @@ public class ViewController {
     public String schedule() {
         return Views.SCHEDULE;
     }
+
+    @RequestMapping(value = URLs.SCHEDULE_CREATE, method = RequestMethod.GET)
+    public String createSchedule() {
+        return Views.CREATE_SCHEDULE;
+    }
 }

@@ -22,6 +22,7 @@
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-light" href="/home">Home</a>
         <a class="p-2 text-light" href="/schedule">Schedule</a>
+        <a class="p-2 text-light" href="/createSchedule">Add schedule</a>
         <a class="p-2 text-light" href="/train">Train</a>
         <a class="p-2 text-light" href="/station">Station</a>
     </nav>
