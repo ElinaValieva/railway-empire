@@ -149,7 +149,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public Map<Station, List<Schedule>> getTransferList(String dateTransferDeparture, String dateTransferArrival) throws ParseException {
         Date dateDeparture = Utils.parseToDate(dateTransferDeparture);
-        Date dateArrival = Utils.parseToDate(dateTransferArrival);
+        Date dateArrival;
+        if (dateTransferArrival != null)
+            dateArrival = Utils.parseToDate(dateTransferArrival);
+        else
+            dateArrival = Utils.getNextDay(dateTransferArrival);
         List<Schedule> schedules = getByDates(dateDeparture, dateArrival);
         Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
         for (Schedule schedule :

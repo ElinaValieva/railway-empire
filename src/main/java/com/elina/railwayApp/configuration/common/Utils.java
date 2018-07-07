@@ -24,7 +24,8 @@ public class Utils {
         return (delta >= deltaMin && delta <= deltaMax) ? true : false;
     }
 
-    public static Date getNextDay(Date date) {
+    public static Date getNextDay(String dateForNextDay) throws ParseException {
+        Date date = parseToDate(dateForNextDay);
         Date newDate = new Date();
         newDate.setTime(date.getTime() + (long) 1000 * 24 * 60 * 60);
         return newDate;

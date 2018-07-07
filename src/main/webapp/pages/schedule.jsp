@@ -75,6 +75,12 @@
                     </div>
                 </div>
                 <br>
+                <div id="checkBoxId">
+                    <input  type="checkbox" id="with transfer" class="text-light"
+                           aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                    <label class="text-light">with transfer</label>
+                </div>
+                <br>
                 <div class="text-center">
                     <button id="btnSearchSchedule" type="submit" class="btn btn-outline-dark">search schedule</button>
                 </div>
@@ -85,29 +91,11 @@
 </div>
 <div class="container shadow p-3 mb-5 bg-white rounded" id="mainScheduleContainer" style="display: none">
     <table class="table table-striped text-center">
-        <tbody id="tableSchedule">
-        <c:forEach items="${response}">
-            <tr>
-                <th scope="row">
-                    <img src="../images/icoschedule.png">
-                    <div><c:out value="${response.trainName}"/></div>
-                </th>
-                <th scope="row">
-                    <div><c:out value="${dateDeparture}"/></div>
-                    <div class="text-danger">26 Feb</div>
-                    <div class="font-weight-normal"><c:out value="${stationDepartureName}"/></div>
-                </th>
-                <th scope="row">
-                    <div><img src="../images/arrow-13-xxl.png" height="50"></div>
-                    <div>6:20</div>
-                </th>
-                <th scope="row">
-                    <div><c:out value="${dateArrival}"/></div>
-                    <div class="text-danger">26 Feb</div>
-                    <div class="font-weight-normal"><c:out value="${stationArrivalName}"/></div>
-                </th>
-            </tr>
-        </c:forEach>
+        <tbody id="tableScheduleDirect">
+        </tbody>
+    </table>
+    <table class="table table-striped text-center">
+        <tbody id="tableScheduleTransfer">
         </tbody>
     </table>
 </div>
