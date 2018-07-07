@@ -8,5 +8,6 @@ public final class Tables {
     public static final String SCHEDULE_TABLE = "schedule";
     public static final String SEAT_TABLE = "seat";
     public static final String TICKET_TABLE = "ticket";
+    public static final String STATUS_TABLE = "status";
 }
 

@@ -1,5 +1,6 @@
 package com.elina.railwayApp.configuration.common;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ResourceUtils;
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Log4j
 public class Utils {
     public static String encodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -41,5 +43,21 @@ public class Utils {
     public static String getContext() throws IOException {
         File file = ResourceUtils.getFile("classpath:themesMessage/templateForEmailWelcomeMessage.txt");
         return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    public static String getDelay(String dateDeparture, String dateArrival) throws ParseException {
+        Date dateDepartureForDelay = parseToDate(dateDeparture);
+        Date dateArrivalForDelay = parseToDate(dateArrival);
+        Long delay = dateArrivalForDelay.getTime() - dateDepartureForDelay.getTime();
+        String result = "";
+        int min = (int) (delay / (1000 * 60));
+        int hour = (int) (delay / (1000 * 60 * 60));
+        int days = (int) (delay / (1000 * 60 * 60 * 24));
+        if (hour != 0)
+            result = hour + " hours " + min + " min" + result;
+        if (days != 0)
+            result = days + " day " + result;
+        log.info("IMPORTANT " + result);
+        return result;
     }
 }

@@ -35,14 +35,16 @@ public class TicketDAOImpl implements TicketDAO {
     @Override
     public List<Ticket> getAll() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Ticket ")
+                .createQuery("from Ticket")
                 .getResultList();
     }
 
     @Override
     public Ticket getById(Long id) {
         return (Ticket) sessionFactory.getCurrentSession()
-                .createQuery("from Ticket where id = :id")
+                .createQuery("from Ticket " +
+                        "where id = :id")
+                .setParameter("id", id)
                 .uniqueResult();
     }
 }

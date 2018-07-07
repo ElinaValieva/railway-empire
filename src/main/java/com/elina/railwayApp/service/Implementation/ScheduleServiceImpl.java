@@ -3,6 +3,7 @@ package com.elina.railwayApp.service.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DTO.ScheduleDTO;
+import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
@@ -46,21 +47,33 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * create schedule (check intersection of times and correctness of times)
      *
-     * @param schedule
+     * @param scheduleDTO
      */
     @Override
     @Transactional
-    public void add(Schedule schedule) {
-        if (schedule.getStationArrival().getId() != schedule.getStationDeparture().getId()) {
-            if (schedule.getDateDeparture().before(schedule.getDateArrival())
+    public void add(ScheduleDTO scheduleDTO) throws ParseException {
+        Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
+        Date dateArrival = Utils.parseToDateTime(scheduleDTO.getDateArrival());
+        Train train = trainService.getByName(scheduleDTO.getTrainName());
+        Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
+        Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Schedule schedule = new Schedule();
+        schedule.setStationDeparture(stationDeparture);
+        schedule.setStationArrival(stationArrival);
+        schedule.setDateDeparture(dateDeparture);
+        schedule.setDateArrival(dateArrival);
+        schedule.setTrain(train);
+        if (stationArrival != null && stationDeparture != null && train != null) {
+            if (!stationArrival.equals(stationDeparture)
+                    && dateDeparture.before(dateArrival)
                     && getByDateAndTrainToCheckIntersection(schedule).isEmpty()) {
                 Status status = statusDAO.getByName("WORKED");
                 schedule.getStationDeparture().setStatus(status);
                 schedule.getStationArrival().setStatus(status);
                 scheduleDAO.add(schedule);
                 log.info("SCHEDULE WAS CREATED!");
-            } else log.warn("WRONG DATETIME FOR SCHEDULE");
-        } else log.warn("CAN'T ADD SCHEDULE FOR SAME STATIONS");
+            } else log.warn("WRONG DATETIME or SAME STATIONS FOR SCHEDULE");
+        } else log.warn("CAN'T ADD SCHEDULE WITH EMPTY VALUES");
     }
 
     @Override
@@ -128,21 +141,23 @@ public class ScheduleServiceImpl implements ScheduleService {
      * ....
      * stationN -> [schedule1,...,scheduleK]
      *
-     * @param date
+     * @param dateTransferDeparture
+     * @param dateTransferArrival
      * @return
      */
 
     @Transactional
-    public Map<Long, List<Schedule>> getTransferList(Date date) {
-        Date dateDeparture = Utils.getNextDay(date);
-        List<Schedule> schedules = getByDates(date, dateDeparture);
-        Map<Long, List<Schedule>> mapStationsForTransfer = new HashMap<>();
+    public Map<Station, List<Schedule>> getTransferList(String dateTransferDeparture, String dateTransferArrival) throws ParseException {
+        Date dateDeparture = Utils.parseToDate(dateTransferDeparture);
+        Date dateArrival = Utils.parseToDate(dateTransferArrival);
+        List<Schedule> schedules = getByDates(dateDeparture, dateArrival);
+        Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
         for (Schedule schedule :
                 schedules) {
-            if (mapStationsForTransfer.get(schedule.getStationDeparture().getId()) == null) {
+            if (mapStationsForTransfer.get(schedule.getStationDeparture()) == null) {
                 List<Schedule> listSchedulesForCurrentSchedule = getByStationArrivalAndDate(schedule);
                 if (!listSchedulesForCurrentSchedule.isEmpty())
-                    mapStationsForTransfer.put(schedule.getStationDeparture().getId(), listSchedulesForCurrentSchedule);
+                    mapStationsForTransfer.put(schedule.getStationDeparture(), listSchedulesForCurrentSchedule);
             }
         }
         return mapStationsForTransfer;
@@ -152,39 +167,47 @@ public class ScheduleServiceImpl implements ScheduleService {
      * trip with 1 transfer
      * can add transfer - trip in schedule if 15 min < transfer < 6 hour
      *
-     * @param date
-     * @param stationDeparture
-     * @param stationArrival
+     * @param scheduleDTO
      * @return
      */
 
     @Override
     @Transactional
-    public Set<List<Schedule>> getTransferSchedules(Date date, Station stationDeparture, Station stationArrival) {
-        Map<Long, List<Schedule>> mapStationForTransfer = getTransferList(date);
-        Set<List<Schedule>> set = new HashSet<>();
-        List<Schedule> schedules = mapStationForTransfer.get(stationDeparture.getId());
+    public List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException {
+        Map<Station, List<Schedule>> mapStationForTransfer = getTransferList(scheduleDTO.getDateDeparture(), scheduleDTO.getDateArrival());
+        Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
+        List<Schedule> schedules = mapStationForTransfer.get(stationDeparture);
+        List<TransferScheduleDTO> transferScheduleDTOS = new ArrayList<>();
         for (Schedule schedule :
                 schedules) {
-            List<Schedule> transferSchedule;
-            if (schedule.getStationArrival().equals(stationArrival)) {
-                transferSchedule = new ArrayList<>();
-                transferSchedule.add(schedule);
-                set.add(transferSchedule);
-            } else {
-                transferSchedule = mapStationForTransfer.get(schedule.getStationArrival().getId())
+            List<Schedule> transferSchedule = new ArrayList<>();
+            if (!schedule.getStationArrival().equals(stationArrival)) {
+                transferSchedule = mapStationForTransfer.get(schedule.getStationArrival())
                         .stream()
                         .filter(x -> x.getStationArrival().equals(stationArrival)
                                 && schedule.getDateArrival().before(x.getDateDeparture()) &&
                                 Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
                         .collect(Collectors.toList());
-                if (!transferSchedule.isEmpty()) {
-                    transferSchedule.add(schedule);
-                    set.add(transferSchedule);
+            }
+            if (!transferSchedule.isEmpty()) {
+                for (Schedule transfer :
+                        transferSchedule) {
+                    TransferScheduleDTO transferScheduleDTO = new TransferScheduleDTO();
+                    transferScheduleDTO.setStationDepartureName(schedule.getStationDeparture().getName());
+                    transferScheduleDTO.setStationArrivalName(transfer.getStationArrival().getName());
+                    transferScheduleDTO.setStationIntermediateName(schedule.getStationArrival().getName());
+                    transferScheduleDTO.setDateDeparture(schedule.getDateDeparture().toString());
+                    transferScheduleDTO.setDateIntermediateDeparture(schedule.getDateArrival().toString());
+                    transferScheduleDTO.setDateIntermediateArrival(transfer.getDateDeparture().toString());
+                    transferScheduleDTO.setDateArrival(transfer.getDateArrival().toString());
+                    transferScheduleDTO.setTrainDepartureName(schedule.getTrain().getName());
+                    transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
+                    transferScheduleDTOS.add(transferScheduleDTO);
                 }
             }
         }
-        return set;
+        return transferScheduleDTOS;
     }
 
     @Override
@@ -195,7 +218,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws
+            ParseException {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
         Train train = trainService.getByName(scheduleDTO.getTrainName());
@@ -278,6 +302,5 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
     }
-
 
 }

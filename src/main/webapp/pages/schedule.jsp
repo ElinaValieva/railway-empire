@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <sec:csrfMetaTags/>
@@ -83,17 +84,30 @@
     </div>
 </div>
 <div class="container shadow p-3 mb-5 bg-white rounded" id="mainScheduleContainer" style="display: none">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Station departure</th>
-            <th scope="col">Station arrival</th>
-            <th scope="col">Train</th>
-            <th scope="col">Date departure</th>
-            <th scope="col">Date arrival</th>
-        </tr>
-        </thead>
+    <table class="table table-striped text-center">
         <tbody id="tableSchedule">
+        <c:forEach items="${response}">
+            <tr>
+                <th scope="row">
+                    <img src="../images/icoschedule.png">
+                    <div><c:out value="${response.trainName}"/></div>
+                </th>
+                <th scope="row">
+                    <div><c:out value="${dateDeparture}"/></div>
+                    <div class="text-danger">26 Feb</div>
+                    <div class="font-weight-normal"><c:out value="${stationDepartureName}"/></div>
+                </th>
+                <th scope="row">
+                    <div><img src="../images/arrow-13-xxl.png" height="50"></div>
+                    <div>6:20</div>
+                </th>
+                <th scope="row">
+                    <div><c:out value="${dateArrival}"/></div>
+                    <div class="text-danger">26 Feb</div>
+                    <div class="font-weight-normal"><c:out value="${stationArrivalName}"/></div>
+                </th>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>

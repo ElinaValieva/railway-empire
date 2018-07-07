@@ -1,6 +1,7 @@
 package com.elina.railwayApp.model;
 
 
+import com.elina.railwayApp.configuration.common.Tables;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "train")
+@Table(name = Tables.TRAIN_TABLE)
 public class Train {
 
     @Id

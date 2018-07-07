@@ -36,7 +36,7 @@ public final class URLs {
     public final static String GET_SCHEDULE_DIRECT_BY_STATIONS = "/directByStations";
     public final static String GET_SCHEDULE_DIRECT_BY_TRAIN = "/directByTrain";
     public final static String GET_SCHEDULE_DIRECT_BY_DATES = "/directByDates";
-    public final static String GET_SCHEDULE_TRANSFER = "/transfer";
+    public final static String GET_SCHEDULE_TRANSFER_BY_STATIONS = "/transferByStations";
 
 }
 

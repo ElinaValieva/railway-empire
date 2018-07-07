@@ -24,7 +24,8 @@ $(function () {
         $('#stationDeparture').prop('disabled', false);
         $('#stationArrival').prop('disabled', false);
         $('#train').prop('disabled', true);
-        urlSearching = "/schedule/directByStations";
+        // urlSearching = "/schedule/directByStations";
+        urlSearching = "/schedule/transferByStations"
 
     });
 
@@ -63,7 +64,8 @@ $(function () {
             dateDeparture:
                 $('#dateDeparture').val(),
             dateArrival:
-                $('#dateArrival').val()
+                $('#dateArrival').val(),
+            timeInTrip: ''
         };
         $.ajax({
             beforeSend: function (xhr) {
@@ -80,14 +82,9 @@ $(function () {
             if (response.length != 0) {
                 $('#tableSchedule').empty();
                 $('#mainScheduleContainer').show();
-                for (var i = 0; i < response.length; i++) {
-                    $('#tableSchedule').append("<tr><th scope='row'>" + response[i].stationDepartureName + "</th>" +
-                        "<th scope='row'>" + response[i].stationArrivalName + "</th>" +
-                        "<th scope='row'>" + response[i].trainName + "</th>" +
-                        "<th scope='row'>" + response[i].dateDeparture + "</th>" +
-                        "<th scope='row'>" + response[i].dateArrival + "</th>"
-                        + "</tr>");
-                }
+                $('#tableSchedule').html(response);
+                for (var i = 0; i < response.length; i++)
+                    setContentForSchedule(response[i]);
             }
             else
                 $('#mainScheduleContainer').hide();
@@ -98,4 +95,33 @@ $(function () {
             console.log('thrown error: ', JSON.stringify(errorThrown));
         });
     });
+
+    var setContentForSchedule = function (response) {
+        $('#tableSchedule').append("<tr>" +
+            "<th scope='row'><img src='static/images/icoschedule.png'>" +
+            "<div>" + response.trainName + "</div>" +
+            "</th>" +
+            "<th scope='row'><div class='text-danger'>" + response.dateDeparture + "</div>" +
+            "<div class='font-weight-normal'>" + response.stationDepartureName + "</div>" +
+            "</th>" +
+            "<th scope='row'>" +
+            "<div><img src='/static/images/arrow-13-xxl.png' height='50'></div>" +
+            "<div>" + getDelayBetweenTwoDates(response.dateDeparture, response.dateArrival) + "</div>" +
+            "</th>" +
+            "<th scope='row'><div class='text-danger'>" + response.dateArrival + "</div>" +
+            "<div class='font-weight-normal'>" + response.stationArrivalName + "</div>" +
+            "</th></tr>");
+    }
+
+    var getDelayBetweenTwoDates = function (dateStart, dateEnd) {
+        var hourDiff = new Date(dateEnd).getTime() - new Date(dateStart).getTime();
+        var minDiff = hourDiff / 60 / 1000; //in minutes
+        var hDiff = hourDiff / 3600 / 1000; //in hours
+        var humanReadable = {};
+        humanReadable.hours = Math.floor(hDiff);
+        humanReadable.minutes = minDiff - 60 * humanReadable.hours;
+        if (humanReadable.minutes == 0)
+            humanReadable.minutes = '00';
+        return humanReadable.hours + ':' + humanReadable.minutes;
+    }
 });

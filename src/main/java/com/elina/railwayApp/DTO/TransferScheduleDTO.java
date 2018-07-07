@@ -7,15 +7,23 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class ScheduleDTO implements Serializable {
+public class TransferScheduleDTO implements Serializable {
 
     String stationDepartureName;
 
+    String stationIntermediateName;
+
     String stationArrivalName;
 
-    String trainName;
+    String trainDepartureName;
+
+    String trainArrivalName;
 
     String dateDeparture;
+
+    String dateIntermediateDeparture;
+
+    String dateIntermediateArrival;
 
     String dateArrival;
 }
