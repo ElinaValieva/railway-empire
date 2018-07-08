@@ -75,4 +75,9 @@ public class ViewController {
     public String seat() {
         return "seat";
     }
+
+    @RequestMapping(value = "/addItems")
+    public String addItemsRailway() {
+        return "addItemsRailway";
+    }
 }
