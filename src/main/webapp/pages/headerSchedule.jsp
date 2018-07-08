@@ -16,21 +16,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/mail.css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="static/css/clean-blog.min.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/searchingSchedule.js"></script>
 </head>
-<body class="bg-dark">
+<body class="bg-dark pointer">
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
-    <h5 class="mr-md-auto text-xl text-warning">RAILWAY EMPIRE</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="text-light font-weight-normal" href="#">Schedule</a>
-        <a class="text-light font-weight-normal" href="#">Train</a>
-        <a class="text-light" href="#">Station</a>
-        <a class="text-light" href="#">Profile</a>
+    <h4 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h4>
+    <nav class="my-1 my-md-0 mr-md-3">
+        <a class="p-4 text-light" href="/home">Home</a>
+        <a class="p-4 text-light" href="/createSchedule">Add schedule</a>
+        <a class="p-4 text-light" href="/train">Train</a>
+        <a class="p-4 text-light" href="/station">Station</a>
+        <a class="p-4 text-light" href="/home/update">Profile</a>
     </nav>
-    <a class="btn btn-lg btn-outline-warning" href="#">Sign up</a>
+    <a class="btn btn-outline-warning btn-lg" href="#">Sign out</a>
 </div>
 <div id="myCarousel" class="carousel" data-interval="false">
     <!-- Indicators -->
@@ -120,7 +122,8 @@
                                         <label class="text-warning font-weight-normal">with transfer</label>
                                     </div>
                                     <div class="text-center">
-                                        <button id="searchingBtnByStationsAndDates" type="button" class="btn btn-lg btn-outline-warning">search schedule
+                                        <button id="searchingBtnByStationsAndDates" type="button"
+                                                class="btn btn-lg btn-outline-warning">search schedule
                                         </button>
                                     </div>
                                 </form>
@@ -142,13 +145,15 @@
                                     <div class="row">
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">FROM</label>
-                                            <input id="stationDepartureSearchingByAllParameters" type="text" class="form-control text-center text-dark"
+                                            <input id="stationDepartureSearchingByAllParameters" type="text"
+                                                   class="form-control text-center text-dark"
                                                    placeholder="DEPARTURE STATION" required>
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TO</label>
-                                            <input id="stationArrivalSearchingByAllParameters" type="text" class="form-control text-center text-dark"
+                                            <input id="stationArrivalSearchingByAllParameters" type="text"
+                                                   class="form-control text-center text-dark"
                                                    placeholder="ARRIVAL STATION" required>
                                         </div>
                                     </div>
@@ -156,22 +161,26 @@
                                     <div class="row">
                                         <div class="col form-group-4">
                                             <label class="text-warning font-weight-bold">DATE DEPARTURE</label>
-                                            <input id="dateDepartureSearchingByAllParameters" type="date" class="form-control text-center" width="50" required>
+                                            <input id="dateDepartureSearchingByAllParameters" type="date"
+                                                   class="form-control text-center" width="50" required>
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group4">
                                             <label class="text-warning font-weight-bold">DATE ARRIVAL</label>
-                                            <input id="dateArrivalSearchingByAllParameters" type="date" class="form-control text-center" width="50" required>
+                                            <input id="dateArrivalSearchingByAllParameters" type="date"
+                                                   class="form-control text-center" width="50" required>
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TRAIN</label>
-                                            <input id="trainSearchingByAllParameters" type="text" class="form-control text-center" width="50" required>
+                                            <input id="trainSearchingByAllParameters" type="text"
+                                                   class="form-control text-center" width="50" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="text-center">
-                                        <button id="searchingBtnByAllParameters" type="button" class="btn btn-lg btn-outline-warning">search schedule
+                                        <button id="searchingBtnByAllParameters" type="button"
+                                                class="btn btn-lg btn-outline-warning">search schedule
                                         </button>
                                     </div>
                                 </form>
@@ -193,9 +202,15 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<table class="table table-hover table-dark" id="containerForSearching">
-    <tbody class="text-warning text-center" id="containerForSearchingDirect">
-    </tbody>
-</table>
+<div id="containerForSearching" style="display: none">
+    <table class="table table-hover table-dark">
+        <tbody class="text-warning text-center" id="containerForSearchingDirect">
+        </tbody>
+    </table>
+    <table class="table table-hover table-dark">
+        <tbody class="text-warning text-center" id="containerForSearchingTransfer">
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
