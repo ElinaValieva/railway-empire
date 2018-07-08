@@ -1,0 +1,57 @@
+#holder {
+    height: 200px;
+    width: 520px;
+    background-color: white;
+    border: 2px solid dimgrey;
+    border-radius: 50px;
+    padding: 3%;
+    margin-top: 150px;
+    margin-bottom: 150px;
+    margin-left: 33%;
+    box-shadow: 5px 10px orange;
+}
+
+#place {
+    position: absolute;
+}
+
+#place a {
+    margin-left: -15px;
+    font-size: smaller;
+}
+
+#place li {
+    list-style: none outside none;
+    position: absolute;
+}
+
+#place li:hover {
+    background-color: orange;
+}
+
+#place .seat {
+    background: url("/static/images/available_seat_img.gif") no-repeat scroll 0 0 transparent;
+    height: 40px;
+    width: 40px;
+    display: block;
+}
+
+#place .selectedSeat {
+    background-image: url("/static/images/booked_seat_img.gif");
+}
+
+#place .selectingSeat {
+    background-image: url("../images/selected_seat_img.gif");
+}
+
+#place .row-3, #place .row-4 {
+    margin-top: 10px;
+}
+
+#seatDescription li {
+    verticle-align: middle;
+    list-style: none outside none;
+    padding-left: 35px;
+    height: 35px;
+    float: left;
+}

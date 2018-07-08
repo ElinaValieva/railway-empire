@@ -83,6 +83,7 @@ $(function () {
                             $('#containerForSearchingTransfer').empty();
                             for (var i = 0; i < response.length; i++) {
                                 setContextForTransfer(response[i]);
+                                alert(JSON.stringify(response[i].freeSeatsDeparture));
                             }
                         }
                     }).fail(function (qXHR, textStatus, errorThrown) {

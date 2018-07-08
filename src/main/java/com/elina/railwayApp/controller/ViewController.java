@@ -70,4 +70,9 @@ public class ViewController {
     public String test() {
         return "headerSchedule";
     }
+
+    @RequestMapping(value = "/seat")
+    public String seat() {
+        return "seat";
+    }
 }
