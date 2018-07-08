@@ -65,4 +65,9 @@ public class ViewController {
     public String createSchedule() {
         return Views.CREATE_SCHEDULE;
     }
+
+    @RequestMapping(value = "/test")
+    public String test() {
+        return "headerSchedule";
+    }
 }

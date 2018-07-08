@@ -244,6 +244,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
         Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
         if (train != null && stationArrival != null && stationDeparture != null) {
+            if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                dateArrival = Utils.getNextDay(scheduleDTO.getDateDeparture());
             schedule.setTrain(train);
             schedule.setDateArrival(dateArrival);
             schedule.setDateDeparture(dateDeparture);
@@ -277,6 +279,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedule.setDateDeparture(dateDeparture);
             if (!scheduleDTO.getDateArrival().isEmpty()) {
                 Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+                if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                    dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
                 schedule.setDateArrival(dateArrival);
                 schedules = scheduleDAO.getByStationsAndDates(schedule);
             } else schedules = scheduleDAO.getByStationsAndDate(schedule);
@@ -307,6 +311,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedule.setTrain(train);
             if (!scheduleDTO.getDateArrival().isEmpty()) {
                 Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+                if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                    dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
                 schedule.setDateArrival(dateArrival);
                 schedules = scheduleDAO.getByTrainAndDates(schedule);
             } else schedules = scheduleDAO.getByTrainAndDate(schedule);
@@ -332,6 +338,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<Schedule> schedules;
         if (!scheduleDTO.getDateArrival().isEmpty()) {
             Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+            if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
             schedules = scheduleDAO.getByDates(dateDeparture, dateArrival);
         } else schedules = scheduleDAO.getByDate(dateDeparture);
 
@@ -357,10 +365,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             for (Seat bookingSeat :
                     bookingSeatsBySchedule) {
                 allSeats.stream().filter(seat -> !seat.equals(bookingSeat)).forEach(seat -> {
-                        SeatDTO seatDTO = new SeatDTO();
-                        seatDTO.setCarriage(seat.getCarriage());
-                        seatDTO.setSeat(seat.getSeat());
-                        freeSeats.add(seatDTO);
+                    SeatDTO seatDTO = new SeatDTO();
+                    seatDTO.setCarriage(seat.getCarriage());
+                    seatDTO.setSeat(seat.getSeat());
+                    freeSeats.add(seatDTO);
                 });
             }
         else
