@@ -20,12 +20,11 @@ $(function () {
             data: JSON.stringify(user),
             method: "POST"
         }).done(function () {
+            swal("Good job!", "You clicked the button!", "success");
             window.location.href = "/login"
         }).fail(function (qXHR, textStatus, errorThrown) {
-            if (qXHR.status == 401)
-                alert('wrong parameters, user already exist');
-            else
-                alert('wrong e-mail');
+            var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+            swal("Oops..", messageError, "error");
             console.log('request: ', JSON.stringify(qXHR));
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));

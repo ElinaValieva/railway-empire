@@ -29,7 +29,8 @@ $(function () {
             for (var i = 0; i < response.length; i++)
                 setContextForDirect(response[i]);
         }).fail(function (qXHR, textStatus, errorThrown) {
-            alert(JSON.stringify(qXHR));
+            var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+            swal("Oops..", messageError, "error");
             console.log('request: ', qXHR);
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));
@@ -86,7 +87,8 @@ $(function () {
                             }
                         }
                     }).fail(function (qXHR, textStatus, errorThrown) {
-                        alert(JSON.stringify(qXHR));
+                        var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+                        swal("Oops..", messageError, "error");
                         console.log('request: ', qXHR);
                         console.log('status text: ', textStatus);
                         console.log('thrown error: ', JSON.stringify(errorThrown));
@@ -96,7 +98,8 @@ $(function () {
             }
             else $('#containerForSearching').hide();
         }).fail(function (qXHR, textStatus, errorThrown) {
-            alert(JSON.stringify(qXHR));
+            var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+            swal("Oops..", messageError, "error");
             console.log('request: ', qXHR);
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));
@@ -130,7 +133,8 @@ $(function () {
             for (var i = 0; i < response.length; i++)
                 setContextForDirect(response[i]);
         }).fail(function (qXHR, textStatus, errorThrown) {
-            alert(JSON.stringify(qXHR));
+            var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+            swal("Oops..", messageError, "error");
             console.log('request: ', qXHR);
             console.log('status text: ', textStatus);
             console.log('thrown error: ', JSON.stringify(errorThrown));
@@ -213,5 +217,4 @@ $(function () {
         window.location = "/seat?id=" + idDeparture;
         window.open('http://localhost:8080/seat?id=' + idArrival);
     });
-
 });

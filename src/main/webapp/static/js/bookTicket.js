@@ -17,10 +17,11 @@ function bookTicket(id, seats, token, settings) {
         url: urlSearching,
         data: JSON.stringify(data),
     }).done(function () {
-        alert('success');
+        swal("Congratulations!", "You book ticket", "success");
         $('.' + settings.selectingSeatCss).removeClass(settings.selectingSeatCss).addClass(settings.selectedSeatCss);
     }).fail(function (qXHR, textStatus, errorThrown) {
-        alert(JSON.stringify(qXHR));
+        var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+        swal("Oops..", messageError, "error");
         console.log('request: ', qXHR);
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));

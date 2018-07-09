@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="static/css/mail.css">
     <link href="/static/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="static/css/clean-blog.min.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/searchingSchedule.js"></script>

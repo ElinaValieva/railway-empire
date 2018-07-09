@@ -16,7 +16,8 @@ function getSeats(id, token) {
     }).done(function (response) {
         dataResponse = response;
     }).fail(function (qXHR, textStatus, errorThrown) {
-        alert(JSON.stringify(qXHR));
+        var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+        swal("Oops..", messageError, "error");
         console.log('request: ', qXHR);
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));
