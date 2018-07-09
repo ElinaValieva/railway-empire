@@ -1,8 +1,9 @@
 $(function () {
 
+    var token = $("meta[name='_csrf']").attr("content");
+
     $('#searchingBtnByDates').click(function (event) {
         event.preventDefault();
-        var token = $("meta[name='_csrf']").attr("content");
         var urlSearching = "/schedule/directByDates";
         var scheduleDTO = {
             stationDepartureName: '',
@@ -37,7 +38,6 @@ $(function () {
 
     $('#searchingBtnByStationsAndDates').click(function () {
         event.preventDefault();
-        var token = $("meta[name='_csrf']").attr("content");
         var urlSearching = "/schedule/directByStations";
         var scheduleDTO = {
             stationDepartureName: $('#stationDepartureSearchingByStationsAndDates').val(),
@@ -106,8 +106,6 @@ $(function () {
 
     $('#searchingBtnByAllParameters').click(function (event) {
         event.preventDefault();
-        alert('click');
-        var token = $("meta[name='_csrf']").attr("content");
         var urlSearching = "/schedule/direct";
         var scheduleDTO = {
             stationDepartureName: $('#stationDepartureSearchingByAllParameters').val(),
@@ -153,7 +151,9 @@ $(function () {
             response.dateArrival +
             "</label></div><div><label class='font-weight-bold'>" +
             response.stationArrivalName +
-            "</label></div></td><td><br><button style='margin-left: 50%' class='btn btn-lg btn-outline-warning'>FIND TICKET</button></td></tr>");
+            "</label></div></td><td><br>" +
+            "<button type='button' style='margin-left: 50%' class='btn btn-lg btn-outline-warning btnFindTicket' id='" + response.id + "'>FIND TICKET</button>" +
+            "</td></tr>");
     };
 
     var setContextForTransfer = function (response) {
@@ -187,7 +187,6 @@ $(function () {
             "</label></div></td><td><br><button class='btn btn-lg btn-outline-warning'>FIND TICKET</button></td></tr>");
     };
 
-
     var getDelayBetweenTwoDates = function (dateStart, dateEnd) {
         var hourDiff = new Date(dateEnd).getTime() - new Date(dateStart).getTime();
         var minDiff = hourDiff / 60 / 1000; //in minutes
@@ -199,4 +198,32 @@ $(function () {
             (humanReadable.minutes == 0) ? humanReadable.minutes = '00' : humanReadable.minutes = '0' + humanReadable.minutes;
         return humanReadable.hours + ':' + humanReadable.minutes;
     };
+
+    $(this).on('click', '.btnFindTicket', function () {
+        var id = $(this).attr('id'); // $(this) refers to button that was clicked
+        alert(id);
+        /*var urlSearching = "/schedule/getSeat";
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            method: "POST",
+            url: urlSearching,
+            data: JSON.stringify(id),
+        }).done(function (response) {
+            alert('success');
+            alert(JSON.stringify(response));
+        }).fail(function (qXHR, textStatus, errorThrown) {
+            alert(JSON.stringify(qXHR));
+            console.log('request: ', qXHR);
+            console.log('status text: ', textStatus);
+            console.log('thrown error: ', JSON.stringify(errorThrown));
+        });*/
+        getSeats(id, token);
+    });
+
 });

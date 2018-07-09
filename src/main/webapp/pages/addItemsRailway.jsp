@@ -59,7 +59,7 @@
             </div>
             <br>
             <form class="login-form">
-                <input type="text" placeholder="station name" id="stationName"/>
+                <input type="text" placeholder="station name" id="stationNameItemsRailway"/>
                 <div class="row">
                     <div class="col">
                         <input type="text" placeholder="coordinates X" id="coordinatesX"/>
@@ -70,23 +70,23 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="text" placeholder="station departure" id="stationDeparture"/>
+                        <input type="text" placeholder="station departure" id="stationDepartureItemsRailway"/>
                     </div>
                     <div class="col">
-                        <input type="text" placeholder="station arrival" id="stationArrival"/>
+                        <input type="text" placeholder="station arrival" id="stationArrivalItemsRailway"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                               placeholder="date departure" id="dateDeparture"/>
+                               placeholder="date departure" id="dateDepartureItemsRailway"/>
                     </div>
                     <div class="col">
                         <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                               placeholder="date arrival" id="dateArrival"/>
+                               placeholder="date arrival" id="dateArrivalItemsRailway"/>
                     </div>
                 </div>
-                <input type="text" placeholder="train" id="train"/>
+                <input type="text" placeholder="train" id="trainItemsRailway"/>
                 <button>ADD ITEM</button>
             </form>
         </div>

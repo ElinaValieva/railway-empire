@@ -2,6 +2,7 @@ package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.DTO.SeatDTO;
+import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
@@ -51,5 +52,7 @@ public interface ScheduleService {
     List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException;
 
     List<SeatDTO> getFreeSeats(Schedule schedule);
+
+    SeatsDTO getSeats(Long id);
 }
 

@@ -1,6 +1,7 @@
 package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.DTO.ScheduleDTO;
+import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.model.Schedule;
@@ -106,6 +107,11 @@ public class ScheduleController {
     }
 
 
+    @PostMapping("/getSeat")
+    public ResponseEntity<?> getSeats(@RequestBody Long id){
+        SeatsDTO seatsDTO = scheduleService.getSeats(id);
+        return ResponseEntity.ok(seatsDTO);
+    }
     /*
     TODO
     delete and update schedule

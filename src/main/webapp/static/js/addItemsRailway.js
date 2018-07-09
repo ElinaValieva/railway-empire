@@ -1,74 +1,74 @@
 $(function () {
 
-    $('#stationDeparture').hide();
-    $('#stationArrival').hide();
-    $('#dateDeparture').hide();
-    $('#dateArrival').hide()
-    $('#train').hide();
-    $('#stationName').hide();
+    $('#stationDepartureItemsRailway').hide();
+    $('#stationArrivalItemsRailway').hide();
+    $('#dateDepartureItemsRailway').hide();
+    $('#dateArrivalItemsRailway').hide()
+    $('#trainItemsRailway').hide();
+    $('#stationNameItemsRailway').hide();
     $('#coordinatesX').hide();
     $('#coordinatesY').hide();
 
     $('#addScheduleBtn').click(function (event) {
         event.preventDefault();
-        $('#stationDeparture').show();
-        $('#stationArrival').show();
-        $('#dateDeparture').show();
-        $('#dateArrival').show();
-        $('#train').show();
-        $('#stationName').hide();
+        $('#stationDepartureItemsRailway').show();
+        $('#stationArrivalItemsRailway').show();
+        $('#dateDepartureItemsRailway').show();
+        $('#dateArrivalItemsRailway').show();
+        $('#trainItemsRailway').show();
+        $('#stationNameItemsRailway').hide();
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
         var scheduleDTO = {
             stationDepartureName:
-                $('#stationDeparture').val(),
+                $('#stationDepartureItemsRailway').val(),
             stationArrivalName:
-                $('#stationArrival').val(),
+                $('#stationArrivalItemsRailway').val(),
             trainName:
-                $('#train').val(),
+                $('#trainItemsRailway').val(),
             dateDeparture:
-                $('#dateDeparture').val().replace("T", " "),
+                $('#dateDepartureItemsRailway').val().replace("T", " "),
             dateArrival:
-                $('#dateArrival').val().replace("T", " "),
+                $('#dateArrivalItemsRailway').val().replace("T", " "),
         };
     });
 
     $('#addTrainBtn').click(function (event) {
         event.preventDefault();
-        $('#stationDeparture').hide();
-        $('#stationArrival').hide();
-        $('#dateDeparture').hide();
-        $('#dateArrival').hide()
-        $('#train').show();
-        $('#stationName').hide();
+        $('#stationDepartureItemsRailway').hide();
+        $('#stationArrivalItemsRailway').hide();
+        $('#dateDepartureItemsRailway').hide();
+        $('#dateArrivalItemsRailway').hide()
+        $('#trainItemsRailway').show();
+        $('#stationNameItemsRailway').hide();
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
-        var trainName = $('#train').val();
+        var trainName = $('#trainItemsRailway').val();
     });
 
     $('#addStationBtn').click(function (event) {
         event.preventDefault();
         var urlSearching = "/schedule/add";
         var token = $("meta[name='_csrf']").attr("content");
-        $('#stationDeparture').hide();
-        $('#stationArrival').hide();
-        $('#dateDeparture').hide();
-        $('#dateArrival').hide()
-        $('#train').hide()
-        $('#stationName').show();
+        $('#stationDepartureItemsRailway').hide();
+        $('#stationArrivalItemsRailway').hide();
+        $('#dateDepartureItemsRailway').hide();
+        $('#dateArrivalItemsRailway').hide()
+        $('#trainItemsRailway').hide()
+        $('#stationNameItemsRailway').show();
         $('#coordinatesX').show();
         $('#coordinatesY').show();
         var scheduleDTO = {
             stationDepartureName:
-                $('#stationDeparture').val(),
+                $('#stationDepartureItemsRailway').val(),
             stationArrivalName:
-                $('#stationArrival').val(),
+                $('#stationArrivalItemsRailway').val(),
             trainName:
-                $('#train').val(),
+                $('#trainItemsRailway').val(),
             dateDeparture:
-                $('#dateDeparture').val().replace("T", " "),
+                $('#dateDepartureItemsRailway').val().replace("T", " "),
             dateArrival:
-                $('#dateArrival').val().replace("T", " "),
+                $('#dateArrivalItemsRailway').val().replace("T", " "),
         };
         var token = $("meta[name='_csrf']").attr("content");
         addSchedule(scheduleDTO, token);

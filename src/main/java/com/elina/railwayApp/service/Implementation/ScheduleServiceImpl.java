@@ -4,6 +4,7 @@ import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.DTO.SeatDTO;
+import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.*;
@@ -379,6 +380,20 @@ public class ScheduleServiceImpl implements ScheduleService {
                 freeSeats.add(seatDTO);
             });
         return freeSeats;
+    }
+
+    @Override
+    @Transactional
+    public SeatsDTO getSeats(Long id) {
+        Schedule schedule = getById(id);
+        Train train = schedule.getTrain();
+        Set<Seat> seats = train.getSeats();
+        Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+        List<SeatDTO> seatDTOList = seats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
+        SeatsDTO seatsDTO = new SeatsDTO();
+        seatsDTO.setBookingSeats(seatDTOList);
+        seatsDTO.setCntCarriages(cntCarriage);
+        return seatsDTO;
     }
 
 }
