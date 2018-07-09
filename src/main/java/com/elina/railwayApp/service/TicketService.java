@@ -26,4 +26,6 @@ public interface TicketService {
     Ticket getById(Long id);
 
     List<Seat> getBookingSeatsBySchedule(Schedule schedule);
+
+    boolean checkUserUntilBooking(User user, Schedule schedule);
 }

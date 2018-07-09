@@ -58,15 +58,6 @@ $(function () {
         }
     };
 
-    var updateBookingSeat = function (response) {
-        var reservedSeats = getCurrentSeatsByCarriage(response, currentCarriage);
-        for (var i = 0; i < reservedSeats.length; i++) {
-            var row = (reservedSeats[i] - 1) % 3;
-            var col = Math.ceil((reservedSeats[i] - 1 - row) / 3);
-            var classUpdating = '.seat.row-' + row + '.col-' + col;
-            $(classUpdating.toString()).removeClass(settings.selectingSeatCss).toggleClass(settings.selectedSeatCss);
-        }
-    };
 
     var init = function (reservedSeat) {
         var seatNo, className = '';
@@ -98,23 +89,17 @@ $(function () {
             alert('This seat is already reserved');
         }
         else {
+            $('.' + settings.seatCss).removeClass(settings.selectingSeatCss);
             $(this).toggleClass(settings.selectingSeatCss);
         }
     });
 
     $('#btnBookTicket').click(function () {
-        var str = [], item;
-        $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
-            item = $(this).attr('title');
-            var seat = {
-                carriage: currentCarriage,
-                seat: parseInt(item)
-            };
-            str.push(seat);
-        });
-        bookTicket(id, str, token);
-        updateBookingSeat(str);
-    })
-
-
+        var item = $('#place li.' + settings.selectingSeatCss + ' a').attr('title');
+        var seat = {
+            carriage: currentCarriage,
+            seat: parseInt(item)
+        };
+        bookTicket(id, seat, token, settings);
+    });
 });

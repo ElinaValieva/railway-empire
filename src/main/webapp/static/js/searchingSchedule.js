@@ -83,7 +83,6 @@ $(function () {
                             $('#containerForSearchingTransfer').empty();
                             for (var i = 0; i < response.length; i++) {
                                 setContextForTransfer(response[i]);
-                                alert(JSON.stringify(response[i].freeSeatsDeparture));
                             }
                         }
                     }).fail(function (qXHR, textStatus, errorThrown) {
@@ -184,7 +183,11 @@ $(function () {
             response.dateArrival +
             "</label></div><div><label class='font-weight-bold'>" +
             response.stationArrivalName +
-            "</label></div></td><td><br><button class='btn btn-lg btn-outline-warning'>FIND TICKET</button></td></tr>");
+            "</label></div></td><td><br><button class='btn btn-lg btn-outline-warning btnFindTicketTransfer' id='dep"
+            + response.idScheduleDeparture +
+            "arr" + response.idScheduleArrival + "'" + ">FIND TICKET</button></td></tr>"
+        )
+        ;
     };
 
     var getDelayBetweenTwoDates = function (dateStart, dateEnd) {
@@ -202,6 +205,13 @@ $(function () {
     $(this).on('click', '.btnFindTicket', function () {
         var id = $(this).attr('id'); // $(this) refers to button that was clicked
         window.location = "/seat?id=" + id;
+    });
+
+    $(this).on('click', '.btnFindTicketTransfer', function () {
+        var idDeparture = $(this).attr('id').split('arr')[1];
+        var idArrival = $(this).attr('id').split('dep')[1].split('arr')[0];
+        window.location = "/seat?id=" + idDeparture;
+        window.open('http://localhost:8080/seat?id=' + idArrival);
     });
 
 });

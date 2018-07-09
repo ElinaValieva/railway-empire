@@ -200,7 +200,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
                 if (!transferSchedule.isEmpty())
                     transferSchedule.stream().forEach(transfer -> {
-
                         TransferScheduleDTO transferScheduleDTO = new TransferScheduleDTO();
                         transferScheduleDTO.setStationDepartureName(schedule.getStationDeparture().getName());
                         transferScheduleDTO.setStationArrivalName(transfer.getStationArrival().getName());
@@ -211,8 +210,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                         transferScheduleDTO.setDateArrival(transfer.getDateArrival().toString());
                         transferScheduleDTO.setTrainDepartureName(schedule.getTrain().getName());
                         transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
-                        transferScheduleDTO.setFreeSeatsDeparture(getFreeSeats(schedule));
-                        transferScheduleDTO.setFreeSeatsArrival(getFreeSeats(transfer));
+                        transferScheduleDTO.setIdScheduleDeparture(schedule.getId());
+                        transferScheduleDTO.setIdScheduleArrival(transfer.getId());
                         transferScheduleDTOS.add(transferScheduleDTO);
                     });
             }

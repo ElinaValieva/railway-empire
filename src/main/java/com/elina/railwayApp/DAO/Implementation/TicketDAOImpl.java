@@ -4,6 +4,7 @@ import com.elina.railwayApp.DAO.TicketDAO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
+import com.elina.railwayApp.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -55,6 +56,16 @@ public class TicketDAOImpl implements TicketDAO {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Ticket where schedule = :schedule")
                 .setParameter("schedule", schedule)
+                .getResultList();
+    }
+
+    @Override
+    public List<Ticket> findSameUserOnTrain(User user, Schedule schedule) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Ticket " +
+                        "where schedule = :schedule and user = :user")
+                .setParameter("schedule", schedule)
+                .setParameter("user", user)
                 .getResultList();
     }
 }

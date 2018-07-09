@@ -1,7 +1,6 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.TicketDAO;
-import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.TicketDTO;
 import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.ScheduleService;
@@ -37,12 +36,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public void add(TicketDTO ticketDTO, User user) {
-        List<SeatDTO> seatDTOList = ticketDTO.getSeatDTO();
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
         if (schedule != null && user != null) {
-            Train train = schedule.getTrain();
-            seatDTOList.stream().forEach(x -> {
-                Seat seat = seatService.getByTrainAndCarriageAndSeat(train, x.getCarriage(), x.getSeat());
+            if (checkUserUntilBooking(user, schedule)) {
+                Train train = schedule.getTrain();
+                Seat seat = seatService.getByTrainAndCarriageAndSeat(train, ticketDTO.getSeatDTO().getCarriage(), ticketDTO.getSeatDTO().getSeat());
                 if (seat != null) {
                     Ticket ticket = new Ticket();
                     ticket.setSchedule(schedule);
@@ -50,9 +48,8 @@ public class TicketServiceImpl implements TicketService {
                     ticket.setUser(user);
                     add(ticket);
                     log.info("TICKET BOOKED WITH SUCCESS STATUS");
-                }
-                else log.warn("WRONG PARAMETERS.");
-            });
+                } else log.warn("WRONG PARAMETERS.");
+            } else log.warn("ALREADY BOOKED TICKET");
         }
     }
 
@@ -90,5 +87,11 @@ public class TicketServiceImpl implements TicketService {
             bookingSeats.add(ticket.getSeat());
         }
         return bookingSeats;
+    }
+
+    @Override
+    @Transactional
+    public boolean checkUserUntilBooking(User user, Schedule schedule) {
+        return ticketDAO.findSameUserOnTrain(user, schedule).isEmpty();
     }
 }

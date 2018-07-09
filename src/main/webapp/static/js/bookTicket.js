@@ -1,4 +1,4 @@
-function bookTicket(id, seats, token) {
+function bookTicket(id, seats, token, settings) {
 
     var urlSearching = "/schedule/ticket";
     var data = {
@@ -18,7 +18,7 @@ function bookTicket(id, seats, token) {
         data: JSON.stringify(data),
     }).done(function () {
         alert('success');
-        // location.reload();
+        $('.' + settings.selectingSeatCss).removeClass(settings.selectingSeatCss).addClass(settings.selectedSeatCss);
     }).fail(function (qXHR, textStatus, errorThrown) {
         alert(JSON.stringify(qXHR));
         console.log('request: ', qXHR);
