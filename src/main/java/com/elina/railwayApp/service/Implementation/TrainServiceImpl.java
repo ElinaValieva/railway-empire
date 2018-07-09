@@ -2,10 +2,15 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DAO.TrainDAO;
+import com.elina.railwayApp.DTO.TrainDTO;
+import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
 import com.elina.railwayApp.service.TrainService;
+import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +18,10 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@Log4j
 @Service
 public class TrainServiceImpl implements TrainService {
 
@@ -23,37 +31,44 @@ public class TrainServiceImpl implements TrainService {
     @Autowired
     private StatusDAO statusDAO;
 
-    @Override
-    @Transactional
-    public void add(Train train) {
-        trainDAO.add(train);
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
-    public void add(Train train, int cntCarriage, int cntSeats) {
-
-        Set<Seat> seats = new HashSet<>();
-        for (int i = 1; i <= cntCarriage; i++)
-            for (int j = 1; j <= cntSeats; j++) {
-                Seat seat = new Seat();
-                seat.setCarriage(i);
-                seat.setSeat(j);
-                seat.setTrain(train);
-                seats.add(seat);
+    public void add(TrainDTO trainDTO) throws BusinessLogicException {
+        Train trainCreating = getByName(trainDTO.getTrainName());
+        if (trainCreating == null && trainDTO.getCntCarriage() > 0 && trainDTO.getCntCarriage() < 25 && trainDTO.getCntSeats() > 0) {
+            Set<Seat> seats = new HashSet<>();
+            Train train = new Train();
+            Status status = statusDAO.getByName("NOT_USED");
+            train.setStatus(status);
+            train.setName(trainDTO.getTrainName());
+            for (int i = 1; i <= trainDTO.getCntCarriage(); i++) {
+                for (int j = 1; j <= trainDTO.getCntSeats(); j++) {
+                    Seat seat = new Seat();
+                    seat.setCarriage(i);
+                    seat.setSeat(j);
+                    seat.setTrain(train);
+                    seats.add(seat);
+                }
             }
-        train.setSeats(seats);
-        Status status = statusDAO.getByName("NOT_USED");
-        train.setStatus(status);
-        trainDAO.add(train);
+            train.setSeats(seats);
+            trainDAO.add(train);
+        } else throw new BusinessLogicException(ErrorCode.TRAIN_NOT_UNIQUE.getMessage());
     }
 
     @Override
     @Transactional
-    public void delete(Train train) {
-        Status status = statusDAO.getByName("DELETED");
-        train.setStatus(status);
-        trainDAO.update(train);
+    public void delete(Long id) throws BusinessLogicException {
+        Train train = getById(id);
+        if (train != null
+                && train.getStatus().getStatusName().equals("NOT_USED")) {
+            Status status = statusDAO.getByName("DELETED");
+            train.setStatus(status);
+            trainDAO.update(train);
+            log.info("TRAIN WAS REMOVED");
+        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
     }
 
     @Override
@@ -66,8 +81,11 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public List<Train> getAll() {
-        return trainDAO.getAll();
+    public List<TrainDTO> getAll() {
+        List<Train> trains = trainDAO.getAll();
+        return trains.stream()
+                .map(x -> modelMapper.map(x, TrainDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

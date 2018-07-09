@@ -1,20 +1,13 @@
-var addSchedule = function () {
+var addTrain = function () {
 
     var token = $("meta[name='_csrf']").attr("content");
     var scheduleDTO = {
-        stationDepartureName:
-            $('#stationDepartureItemsRailway').val(),
-        stationArrivalName:
-            $('#stationArrivalItemsRailway').val(),
-        trainName:
-            $('#trainItemsRailway').val(),
-        dateDeparture:
-        $('#dateDepartureItemsRailway').val().replace("T", " ") + ":00",
-        dateArrival:
-        $('#dateArrivalItemsRailway').val().replace("T", " ") + ":00",
+        trainName: $('#trainItemsRailway').val(),
+        cntCarriage: $('#cntCarriageItemsRailway').val(),
+        cntSeats: $('#cntSeatsItemsRailway').val()
     };
     alert(JSON.stringify(scheduleDTO));
-    var urlSearching = "/schedule/add";
+    var urlSearching = "/train/add";
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -27,7 +20,7 @@ var addSchedule = function () {
         url: urlSearching,
         data: JSON.stringify(scheduleDTO),
     }).done(function () {
-        swal("Good job!", "You add new schedule", "success");
+        swal("Good job!", "You add new train", "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
         swal("Oops..", messageError, "error");

@@ -18,7 +18,11 @@
     <link rel="stylesheet" href="/static/css/itemsRailway.css">
     <link rel="stylesheet" href="/static/css/clean-blog.min.css">
     <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
+    <script src="/static/js/addSchedule.js"></script>
+    <script src="/static/js/addTrain.js"></script>
     <script src="/static/js/addItemsRailway.js"></script>
+
 </head>
 <body>
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
@@ -79,15 +83,23 @@
                 <div class="row">
                     <div class="col">
                         <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                               placeholder="date departure" id="dateDepartureItemsRailway"/>
+                               class="form-control" id="dateDepartureItemsRailway"/>
                     </div>
                     <div class="col">
                         <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                               placeholder="date arrival" id="dateArrivalItemsRailway"/>
+                               class="form-control" id="dateArrivalItemsRailway"/>
                     </div>
                 </div>
-                <input type="text" placeholder="train" id="trainItemsRailway"/>
-                <button>ADD ITEM</button>
+                <div><input type="text" placeholder="train" id="trainItemsRailway"/></div>
+                <div class="row">
+                    <div class="col">
+                        <input type="number" class="form-control" id="cntCarriageItemsRailway">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" id="cntSeatsItemsRailway" value="30" disabled>
+                    </div>
+                </div>
+                <button id="addItem">ADD ITEM</button>
             </form>
         </div>
     </div>

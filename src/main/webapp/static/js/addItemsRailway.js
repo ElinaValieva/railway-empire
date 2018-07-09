@@ -1,5 +1,6 @@
 $(function () {
 
+
     $('#stationDepartureItemsRailway').hide();
     $('#stationArrivalItemsRailway').hide();
     $('#dateDepartureItemsRailway').hide();
@@ -8,6 +9,8 @@ $(function () {
     $('#stationNameItemsRailway').hide();
     $('#coordinatesX').hide();
     $('#coordinatesY').hide();
+    $('#cntCarriageItemsRailway').hide();
+    $('#cntSeatsItemsRailway').hide();
 
     $('#addScheduleBtn').click(function (event) {
         event.preventDefault();
@@ -19,42 +22,44 @@ $(function () {
         $('#stationNameItemsRailway').hide();
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
-        var scheduleDTO = {
-            stationDepartureName:
-                $('#stationDepartureItemsRailway').val(),
-            stationArrivalName:
-                $('#stationArrivalItemsRailway').val(),
-            trainName:
-                $('#trainItemsRailway').val(),
-            dateDeparture:
-                $('#dateDepartureItemsRailway').val().replace("T", " "),
-            dateArrival:
-                $('#dateArrivalItemsRailway').val().replace("T", " "),
-        };
+        $('#cntCarriageItemsRailway').hide();
+        $('#cntSeatsItemsRailway').hide();
+        $('#addItem').click(function (event) {
+            event.preventDefault();
+            addSchedule();
+        });
     });
 
     $('#addTrainBtn').click(function (event) {
+        alert('2')
         event.preventDefault();
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();
         $('#dateDepartureItemsRailway').hide();
         $('#dateArrivalItemsRailway').hide()
         $('#trainItemsRailway').show();
+        $('#cntCarriageItemsRailway').show();
+        $('#cntSeatsItemsRailway').show()
         $('#stationNameItemsRailway').hide();
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
-        var trainName = $('#trainItemsRailway').val();
+        $('#addItem').click(function (event) {
+            alert('click');
+            event.preventDefault();
+            addTrain();
+        });
     });
 
     $('#addStationBtn').click(function (event) {
+        alert('3')
         event.preventDefault();
-        var urlSearching = "/schedule/add";
-        var token = $("meta[name='_csrf']").attr("content");
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();
         $('#dateDepartureItemsRailway').hide();
         $('#dateArrivalItemsRailway').hide()
         $('#trainItemsRailway').hide()
+        $('#cntCarriageItemsRailway').hide();
+        $('#cntSeatsItemsRailway').hide();
         $('#stationNameItemsRailway').show();
         $('#coordinatesX').show();
         $('#coordinatesY').show();
@@ -70,7 +75,5 @@ $(function () {
             dateArrival:
                 $('#dateArrivalItemsRailway').val().replace("T", " "),
         };
-        var token = $("meta[name='_csrf']").attr("content");
-        addSchedule(scheduleDTO, token);
     });
 })

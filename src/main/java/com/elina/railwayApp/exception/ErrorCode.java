@@ -13,7 +13,8 @@ public enum ErrorCode {
     WRONG_PARAMETERS_FOR_SCHEDULE(5, "Wrong parameters for schedule. Try to check date or stations."),
     PARSE_EXCEPTION(6, "Wrong date, can't parse."),
     IO_EXCEPTION(7, "File not found."),
-    MAIL_EXCEPTION(8, "Wrong e-mail. Can't send letter on e-mail box.");
+    MAIL_EXCEPTION(8, "Wrong e-mail. Can't send letter on e-mail box."),
+    TRAIN_NOT_UNIQUE(9, "Train not unique. Try another name.");
 
     private int code;
     private String reason;
