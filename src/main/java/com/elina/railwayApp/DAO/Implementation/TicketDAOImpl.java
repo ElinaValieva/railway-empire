@@ -68,4 +68,14 @@ public class TicketDAOImpl implements TicketDAO {
                 .setParameter("user", user)
                 .getResultList();
     }
+
+    @Override
+    public Ticket findTicketByScheduleAndSeat(Schedule schedule, Seat seat) {
+        return (Ticket) sessionFactory.getCurrentSession()
+                .createQuery("from Ticket " +
+                        "where schedule = :schedule and seat = :seat")
+                .setParameter("schedule", schedule)
+                .setParameter("seat", seat)
+                .uniqueResult();
+    }
 }

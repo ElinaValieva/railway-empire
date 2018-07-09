@@ -395,5 +395,5 @@ public class ScheduleServiceImpl implements ScheduleService {
         seatsDTO.setCntCarriages(cntCarriage);
         return seatsDTO;
     }
-
 }
+

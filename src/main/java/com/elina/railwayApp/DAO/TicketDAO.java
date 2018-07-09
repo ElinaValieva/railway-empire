@@ -1,6 +1,7 @@
 package com.elina.railwayApp.DAO;
 
 import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,6 @@ public interface TicketDAO {
     List<Ticket> getBySchedule(Schedule schedule);
 
     List<Ticket> findSameUserOnTrain(User user, Schedule schedule);
+
+    Ticket findTicketByScheduleAndSeat(Schedule schedule, Seat seat);
 }

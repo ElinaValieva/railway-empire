@@ -28,4 +28,8 @@ public interface TicketService {
     List<Seat> getBookingSeatsBySchedule(Schedule schedule);
 
     boolean checkUserUntilBooking(User user, Schedule schedule);
+
+    boolean checkSeatUntilBooking(Seat seat, Schedule schedule);
+
+    boolean checkScheduleForAvailability(Schedule schedule);
 }

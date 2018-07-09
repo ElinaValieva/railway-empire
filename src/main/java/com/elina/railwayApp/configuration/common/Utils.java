@@ -62,7 +62,12 @@ public class Utils {
         return result;
     }
 
-    public static boolean checkCurrentDay(Date date){
+    public static boolean checkCurrentDay(Date date) {
         return date.before(new Date());
+    }
+
+    public static boolean checkForCurrentDayForBookingTicket(Date date) {
+        Date currentDay = new Date();
+        return (!checkCurrentDay(date) && (date.getTime() - currentDay.getTime()) / (1000 * 60) > 10);
     }
 }

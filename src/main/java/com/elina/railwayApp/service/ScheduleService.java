@@ -54,5 +54,6 @@ public interface ScheduleService {
     List<SeatDTO> getFreeSeats(Schedule schedule);
 
     SeatsDTO getSeats(Long id);
+
 }
 
