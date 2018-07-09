@@ -106,12 +106,18 @@ public class ScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
-
-    @PostMapping("/getSeat")
-    public ResponseEntity<?> getSeats(@RequestBody Long id){
+    /**
+     * get seats info: booking seats, cntCarriages
+     * @param id
+     * @return
+     */
+    @GetMapping(URLs.GET_SEATS_INFO_OF_DIRECT_TRIP)
+    public ResponseEntity<?> getSeats(@PathVariable Long id){
         SeatsDTO seatsDTO = scheduleService.getSeats(id);
         return ResponseEntity.ok(seatsDTO);
     }
+
+
     /*
     TODO
     delete and update schedule

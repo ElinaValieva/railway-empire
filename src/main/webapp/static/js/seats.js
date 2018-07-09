@@ -1,5 +1,11 @@
 $(function () {
 
+    var token = $("meta[name='_csrf']").attr("content");
+    var id = window.location.href.split('=')[1];
+    var urlSearching = "/schedule/seat/" + id;
+    var currentCarriage = 1;
+    var maxCarriage = 1;
+    var response = [];
     var settings = {
         rows: 3,
         cols: 10,
@@ -12,23 +18,11 @@ $(function () {
         selectingSeatCss: 'selectingSeat'
     };
 
+    var setParameters = function (dataOfResponse) {
+        maxCarriage = dataOfResponse.cntCarriages;
+        response = dataOfResponse.bookingSeats;
+    };
 
-    var currentCarriage = 1;
-
-    var response = [{"carriage": 2, "seat": 13}, {"carriage": 2, "seat": 24}, {"carriage": 1, "seat": 14}, {
-        "carriage": 2,
-        "seat": 15
-    }, {"carriage": 1, "seat": 2}, {"carriage": 2, "seat": 1}, {"carriage": 2, "seat": 19}, {
-        "carriage": 1,
-        "seat": 10
-    }, {"carriage": 1, "seat": 9}, {"carriage": 1, "seat": 8}, {"carriage": 2, "seat": 17}, {
-        "carriage": 2,
-        "seat": 28
-    }, {"carriage": 1, "seat": 5}, {"carriage": 1, "seat": 11}, {"carriage": 1, "seat": 6}, {
-        "carriage": 1,
-        "seat": 3
-    }, {"carriage": 2, "seat": 10}, {"carriage": 2, "seat": 2}, {"carriage": 2, "seat": 6}];
-    var maxCarriage = 5;
 
     var getCurrentSeatsByCarriage = function (response, currentCarriage) {
         var seats = [];
@@ -69,7 +63,6 @@ $(function () {
     });
 
     var init = function (reservedSeat) {
-        // $('#holder').empty();
         var seatNo, className = '';
         for (var i = 0; i < settings.rows; i++) {
             for (var j = 0; j < settings.cols; j++) {
@@ -85,6 +78,8 @@ $(function () {
         }
     };
 
+    var responseData = getSeats(id, token);
+    setParameters(responseData);
     var reservedSeats = getCurrentSeatsByCarriage(response, currentCarriage);
     init(reservedSeats);
 
@@ -100,33 +95,16 @@ $(function () {
             $(this).toggleClass(settings.selectingSeatCss);
         }
     });
-    /*
-        $('#btnShow').click(function () {
-            var str = [];
-            $.each($('#place li.' + settings.selectedSeatCss + ' a, #place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
-                str.push($(this).attr('title'));
-            });
-            alert(str.join(','));
+
+    $('#btnBookTicket').click(function () {
+        var str = [], item;
+        $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
+            item = $(this).attr('title');
+            str.push(item);
         });
 
-        $('#btnShowNew').click(function () {
-            var str = [], item;
-            $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
-                item = $(this).attr('title');
-                str.push(item);
-            });
-            alert(str.join(','));
-        });
-*/
-        $('#btnBookTicket').click(function () {
-            var str = [], item;
-            $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
-                item = $(this).attr('title');
-                str.push(item);
-            });
-
-            alert(JSON.stringify(str));
-        })
+        alert(JSON.stringify(str));
+    })
 
 
 });

@@ -1,5 +1,7 @@
-var getSeats = function (id, token) {
-    var urlSearching = "/schedule/getSeat";
+function getSeats(id, token) {
+
+    var urlSearching = "/schedule/seat/" + id;
+    var dataResponse = null;
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -8,15 +10,17 @@ var getSeats = function (id, token) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        method: "POST",
+        method: "GET",
         url: urlSearching,
-        data: JSON.stringify(id),
-    }).done(function () {
+        async: false
+    }).done(function (response) {
         alert('success');
+        dataResponse = response;
     }).fail(function (qXHR, textStatus, errorThrown) {
         alert(JSON.stringify(qXHR));
         console.log('request: ', qXHR);
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));
     });
+    return dataResponse;
 };

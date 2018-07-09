@@ -201,29 +201,7 @@ $(function () {
 
     $(this).on('click', '.btnFindTicket', function () {
         var id = $(this).attr('id'); // $(this) refers to button that was clicked
-        alert(id);
-        /*var urlSearching = "/schedule/getSeat";
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', token);
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            method: "POST",
-            url: urlSearching,
-            data: JSON.stringify(id),
-        }).done(function (response) {
-            alert('success');
-            alert(JSON.stringify(response));
-        }).fail(function (qXHR, textStatus, errorThrown) {
-            alert(JSON.stringify(qXHR));
-            console.log('request: ', qXHR);
-            console.log('status text: ', textStatus);
-            console.log('thrown error: ', JSON.stringify(errorThrown));
-        });*/
-        getSeats(id, token);
+        window.location = "/seat?id=" + id;
     });
 
 });
