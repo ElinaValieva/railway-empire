@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -67,18 +66,18 @@ public class ViewController {
         return Views.CREATE_SCHEDULE;
     }
 
-    @RequestMapping(value = "/test")
+    @RequestMapping(value = URLs.NEW_SCHEDULE)
     public String test() {
-        return "headerSchedule";
+        return Views.HEADER_SCHEDULE;
     }
 
-    @RequestMapping(value = "/seat")
+    @RequestMapping(value = URLs.SEAT)
     public String seat() {
-        return "seat";
+        return Views.SEAT;
     }
 
-    @RequestMapping(value = "/addItems")
+    @RequestMapping(value = URLs.ADD_ITEM_RAILWAY)
     public String addItemsRailway() {
-        return "addItemsRailway";
+        return Views.ADD_ITEMS_RAILWAY;
     }
 }

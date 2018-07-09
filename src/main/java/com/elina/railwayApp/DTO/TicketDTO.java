@@ -8,9 +8,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class SeatsDTO implements Serializable {
+public class TicketDTO implements Serializable {
+    Long schedule;
 
-    List<SeatDTO> bookingSeats;
-
-    Integer cntCarriages;
+    List<SeatDTO> seatDTO;
 }

@@ -1,7 +1,6 @@
 package com.elina.railwayApp.DAO;
 
 import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import org.springframework.stereotype.Repository;
 

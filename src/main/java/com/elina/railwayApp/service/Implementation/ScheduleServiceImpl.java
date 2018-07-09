@@ -388,8 +388,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = getById(id);
         Train train = schedule.getTrain();
         Set<Seat> seats = train.getSeats();
+        List<Seat> bookingSeats = ticketService.getBookingSeatsBySchedule(schedule);
         Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
-        List<SeatDTO> seatDTOList = seats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
+        List<SeatDTO> seatDTOList = bookingSeats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
         SeatsDTO seatsDTO = new SeatsDTO();
         seatsDTO.setBookingSeats(seatDTOList);
         seatsDTO.setCntCarriages(cntCarriage);

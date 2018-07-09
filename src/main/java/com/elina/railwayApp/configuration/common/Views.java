@@ -10,4 +10,7 @@ public final class Views {
     public static final String TRAIN = "train";
     public static final String SCHEDULE = "schedule";
     public static final String CREATE_SCHEDULE = "addSchedule";
+    public static final String SEAT = "seat";
+    public static final String HEADER_SCHEDULE = "headerSchedule";
+    public static final String ADD_ITEMS_RAILWAY = "addItemsRailway";
 }

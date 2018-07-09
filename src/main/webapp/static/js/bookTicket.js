@@ -1,7 +1,10 @@
-function getSeats(id, token) {
+function bookTicket(id, seats, token) {
 
-    var urlSearching = "/schedule/seat/" + id;
-    var dataResponse = null;
+    var urlSearching = "/schedule/ticket";
+    var data = {
+        schedule: parseInt(id),
+        seatDTO: seats
+    };
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -10,16 +13,16 @@ function getSeats(id, token) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        method: "GET",
+        method: "PUT",
         url: urlSearching,
-        async: false
-    }).done(function (response) {
-        dataResponse = response;
+        data: JSON.stringify(data),
+    }).done(function () {
+        alert('success');
+        // location.reload();
     }).fail(function (qXHR, textStatus, errorThrown) {
         alert(JSON.stringify(qXHR));
         console.log('request: ', qXHR);
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));
     });
-    return dataResponse;
 };

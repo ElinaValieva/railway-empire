@@ -4,13 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class SeatsDTO implements Serializable {
-
-    List<SeatDTO> bookingSeats;
-
-    Integer cntCarriages;
+public class Test implements Serializable {
+    Integer value;
 }

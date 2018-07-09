@@ -1,8 +1,11 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.DTO.SeatDTO;
+import com.elina.railwayApp.DTO.TicketDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
+import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +14,8 @@ import java.util.List;
 public interface TicketService {
 
     void add(Ticket ticket);
+
+    void add(TicketDTO ticketDTO, User user);
 
     void delete(Ticket ticket);
 

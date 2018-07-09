@@ -1,16 +1,19 @@
 package com.elina.railwayApp.controller;
 
-import com.elina.railwayApp.DTO.ScheduleDTO;
-import com.elina.railwayApp.DTO.SeatsDTO;
-import com.elina.railwayApp.DTO.TransferScheduleDTO;
+import com.elina.railwayApp.DTO.*;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.ScheduleService;
+import com.elina.railwayApp.service.TicketService;
+import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,6 +26,12 @@ public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private TicketService ticketService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * get all schedules
@@ -108,15 +117,33 @@ public class ScheduleController {
 
     /**
      * get seats info: booking seats, cntCarriages
+     *
      * @param id
      * @return
      */
     @GetMapping(URLs.GET_SEATS_INFO_OF_DIRECT_TRIP)
-    public ResponseEntity<?> getSeats(@PathVariable Long id){
+    public ResponseEntity<?> getSeats(@PathVariable Long id) {
         SeatsDTO seatsDTO = scheduleService.getSeats(id);
         return ResponseEntity.ok(seatsDTO);
     }
 
+    /**
+     * add ticket
+     * conditionals:
+     * 1. schedule is available
+     * 2. ticket not booked yet
+     * 3. user with same name and date not registered on same train
+     * @param ticketDTO
+     * @return
+     */
+    @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
+    public ResponseEntity<?> bookTicket(@RequestBody TicketDTO ticketDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userService.findByEmail(userName);
+        ticketService.add(ticketDTO, user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     /*
     TODO

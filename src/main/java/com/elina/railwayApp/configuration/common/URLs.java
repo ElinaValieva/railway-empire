@@ -29,6 +29,7 @@ public final class URLs {
      * SCHEDULE
      */
     public final static String SCHEDULE = "/schedule";
+    public final static String NEW_SCHEDULE = "/test";
     public final static String SCHEDULE_CREATE = "/createSchedule";
     public final static String GET_SCHEDULES = "/all";
     public final static String CREATE_SCHEDULE = "/add";
@@ -39,6 +40,16 @@ public final class URLs {
     public final static String GET_SCHEDULE_DIRECT_BY_DATES = "/directByDates";
     public final static String GET_SCHEDULE_TRANSFER_BY_STATIONS = "/transferByStations";
     public final static String GET_SEATS_INFO_OF_DIRECT_TRIP = "/seat/{id}";
+    public final static String BOOK_TICKET_OF_DIRECT_TRIP = "/ticket";
 
+    /**
+     * SEAT
+     */
+    public final static String SEAT = "/seat";
+
+    /**
+     * ADD ITEM RAILWAY
+     */
+    public final static String ADD_ITEM_RAILWAY = "/addItems";
 }
 

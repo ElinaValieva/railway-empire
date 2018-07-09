@@ -1,10 +1,13 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.TicketDAO;
-import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Seat;
-import com.elina.railwayApp.model.Ticket;
+import com.elina.railwayApp.DTO.SeatDTO;
+import com.elina.railwayApp.DTO.TicketDTO;
+import com.elina.railwayApp.model.*;
+import com.elina.railwayApp.service.ScheduleService;
+import com.elina.railwayApp.service.SeatService;
 import com.elina.railwayApp.service.TicketService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +15,45 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j
 @Service
 public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private TicketDAO ticketDAO;
 
+    @Autowired
+    private ScheduleService scheduleService;
+
+    @Autowired
+    private SeatService seatService;
+
     @Override
     @Transactional
     public void add(Ticket ticket) {
         ticketDAO.add(ticket);
+    }
+
+    @Override
+    @Transactional
+    public void add(TicketDTO ticketDTO, User user) {
+        List<SeatDTO> seatDTOList = ticketDTO.getSeatDTO();
+        Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
+        if (schedule != null && user != null) {
+            Train train = schedule.getTrain();
+            seatDTOList.stream().forEach(x -> {
+                Seat seat = seatService.getByTrainAndCarriageAndSeat(train, x.getCarriage(), x.getSeat());
+                if (seat != null) {
+                    Ticket ticket = new Ticket();
+                    ticket.setSchedule(schedule);
+                    ticket.setSeat(seat);
+                    ticket.setUser(user);
+                    add(ticket);
+                    log.info("TICKET BOOKED WITH SUCCESS STATUS");
+                }
+                else log.warn("WRONG PARAMETERS.");
+            });
+        }
     }
 
     @Override

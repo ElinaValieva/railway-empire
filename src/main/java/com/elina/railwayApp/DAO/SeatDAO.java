@@ -1,6 +1,7 @@
 package com.elina.railwayApp.DAO;
 
 import com.elina.railwayApp.model.Seat;
+import com.elina.railwayApp.model.Train;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface SeatDAO {
     List<Seat> getAll();
 
     Seat getById(Long id);
+
+    Seat getByTrainAndCarriageAndSeat(Train train, Integer carriage, Integer seat);
 }

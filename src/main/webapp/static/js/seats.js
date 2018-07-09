@@ -2,7 +2,6 @@ $(function () {
 
     var token = $("meta[name='_csrf']").attr("content");
     var id = window.location.href.split('=')[1];
-    var urlSearching = "/schedule/seat/" + id;
     var currentCarriage = 1;
     var maxCarriage = 1;
     var response = [];
@@ -37,14 +36,7 @@ $(function () {
         if (currentCarriage < maxCarriage)
             currentCarriage++;
         $('#carriageNumber').text('Carriage №' + currentCarriage);
-        var reservedSeats = getCurrentSeatsByCarriage(response, currentCarriage);
-        $('.seat').removeClass(settings.selectedSeatCss).removeClass(settings.selectingSeatCss);
-        for (var i = 0; i < reservedSeats.length; i++) {
-            var row = (reservedSeats[i] - 1) % 3;
-            var col = Math.ceil((reservedSeats[i] - 1 - row) / 3);
-            var classUpdating = '.seat.row-' + row + '.col-' + col;
-            $(classUpdating.toString()).toggleClass(settings.selectedSeatCss);
-        }
+        updateSeat();
     });
 
     $('#btnPrev').click(function (event) {
@@ -52,6 +44,10 @@ $(function () {
         if (currentCarriage > 1)
             currentCarriage--;
         $('#carriageNumber').text('Carriage №' + currentCarriage);
+        updateSeat();
+    });
+
+    var updateSeat = function () {
         var reservedSeats = getCurrentSeatsByCarriage(response, currentCarriage);
         $('.seat').removeClass(settings.selectedSeatCss).removeClass(settings.selectingSeatCss);
         for (var i = 0; i < reservedSeats.length; i++) {
@@ -60,7 +56,17 @@ $(function () {
             var classUpdating = '.seat.row-' + row + '.col-' + col;
             $(classUpdating.toString()).toggleClass(settings.selectedSeatCss);
         }
-    });
+    };
+
+    var updateBookingSeat = function (response) {
+        var reservedSeats = getCurrentSeatsByCarriage(response, currentCarriage);
+        for (var i = 0; i < reservedSeats.length; i++) {
+            var row = (reservedSeats[i] - 1) % 3;
+            var col = Math.ceil((reservedSeats[i] - 1 - row) / 3);
+            var classUpdating = '.seat.row-' + row + '.col-' + col;
+            $(classUpdating.toString()).removeClass(settings.selectingSeatCss).toggleClass(settings.selectedSeatCss);
+        }
+    };
 
     var init = function (reservedSeat) {
         var seatNo, className = '';
@@ -100,10 +106,14 @@ $(function () {
         var str = [], item;
         $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
             item = $(this).attr('title');
-            str.push(item);
+            var seat = {
+                carriage: currentCarriage,
+                seat: parseInt(item)
+            };
+            str.push(seat);
         });
-
-        alert(JSON.stringify(str));
+        bookTicket(id, str, token);
+        updateBookingSeat(str);
     })
 
 
