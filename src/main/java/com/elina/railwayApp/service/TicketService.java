@@ -2,6 +2,7 @@ package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.TicketDTO;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
@@ -15,7 +16,7 @@ public interface TicketService {
 
     void add(Ticket ticket);
 
-    void add(TicketDTO ticketDTO, User user);
+    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException;
 
     void delete(Ticket ticket);
 

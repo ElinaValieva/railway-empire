@@ -7,6 +7,8 @@ import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
+import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.StationService;
@@ -54,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public void add(ScheduleDTO scheduleDTO) throws ParseException {
+    public void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
         Date dateArrival = Utils.parseToDateTime(scheduleDTO.getDateArrival());
         Train train = trainService.getByName(scheduleDTO.getTrainName());
@@ -76,8 +78,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                 schedule.getStationArrival().setStatus(status);
                 scheduleDAO.add(schedule);
                 log.info("SCHEDULE WAS CREATED!");
-            } else log.warn("WRONG DATETIME or SAME STATIONS FOR SCHEDULE");
-        } else log.warn("CAN'T ADD SCHEDULE WITH EMPTY VALUES");
+            } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
+        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
     }
 
     @Override
@@ -267,7 +269,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
         List<Schedule> schedules = new ArrayList<>();
@@ -285,7 +287,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 schedules = scheduleDAO.getByStationsAndDates(schedule);
             } else schedules = scheduleDAO.getByStationsAndDate(schedule);
             log.info("FOUND SCHEDULES BY STATIONS AND DATE");
-        } else log.warn("CAN'T FOUND SCHEDULES BY STATIONS AND DATE. WRONG PARAMETERS");
+        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
@@ -301,7 +303,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Train train = trainService.getByName(scheduleDTO.getTrainName());
         List<Schedule> schedules = new ArrayList<>();
         if (train != null) {
@@ -317,7 +319,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 schedules = scheduleDAO.getByTrainAndDates(schedule);
             } else schedules = scheduleDAO.getByTrainAndDate(schedule);
             log.info("FOUND SCHEDULES BY TRAIN AND DATE");
-        } else log.warn("CAN'T FOUND SCHEDULES BY TRAIN AND DATE. WRONG PARAMETERS");
+        } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
 
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
@@ -383,17 +385,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public SeatsDTO getSeats(Long id) {
+    public SeatsDTO getSeats(Long id) throws BusinessLogicException {
         Schedule schedule = getById(id);
-        Train train = schedule.getTrain();
-        Set<Seat> seats = train.getSeats();
-        List<Seat> bookingSeats = ticketService.getBookingSeatsBySchedule(schedule);
-        Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
-        List<SeatDTO> seatDTOList = bookingSeats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
-        SeatsDTO seatsDTO = new SeatsDTO();
-        seatsDTO.setBookingSeats(seatDTOList);
-        seatsDTO.setCntCarriages(cntCarriage);
-        return seatsDTO;
+        if (schedule != null) {
+            Train train = schedule.getTrain();
+            Set<Seat> seats = train.getSeats();
+            List<Seat> bookingSeats = ticketService.getBookingSeatsBySchedule(schedule);
+            Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+            List<SeatDTO> seatDTOList = bookingSeats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
+            SeatsDTO seatsDTO = new SeatsDTO();
+            seatsDTO.setBookingSeats(seatDTOList);
+            seatsDTO.setCntCarriages(cntCarriage);
+            return seatsDTO;
+        } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
     }
 }
 

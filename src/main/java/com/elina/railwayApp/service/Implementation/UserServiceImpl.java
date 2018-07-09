@@ -2,7 +2,8 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.UserDAO;
 import com.elina.railwayApp.configuration.common.Utils;
-import com.elina.railwayApp.exception.UserNotFoundException;
+import com.elina.railwayApp.exception.ErrorCode;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Message;
 import com.elina.railwayApp.model.Role;
 import com.elina.railwayApp.model.User;
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void registration(User user) throws IOException, UserNotFoundException, MessagingException {
+    public void registration(User user) throws IOException, BusinessLogicException, MessagingException {
         if (findByEmail(user.getLogin()) == null && user != null) {
             Role role = roleService.getRole();
             Set<Role> roleSet = new HashSet<>();
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
             Message message = Message.createWelcomeMessage(user.getLogin());
             mailService.sendMimeMessage(message);
             add(user);
-        } else throw new UserNotFoundException();
+        } else throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
     }
 
 }

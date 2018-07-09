@@ -4,6 +4,7 @@ import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Station;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Service
 public interface ScheduleService {
 
-    void add(ScheduleDTO scheduleDTO) throws ParseException ;
+    void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
     void delete(Schedule schedule);
 
@@ -45,15 +46,15 @@ public interface ScheduleService {
 
     List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws ParseException;
 
-    List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException;
+    List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
-    List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException;
+    List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
     List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException;
 
     List<SeatDTO> getFreeSeats(Schedule schedule);
 
-    SeatsDTO getSeats(Long id);
+    SeatsDTO getSeats(Long id) throws BusinessLogicException;
 
 }
 

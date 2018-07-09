@@ -2,13 +2,11 @@ package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
-import com.elina.railwayApp.exception.UserNotFoundException;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.UserService;
-import com.sun.mail.smtp.SMTPSenderFailedException;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,17 +27,8 @@ public class UserController {
 
 
     @PostMapping(URLs.REGISTRATION)
-    public ResponseEntity<?> registration(@RequestBody User user) {
-        try {
-            userService.registration(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (UserNotFoundException userNotFoundException) {
-            userNotFoundException.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception messagingException) {
-            messagingException.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public void registration(@RequestBody User user) throws BusinessLogicException, MessagingException, IOException {
+        userService.registration(user);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

@@ -2,6 +2,7 @@ package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.DTO.*;
 import com.elina.railwayApp.configuration.common.URLs;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.ScheduleService;
@@ -59,9 +60,8 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.CREATE_SCHEDULE)
-    public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public void createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.add(scheduleDTO);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -90,7 +90,7 @@ public class ScheduleController {
      * only direct trip
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_STATIONS)
-    public ResponseEntity<?> getDirectSchedulesByStationsAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public ResponseEntity<?> getDirectSchedulesByStationsAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByStations(scheduleDTO);
         return ResponseEntity.ok(scheduleDTOList);
     }
@@ -100,7 +100,7 @@ public class ScheduleController {
      * only direct trip
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_TRAIN)
-    public ResponseEntity<?> getDirectSchedulesByTrainAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public ResponseEntity<?> getDirectSchedulesByTrainAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByTrain(scheduleDTO);
         return ResponseEntity.ok(scheduleDTOList);
     }
@@ -122,7 +122,7 @@ public class ScheduleController {
      * @return
      */
     @GetMapping(URLs.GET_SEATS_INFO_OF_DIRECT_TRIP)
-    public ResponseEntity<?> getSeats(@PathVariable Long id) {
+    public ResponseEntity<?> getSeats(@PathVariable Long id) throws BusinessLogicException {
         SeatsDTO seatsDTO = scheduleService.getSeats(id);
         return ResponseEntity.ok(seatsDTO);
     }
@@ -137,12 +137,11 @@ public class ScheduleController {
      * @return
      */
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
-    public ResponseEntity<?> bookTicket(@RequestBody TicketDTO ticketDTO) {
+    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userService.findByEmail(userName);
         ticketService.add(ticketDTO, user);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /*

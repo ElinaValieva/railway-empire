@@ -3,6 +3,8 @@ package com.elina.railwayApp.service.Implementation;
 import com.elina.railwayApp.DAO.TicketDAO;
 import com.elina.railwayApp.DTO.TicketDTO;
 import com.elina.railwayApp.configuration.common.Utils;
+import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.SeatService;
@@ -37,13 +39,15 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void add(TicketDTO ticketDTO, User user) {
+    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException {
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
         if (schedule != null && user != null) {
             if (checkUserUntilBooking(user, schedule)) {
+                Train train = schedule.getTrain();
+
                 if (checkScheduleForAvailability(schedule)) {
-                    Train train = schedule.getTrain();
                     Seat seat = seatService.getByTrainAndCarriageAndSeat(train, ticketDTO.getSeatDTO().getCarriage(), ticketDTO.getSeatDTO().getSeat());
+
                     if (seat != null && checkSeatUntilBooking(seat, schedule)) {
                         Ticket ticket = new Ticket();
                         ticket.setSchedule(schedule);
@@ -51,9 +55,13 @@ public class TicketServiceImpl implements TicketService {
                         ticket.setUser(user);
                         add(ticket);
                         log.info("TICKET BOOKED WITH SUCCESS STATUS");
-                    } else log.warn("WRONG PARAMETERS.");
-                } else log.warn("TRAIN WAS ARRIVED OR WILL ARRIVAL AFTER 10 min");
-            } else log.warn("ALREADY BOOKED TICKET");
+                    } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+
+                } else throw new BusinessLogicException(ErrorCode.TRAIN_WAS_ARRIVED.getMessage());
+
+
+            } else throw new BusinessLogicException(ErrorCode.TICKET_ALREADY_BOOKED.getMessage());
         }
     }
 
