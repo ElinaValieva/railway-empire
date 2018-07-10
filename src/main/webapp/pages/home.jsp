@@ -27,6 +27,9 @@
             <a class="p-2 text-light" href="/train">Train</a>
             <a class="p-2 text-light" href="/station">Station</a>
             <a class="p-2 text-light" href="/home/update">Profile</a>
+            <a class="p-2 text-light" href="/addItems">new AddItems</a>
+            <a class="p-2 text-light" href="/showItems">new ShowOnMap</a>
+
         </nav>
         <a class="btn btn-outline-warning" href="/login">Sign up</a>
     </div>

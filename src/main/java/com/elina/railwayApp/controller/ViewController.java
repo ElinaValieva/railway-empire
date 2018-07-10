@@ -80,4 +80,9 @@ public class ViewController {
     public String addItemsRailway() {
         return Views.ADD_ITEMS_RAILWAY;
     }
+
+    @RequestMapping(value = URLs.SHOW_ITEMS_RAILWAY)
+    public String showItemsRailway() {
+        return Views.MAP;
+    }
 }

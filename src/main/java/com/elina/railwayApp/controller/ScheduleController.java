@@ -69,7 +69,7 @@ public class ScheduleController {
      * only direct trip
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT)
-    public ResponseEntity<?> getDirectSchedulesByStationsAndDatesAndTrain(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public ResponseEntity<?> getDirectSchedulesByStationsAndDatesAndTrain(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByStationsAndDatesAndTrain(scheduleDTO);
         return ResponseEntity.ok(scheduleDTOList);
     }

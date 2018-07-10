@@ -17,13 +17,13 @@ public class RailwayExceptionHandler {
 
     @ExceptionHandler(BusinessLogicException.class)
     public ResponseEntity<?> handleBusinessLogicException(BusinessLogicException ex) {
-        log.debug(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(new ErrorDTO(ex.getError()));
     }
 
     @ExceptionHandler({ParseException.class, IOException.class})
     public ResponseEntity<?> handleParseException(Exception ex) {
-        log.debug(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         if (ex instanceof ParseException)
             return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.PARSE_EXCEPTION.getMessage()));
         else return ResponseEntity.badRequest().body(ErrorCode.IO_EXCEPTION.getMessage());
@@ -31,7 +31,7 @@ public class RailwayExceptionHandler {
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<?> handleMailException(Exception ex) {
-        log.debug(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.MAIL_EXCEPTION.getMessage()));
     }
 }

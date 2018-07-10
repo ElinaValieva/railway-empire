@@ -13,4 +13,5 @@ public final class Views {
     public static final String SEAT = "seat";
     public static final String HEADER_SCHEDULE = "headerSchedule";
     public static final String ADD_ITEMS_RAILWAY = "addItemsRailway";
+    public static final String MAP = "map";
 }

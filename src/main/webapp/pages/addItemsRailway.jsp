@@ -93,7 +93,7 @@
                 <div><input type="text" placeholder="train" id="trainItemsRailway"/></div>
                 <div class="row">
                     <div class="col">
-                        <input type="number" class="form-control" id="cntCarriageItemsRailway">
+                        <input type="number" placeholder="count carriage" class="form-control" id="cntCarriageItemsRailway">
                     </div>
                     <div class="col">
                         <input type="number" class="form-control" id="cntSeatsItemsRailway" value="30" disabled>
