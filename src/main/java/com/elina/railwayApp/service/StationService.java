@@ -1,5 +1,7 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.DTO.StationDTO;
+import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +10,13 @@ import java.util.List;
 @Service
 public interface StationService {
 
-    void add(Station station);
+    void add(StationDTO stationDTO) throws BusinessLogicException;
 
-    void delete(Station station);
+    void delete(String name) throws BusinessLogicException;
 
     void update(Station station);
 
-    List<Station> getAll();
+    List<StationDTO> getAll();
 
     Station getById(Long id);
 

@@ -31,7 +31,6 @@ $(function () {
     });
 
     $('#addTrainBtn').click(function (event) {
-        alert('2')
         event.preventDefault();
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();

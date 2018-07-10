@@ -4,8 +4,8 @@ function init() {
     // Basic options for a simple Google Map
     // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
     var mapOptions = {
-        zoom: 12,
-        center: {lat: 52.520, lng: 13.410},
+        zoom: 8,
+        center: {lat: 61.524010, lng: 105.318756},
         styles: [{
             "featureType": "all",
             "elementType": "labels.text.fill",
@@ -63,44 +63,70 @@ function init() {
     // Create the Google Map using our element and options defined above
     var map = new google.maps.Map(mapElement, mapOptions);
 
-    var neighborhoods = [
-        ['station1', 52.511, 13.447],
-        ['station2', 52.549, 13.422],
-        ['station3', 52.497, 13.396],
-        ['station4', 52.517, 13.394]
-    ];
+    var stations = getStation();
+
+    var trains = getStation();
 
     var imageStations = 'https://cdn1.savepice.ru/uploads/2018/7/10/374e8b5646e48833667c0f536d3ff9ec-full.png';
     var imageTrains = 'https://cdn1.savepice.ru/uploads/2018/7/10/76c211e683c3332eedff10c20316f1aa-full.png';
 
-    var markers = [];
+    var markersStations = [];
 
+    var markersTrains = [];
+
+    const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+    })
 
     $('#addStationBtn').click(function () {
-        clearMarkers();
-        for (var i = 0; i < neighborhoods.length; i++) {
-            addMarkerWithTimeout(neighborhoods[i], i * 200);
+        clearMarkers(markersStations);
+        clearMarkers(markersTrains);
+        for (var i = 0; i < stations.length; i++) {
+            addMarkerWithTimeout(stations[i], i * 200, imageStations, markersStations);
         }
     });
 
 
-    function addMarkerWithTimeout(position, timeout) {
+    function addMarkerWithTimeout(position, timeout, image, markers) {
         window.setTimeout(function () {
             var marker = new google.maps.Marker({
-                position: {lat: position[1], lng: position[2]},
+                position: {lat: position.latitude, lng: position.longitude},
                 map: map,
-                icon: imageStations,
-                title: position[0],
+                icon: image,
+                title: position.name,
                 animation: google.maps.Animation.DROP
             }, timeout);
             marker.addListener('click', function () {
-                alert('Name:' + position[0] + ' coordinates: [' + position[1] + ',' + position[2] + ']');
+                swalWithBootstrapButtons({
+                    title: position.name,
+                    text: 'latitude = ' + position.latitude + ', longitude = ' + position.longitude,
+                    type: 'info',
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: "No, don't remove it!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        deleteStation(position.name);
+                        updateMarkers(markers, image);
+                    }
+                });
             });
             markers.push(marker);
         });
     }
 
-    function clearMarkers() {
+    function updateMarkers(markers, image) {
+        clearMarkers(markers);
+        stations = getStation();
+        for (var i = 0; i < stations.length; i++) {
+            addMarkerWithTimeout(stations[i], i * 200, image, markers);
+        }
+    }
+    function clearMarkers(markers) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
         }
@@ -109,6 +135,23 @@ function init() {
 
     $('#addTrainBtn').click(function (event) {
         event.preventDefault();
-        clearMarkers();
+        clearMarkers(markersStations);
+        clearMarkers(markersTrains);
+        for (var i = 0; i < trains.length; i++) {
+            addMarkerWithTimeout(trains[i], i * 200, imageTrains, markersTrains);
+        }
     });
-}
+
+    $('#addAllBtn').click(function (event) {
+        event.preventDefault();
+        clearMarkers(markersStations);
+        clearMarkers(markersTrains);
+        for (var i = 0; i < trains.length; i++) {
+            addMarkerWithTimeout(trains[i], i * 200, imageTrains, markersTrains);
+        }
+        for (var i = 0; i < stations.length; i++) {
+            addMarkerWithTimeout(stations[i], i * 200, imageStations, markersStations);
+        }
+    })
+};
+
