@@ -20,7 +20,7 @@
     <script src="/static/js/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
     <script src="/static/js/addSchedule.js"></script>
-    <script src="/static/js/addTrain.js"></script>
+    <script src="/static/js/trains.js"></script>
     <script src="/static/js/addItemsRailway.js"></script>
 
 </head>

@@ -45,7 +45,7 @@ $(function () {
         $('#addItem').click(function (event) {
             alert('click');
             event.preventDefault();
-            addTrain();
+            trains();
         });
     });
 

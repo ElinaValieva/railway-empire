@@ -27,7 +27,6 @@ var getStation = function () {
 };
 
 var deleteStation = function (name) {
-    alert('a');
     var token = $("meta[name='_csrf']").attr("content");
     var urlSearching = "/station/delete/" + name;
     $.ajax({

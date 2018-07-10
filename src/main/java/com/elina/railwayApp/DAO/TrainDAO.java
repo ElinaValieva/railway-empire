@@ -1,5 +1,6 @@
 package com.elina.railwayApp.DAO;
 
+import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Train;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface TrainDAO {
     Train getById(Long id);
 
     Train getByName(String name);
+
+    Schedule getLastSchedule(Train train);
 }

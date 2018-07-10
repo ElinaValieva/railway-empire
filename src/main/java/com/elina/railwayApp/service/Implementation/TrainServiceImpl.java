@@ -2,9 +2,12 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DAO.TrainDAO;
+import com.elina.railwayApp.DTO.StationDTO;
 import com.elina.railwayApp.DTO.TrainDTO;
+import com.elina.railwayApp.DTO.TrainInfoDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
+import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
@@ -15,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j
@@ -89,6 +90,7 @@ public class TrainServiceImpl implements TrainService {
     public List<TrainDTO> getAll() {
         List<Train> trains = trainDAO.getAll();
         return trains.stream()
+                .filter(x -> !x.getStatus().getStatusName().equals("DELETED"))
                 .map(x -> modelMapper.map(x, TrainDTO.class))
                 .collect(Collectors.toList());
     }
@@ -104,4 +106,36 @@ public class TrainServiceImpl implements TrainService {
     public Train getByName(String name) {
         return trainDAO.getByName(name);
     }
+
+    @Override
+    @Transactional
+    public List<TrainInfoDTO> getLastPositionTrain() {
+        List<Train> trains = trainDAO.getAll();
+        List<Schedule> schedules = new ArrayList<>();
+        for (Train train :
+                trains) {
+            Schedule schedule = findLastScheduleForTrain(train);
+            if (schedule != null)
+                schedules.add(schedule);
+        }
+        List<TrainInfoDTO> trainInfoDTOList = new ArrayList<>();
+        schedules.stream().forEach(x -> {
+            Random random = new Random();
+            TrainInfoDTO trainDTO = new TrainInfoDTO();
+            trainDTO.setName(x.getTrain().getName());
+            trainDTO.setDateArrival(x.getDateArrival().toString());
+            trainDTO.setDateDeparture(x.getDateDeparture().toString());
+            trainDTO.setStationName(x.getStationArrival().getName());
+            trainDTO.setLongitude(x.getStationArrival().getLongitude()+random.nextDouble());
+            trainDTO.setLatitude(x.getStationArrival().getLatitude()+random.nextDouble());
+            trainInfoDTOList.add(trainDTO);
+        });
+        return trainInfoDTOList;
+    }
+
+    @Transactional
+    public Schedule findLastScheduleForTrain(Train train) {
+        return trainDAO.getLastSchedule(train);
+    }
+
 }

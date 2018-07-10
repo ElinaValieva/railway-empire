@@ -1,6 +1,8 @@
 package com.elina.railwayApp.controller;
 
+import com.elina.railwayApp.DTO.StationDTO;
 import com.elina.railwayApp.DTO.TrainDTO;
+import com.elina.railwayApp.DTO.TrainInfoDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.service.TrainService;
@@ -26,7 +28,8 @@ public class TrainController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping(URLs.GET_TRAINS)
     public ResponseEntity<?> getTrains() {
-        List<TrainDTO> trains = trainService.getAll();
+        List<TrainInfoDTO> trains = trainService.getLastPositionTrain();
+        trains.forEach(System.out::println);
         return ResponseEntity.ok(trains);
     }
 
