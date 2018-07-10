@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
     <script src="/static/js/addSchedule.js"></script>
     <script src="/static/js/trains.js"></script>
+    <script src="/static/js/stations.js"></script>
     <script src="/static/js/addItemsRailway.js"></script>
 
 </head>
@@ -66,10 +67,10 @@
                 <input type="text" placeholder="station name" id="stationNameItemsRailway"/>
                 <div class="row">
                     <div class="col">
-                        <input type="text" placeholder="coordinates X" id="coordinatesX"/>
+                        <input type="text" placeholder="latitude [empty]" id="coordinatesX"/>
                     </div>
                     <div class="col">
-                        <input type="text" placeholder="coordinates Y" id="coordinatesY"/>
+                        <input type="text" placeholder="longitude [empty]" id="coordinatesY"/>
                     </div>
                 </div>
                 <div class="row">

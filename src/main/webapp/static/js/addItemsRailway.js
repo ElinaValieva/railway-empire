@@ -43,14 +43,12 @@ $(function () {
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
         $('#addItem').click(function (event) {
-            alert('click');
             event.preventDefault();
             trains();
         });
     });
 
     $('#addStationBtn').click(function (event) {
-        alert('3')
         event.preventDefault();
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();
@@ -62,17 +60,15 @@ $(function () {
         $('#stationNameItemsRailway').show();
         $('#coordinatesX').show();
         $('#coordinatesY').show();
-        var scheduleDTO = {
-            stationDepartureName:
-                $('#stationDepartureItemsRailway').val(),
-            stationArrivalName:
-                $('#stationArrivalItemsRailway').val(),
-            trainName:
-                $('#trainItemsRailway').val(),
-            dateDeparture:
-                $('#dateDepartureItemsRailway').val().replace("T", " "),
-            dateArrival:
-                $('#dateArrivalItemsRailway').val().replace("T", " "),
-        };
+        $('#addItem').click(function (event) {
+            event.preventDefault();
+            var coordX = $('#coordinatesX').val();
+            var coordY = $('#coordinatesY').val();
+            var name = $('#stationNameItemsRailway').val();
+            if (coordX == '' || coordY == '')
+                getCoordinates(name);
+            else
+                addStation(name, coordX, coordY);
+        });
     });
 })
