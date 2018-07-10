@@ -41,28 +41,28 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException {
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
-        if (schedule != null && user != null) {
-            if (checkUserUntilBooking(user, schedule)) {
-                Train train = schedule.getTrain();
 
-                if (checkScheduleForAvailability(schedule)) {
-                    Seat seat = seatService.getByTrainAndCarriageAndSeat(train, ticketDTO.getSeatDTO().getCarriage(), ticketDTO.getSeatDTO().getSeat());
+        if (schedule == null || user == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
-                    if (seat != null && checkSeatUntilBooking(seat, schedule)) {
-                        Ticket ticket = new Ticket();
-                        ticket.setSchedule(schedule);
-                        ticket.setSeat(seat);
-                        ticket.setUser(user);
-                        add(ticket);
-                        log.info("TICKET BOOKED WITH SUCCESS STATUS");
-                    } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+        if (!checkUserUntilBooking(user, schedule))
+            throw new BusinessLogicException(ErrorCode.TICKET_ALREADY_BOOKED.getMessage());
 
+        if (!checkScheduleForAvailability(schedule))
+            throw new BusinessLogicException(ErrorCode.TRAIN_WAS_ARRIVED.getMessage());
 
-                } else throw new BusinessLogicException(ErrorCode.TRAIN_WAS_ARRIVED.getMessage());
+        Train train = schedule.getTrain();
+        Seat seat = seatService.getByTrainAndCarriageAndSeat(train, ticketDTO.getSeatDTO().getCarriage(), ticketDTO.getSeatDTO().getSeat());
 
+        if (seat == null || !checkSeatUntilBooking(seat, schedule))
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
-            } else throw new BusinessLogicException(ErrorCode.TICKET_ALREADY_BOOKED.getMessage());
-        }
+        Ticket ticket = new Ticket();
+        ticket.setSchedule(schedule);
+        ticket.setSeat(seat);
+        ticket.setUser(user);
+        add(ticket);
+        log.info("TICKET BOOKED WITH SUCCESS STATUS");
     }
 
     @Override

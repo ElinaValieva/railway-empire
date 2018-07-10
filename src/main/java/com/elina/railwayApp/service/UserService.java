@@ -1,5 +1,6 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.DTO.UserDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,5 @@ public interface UserService {
 
     void updateProfile(User user);
 
-    void registration(User user) throws IOException, BusinessLogicException, MessagingException;
+    void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException;
 }

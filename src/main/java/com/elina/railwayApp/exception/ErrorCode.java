@@ -14,7 +14,12 @@ public enum ErrorCode {
     PARSE_EXCEPTION(6, "Wrong date, can't parse."),
     IO_EXCEPTION(7, "File not found."),
     MAIL_EXCEPTION(8, "Wrong e-mail. Can't send letter on e-mail box."),
-    TRAIN_NOT_UNIQUE(9, "Train not unique. Try another name.");
+    TRAIN_NOT_UNIQUE(9, "Train not unique. Try another name."),
+    SAME_STATIONS(10, "You try to add same stations on schedule."),
+    WRONG_DATES(11, "Date departure is later than date arrival."),
+    INTERSECTION_SCHEDULES(12, "Train and stations used by another schedule. Try again"),
+    SCHEDULE_FOR_CURRENT_DAY(13, "Can't add schedule for current day."),
+    WRONG_PARAMETERS_FOR_SEATS(14, "Wrong parameters for seats");
 
     private int code;
     private String reason;

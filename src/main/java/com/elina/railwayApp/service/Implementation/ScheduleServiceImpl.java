@@ -68,18 +68,26 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setDateDeparture(dateDeparture);
         schedule.setDateArrival(dateArrival);
         schedule.setTrain(train);
-        if (stationArrival != null && stationDeparture != null && train != null) {
-            if (!stationArrival.equals(stationDeparture)
-                    && dateDeparture.before(dateArrival)
-                    && getByDateAndTrainToCheckIntersection(schedule).isEmpty()
-                    && !Utils.checkCurrentDay(dateDeparture)) {
-                Status status = statusDAO.getByName("WORKED");
-                schedule.getStationDeparture().setStatus(status);
-                schedule.getStationArrival().setStatus(status);
-                scheduleDAO.add(schedule);
-                log.info("SCHEDULE WAS CREATED!");
-            } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
-        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+        if (stationArrival == null || stationDeparture == null || train == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        if (stationArrival.equals(stationDeparture))
+            throw new BusinessLogicException(ErrorCode.SAME_STATIONS.getMessage());
+
+        if (!dateDeparture.before(dateArrival))
+            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
+        if (!getByDateAndTrainToCheckIntersection(schedule).isEmpty())
+            throw new BusinessLogicException(ErrorCode.INTERSECTION_SCHEDULES.getMessage());
+
+        if (Utils.checkCurrentDay(dateDeparture))
+            throw new BusinessLogicException(ErrorCode.SCHEDULE_FOR_CURRENT_DAY.getMessage());
+
+        Status status = statusDAO.getByName("WORKED");
+        schedule.getStationDeparture().setStatus(status);
+        schedule.getStationArrival().setStatus(status);
+        scheduleDAO.add(schedule);
+        log.info("SCHEDULE WAS CREATED!");
     }
 
     @Override
@@ -273,21 +281,23 @@ public class ScheduleServiceImpl implements ScheduleService {
         Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
         List<Schedule> schedules = new ArrayList<>();
-        if (stationArrivalForDirectSchedule != null && stationDepartureForDirectSchedule != null) {
-            Schedule schedule = new Schedule();
-            schedule.setStationDeparture(stationDepartureForDirectSchedule);
-            schedule.setStationArrival(stationArrivalForDirectSchedule);
-            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
-            schedule.setDateDeparture(dateDeparture);
-            if (!scheduleDTO.getDateArrival().isEmpty()) {
-                Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
-                if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
-                    dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
-                schedule.setDateArrival(dateArrival);
-                schedules = scheduleDAO.getByStationsAndDates(schedule);
-            } else schedules = scheduleDAO.getByStationsAndDate(schedule);
-            log.info("FOUND SCHEDULES BY STATIONS AND DATE");
-        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+        if (stationArrivalForDirectSchedule == null || stationDepartureForDirectSchedule == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        Schedule schedule = new Schedule();
+        schedule.setStationDeparture(stationDepartureForDirectSchedule);
+        schedule.setStationArrival(stationArrivalForDirectSchedule);
+        Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
+        schedule.setDateDeparture(dateDeparture);
+        if (!scheduleDTO.getDateArrival().isEmpty()) {
+            Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+            if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
+            schedule.setDateArrival(dateArrival);
+            schedules = scheduleDAO.getByStationsAndDates(schedule);
+        } else schedules = scheduleDAO.getByStationsAndDate(schedule);
+        log.info("FOUND SCHEDULES BY STATIONS AND DATE");
+
 
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
@@ -306,20 +316,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Train train = trainService.getByName(scheduleDTO.getTrainName());
         List<Schedule> schedules = new ArrayList<>();
-        if (train != null) {
-            Schedule schedule = new Schedule();
-            Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
-            schedule.setDateDeparture(dateDeparture);
-            schedule.setTrain(train);
-            if (!scheduleDTO.getDateArrival().isEmpty()) {
-                Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
-                if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
-                    dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
-                schedule.setDateArrival(dateArrival);
-                schedules = scheduleDAO.getByTrainAndDates(schedule);
-            } else schedules = scheduleDAO.getByTrainAndDate(schedule);
-            log.info("FOUND SCHEDULES BY TRAIN AND DATE");
-        } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
+        if (train == null)
+            throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
+
+        Schedule schedule = new Schedule();
+        Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
+        schedule.setDateDeparture(dateDeparture);
+        schedule.setTrain(train);
+        if (!scheduleDTO.getDateArrival().isEmpty()) {
+            Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+            if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
+                dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
+            schedule.setDateArrival(dateArrival);
+            schedules = scheduleDAO.getByTrainAndDates(schedule);
+        } else schedules = scheduleDAO.getByTrainAndDate(schedule);
+        log.info("FOUND SCHEDULES BY TRAIN AND DATE");
+
 
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
@@ -387,17 +399,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public SeatsDTO getSeats(Long id) throws BusinessLogicException {
         Schedule schedule = getById(id);
-        if (schedule != null) {
-            Train train = schedule.getTrain();
-            Set<Seat> seats = train.getSeats();
-            List<Seat> bookingSeats = ticketService.getBookingSeatsBySchedule(schedule);
-            Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
-            List<SeatDTO> seatDTOList = bookingSeats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
-            SeatsDTO seatsDTO = new SeatsDTO();
-            seatsDTO.setBookingSeats(seatDTOList);
-            seatsDTO.setCntCarriages(cntCarriage);
-            return seatsDTO;
-        } else throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
+        if (schedule == null)
+            throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SCHEDULE.getMessage());
+
+        Train train = schedule.getTrain();
+        Set<Seat> seats = train.getSeats();
+        List<Seat> bookingSeats = ticketService.getBookingSeatsBySchedule(schedule);
+        Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+        List<SeatDTO> seatDTOList = bookingSeats.stream().map(x -> modelMapper.map(x, SeatDTO.class)).collect(Collectors.toList());
+        SeatsDTO seatsDTO = new SeatsDTO();
+        seatsDTO.setBookingSeats(seatDTOList);
+        seatsDTO.setCntCarriages(cntCarriage);
+        return seatsDTO;
+
     }
 }
 

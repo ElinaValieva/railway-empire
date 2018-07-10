@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Log4j
 @Service
@@ -38,37 +37,43 @@ public class TrainServiceImpl implements TrainService {
     @Transactional
     public void add(TrainDTO trainDTO) throws BusinessLogicException {
         Train trainCreating = getByName(trainDTO.getTrainName());
-        if (trainCreating == null && trainDTO.getCntCarriage() > 0 && trainDTO.getCntCarriage() < 25 && trainDTO.getCntSeats() > 0) {
-            Set<Seat> seats = new HashSet<>();
-            Train train = new Train();
-            Status status = statusDAO.getByName("NOT_USED");
-            train.setStatus(status);
-            train.setName(trainDTO.getTrainName());
-            for (int i = 1; i <= trainDTO.getCntCarriage(); i++) {
-                for (int j = 1; j <= trainDTO.getCntSeats(); j++) {
-                    Seat seat = new Seat();
-                    seat.setCarriage(i);
-                    seat.setSeat(j);
-                    seat.setTrain(train);
-                    seats.add(seat);
-                }
+        if (trainCreating != null)
+            throw new BusinessLogicException(ErrorCode.TRAIN_NOT_UNIQUE.getMessage());
+
+        if (trainDTO.getCntCarriage() < 0 || trainDTO.getCntCarriage() > 25 && trainDTO.getCntSeats() < 0)
+            throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SEATS.getMessage());
+
+        Set<Seat> seats = new HashSet<>();
+        Train train = new Train();
+        Status status = statusDAO.getByName("NOT_USED");
+        train.setStatus(status);
+        train.setName(trainDTO.getTrainName());
+        for (int i = 1; i <= trainDTO.getCntCarriage(); i++) {
+            for (int j = 1; j <= trainDTO.getCntSeats(); j++) {
+                Seat seat = new Seat();
+                seat.setCarriage(i);
+                seat.setSeat(j);
+                seat.setTrain(train);
+                seats.add(seat);
             }
-            train.setSeats(seats);
-            trainDAO.add(train);
-        } else throw new BusinessLogicException(ErrorCode.TRAIN_NOT_UNIQUE.getMessage());
+        }
+        train.setSeats(seats);
+        trainDAO.add(train);
     }
 
     @Override
     @Transactional
     public void delete(Long id) throws BusinessLogicException {
         Train train = getById(id);
-        if (train != null
-                && train.getStatus().getStatusName().equals("NOT_USED")) {
-            Status status = statusDAO.getByName("DELETED");
-            train.setStatus(status);
-            trainDAO.update(train);
-            log.info("TRAIN WAS REMOVED");
-        } else throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+        if (train == null
+                || !train.getStatus().getStatusName().equals("NOT_USED"))
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        Status status = statusDAO.getByName("DELETED");
+        train.setStatus(status);
+        trainDAO.update(train);
+        log.info("TRAIN WAS REMOVED");
+
     }
 
     @Override

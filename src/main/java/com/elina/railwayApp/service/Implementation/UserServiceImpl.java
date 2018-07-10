@@ -1,9 +1,10 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.UserDAO;
+import com.elina.railwayApp.DTO.UserDTO;
 import com.elina.railwayApp.configuration.common.Utils;
-import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.Message;
 import com.elina.railwayApp.model.Role;
 import com.elina.railwayApp.model.User;
@@ -11,6 +12,7 @@ import com.elina.railwayApp.service.MailService;
 import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -86,17 +91,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void registration(User user) throws IOException, BusinessLogicException, MessagingException {
-        if (findByEmail(user.getLogin()) == null && user != null) {
-            Role role = roleService.getRole();
-            Set<Role> roleSet = new HashSet<>();
-            roleSet.add(role);
-            user.setPassword(Utils.encodePassword(user.getPassword()));
-            user.setRoles(roleSet);
-            Message message = Message.createWelcomeMessage(user.getLogin());
-            mailService.sendMimeMessage(message);
-            add(user);
-        } else throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
+    public void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException {
+        if (findByEmail(userDTO.getLogin()) != null)
+            throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
+
+        if (userDTO == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        Role role = roleService.getRole();
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role);
+        User user = new User();
+        user.setLogin(userDTO.getLogin());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setPassword(Utils.encodePassword(userDTO.getPassword()));
+        user.setRoles(roleSet);
+        Message message = Message.createWelcomeMessage(userDTO.getLogin());
+        mailService.sendMimeMessage(message);
+        add(user);
     }
 
 }
