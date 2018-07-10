@@ -52,5 +52,6 @@ public final class URLs {
      */
     public final static String ADD_ITEM_RAILWAY = "/addItems";
     public final static String SHOW_ITEMS_RAILWAY = "/showItems";
+    public final static String EDIT_ITEMS_RAILWAY = "/editItems";
 }
 

@@ -85,4 +85,9 @@ public class ViewController {
     public String showItemsRailway() {
         return Views.MAP;
     }
+
+    @RequestMapping(value = URLs.EDIT_ITEMS_RAILWAY)
+    public String editItemsRailway() {
+        return Views.EDIT_ITEMS_RAILWAY;
+    }
 }

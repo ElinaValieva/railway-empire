@@ -29,6 +29,8 @@
             <a class="p-2 text-light" href="/home/update">Profile</a>
             <a class="p-2 text-light" href="/addItems">new AddItems</a>
             <a class="p-2 text-light" href="/showItems">new ShowOnMap</a>
+            <a class="p-2 text-light" href="/editItems">new EditItems</a>
+
 
         </nav>
         <a class="btn btn-outline-warning" href="/login">Sign up</a>
