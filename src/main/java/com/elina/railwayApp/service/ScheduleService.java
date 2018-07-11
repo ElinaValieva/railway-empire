@@ -24,7 +24,7 @@ public interface ScheduleService {
 
     void update(Schedule schedule);
 
-    List<Schedule> getAll();
+    List<ScheduleDTO> getAll();
 
     Schedule getById(Long id);
 

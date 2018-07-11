@@ -104,8 +104,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getAll() {
-        return scheduleDAO.getAll();
+    public List<ScheduleDTO> getAll() {
+        List<Schedule> schedules = scheduleDAO.getAll();
+        return schedules.stream().map(x -> modelMapper.map(x, ScheduleDTO.class)).collect(Collectors.toList());
     }
 
     @Override

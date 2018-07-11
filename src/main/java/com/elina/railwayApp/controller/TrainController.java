@@ -29,7 +29,16 @@ public class TrainController {
     @GetMapping(URLs.GET_TRAINS)
     public ResponseEntity<?> getTrains() {
         List<TrainInfoDTO> trains = trainService.getLastPositionTrain();
-        trains.forEach(System.out::println);
+        return ResponseEntity.ok(trains);
+    }
+
+    /**
+     * GET ALL TRAINS
+     */
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @GetMapping(URLs.GET_ALL_TRAINS)
+    public ResponseEntity<?> getAllTrains() {
+        List<TrainDTO> trains = trainService.getAll();
         return ResponseEntity.ok(trains);
     }
 

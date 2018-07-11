@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/button.css">
     <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/trains.js"></script>
+    <script src="/static/js/searchingSchedule.js"></script>
+    <script src="/static/js/stations.js"></script>
     <script src="/static/js/editItemsRailway.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png')">
@@ -54,45 +57,30 @@
     <table class="table table-striped table-dark text-center" id="stationTable">
         <thead class="font-weight-bold">
         <tr>
-            <th class="text-center">Train</th>
-            <th class="text-center">Count carriages</th>
-            <th class="text-center">Count seats</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody class="text-center text-warning">
-        <tr>
-            <td>Train</td>
-            <td>Cnt carriage</td>
-            <td>Cnt seats</td>
-            <td>
-                <button class="btn btn-outline-warning"><img src="/static/images/edit.png"></button>
-                <button class="btn btn-outline-warning"><img src="/static/images/delete.png"></button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="table table-striped table-dark" id="trainTable">
-        <thead class="font-weight-bold">
-        <tr>
             <th class="text-center">Station name</th>
             <th class="text-center">Latitude</th>
             <th class="text-center">Longitude</th>
             <th></th>
         </tr>
         </thead>
-        <tbody class="text-center text-warning">
-        <tr>
-            <td>Train</td>
-            <td>Cnt carriage</td>
-            <td>Cnt seats</td>
-            <td>
-                <button class="btn btn-outline-warning"><img src="/static/images/edit.png"></button>
-                <button class="btn btn-outline-warning"><img src="/static/images/delete.png"></button>
-            </td>
-        </tr>
+        <tbody class="text-center text-warning" id="stationTableId">
         </tbody>
     </table>
+
+    <table class="table table-striped table-dark" id="trainTable">
+        <thead class="font-weight-bold">
+        <tr>
+            <th class="text-center">Train</th>
+            <th class="text-center">Count carriages</th>
+            <th class="text-center">Count seats</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="text-center text-warning" id="trainTableId">
+        </tbody>
+    </table>
+
+
     <table class="table table-striped table-dark text-center" id="scheduleTable">
         <thead class="text-center font-weight-bold">
         <tr>
@@ -104,18 +92,8 @@
             <th></th>
         </tr>
         </thead>
-        <tbody class="text-center text-warning">
-        <tr>
-            <td>Train</td>
-            <td>Cnt carriage</td>
-            <td>Cnt seats</td>
-            <td>24 Apr 12:00</td>
-            <td>24 Apr 14:00</td>
-            <td>
-                <button class="btn btn-outline-warning"><img src="/static/images/edit.png"></button>
-                <button class="btn btn-outline-warning"><img src="/static/images/delete.png"></button>
-            </td>
-        </tr>
+        <tbody class="text-center text-warning" id="scheduleTableId">
+
         </tbody>
     </table>
 </div>

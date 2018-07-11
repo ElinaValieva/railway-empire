@@ -2,7 +2,6 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.StatusDAO;
 import com.elina.railwayApp.DAO.TrainDAO;
-import com.elina.railwayApp.DTO.StationDTO;
 import com.elina.railwayApp.DTO.TrainDTO;
 import com.elina.railwayApp.DTO.TrainInfoDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
@@ -89,10 +88,19 @@ public class TrainServiceImpl implements TrainService {
     @Transactional
     public List<TrainDTO> getAll() {
         List<Train> trains = trainDAO.getAll();
-        return trains.stream()
-                .filter(x -> !x.getStatus().getStatusName().equals("DELETED"))
-                .map(x -> modelMapper.map(x, TrainDTO.class))
-                .collect(Collectors.toList());
+        List<TrainDTO> trainDTOList = new ArrayList<>();
+        for (Train train :
+                trains) {
+            Set<Seat> seats = train.getSeats();
+            Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+            Integer cntSeats = Collections.max(seats.stream().map(x -> x.getSeat()).collect(Collectors.toList()));
+            TrainDTO trainDTO = new TrainDTO();
+            trainDTO.setTrainName(train.getName());
+            trainDTO.setCntCarriage(cntCarriage);
+            trainDTO.setCntSeats(cntSeats);
+            trainDTOList.add(trainDTO);
+        }
+        return trainDTOList;
     }
 
     @Override
@@ -126,8 +134,8 @@ public class TrainServiceImpl implements TrainService {
             trainDTO.setDateArrival(x.getDateArrival().toString());
             trainDTO.setDateDeparture(x.getDateDeparture().toString());
             trainDTO.setStationName(x.getStationArrival().getName());
-            trainDTO.setLongitude(x.getStationArrival().getLongitude()+random.nextDouble());
-            trainDTO.setLatitude(x.getStationArrival().getLatitude()+random.nextDouble());
+            trainDTO.setLongitude(x.getStationArrival().getLongitude() + random.nextDouble());
+            trainDTO.setLatitude(x.getStationArrival().getLatitude() + random.nextDouble());
             trainInfoDTOList.add(trainDTO);
         });
         return trainInfoDTOList;

@@ -19,4 +19,8 @@ public class TrainInfoDTO implements Serializable {
     Double latitude;
 
     Double longitude;
+
+    Integer cntCarriage;
+
+    Integer cntSeats;
 }

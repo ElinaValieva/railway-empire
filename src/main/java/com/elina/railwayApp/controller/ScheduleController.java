@@ -42,7 +42,7 @@ public class ScheduleController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping(URLs.GET_SCHEDULES)
     public ResponseEntity<?> getSchedules() {
-        List<Schedule> schedules = scheduleService.getAll();
+        List<ScheduleDTO> schedules = scheduleService.getAll();
         return ResponseEntity.ok(schedules);
     }
 

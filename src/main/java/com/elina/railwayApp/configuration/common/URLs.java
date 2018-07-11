@@ -22,6 +22,7 @@ public final class URLs {
      */
     public final static String TRAIN = "/train";
     public final static String GET_TRAINS = "/train/all";
+    public final static String GET_ALL_TRAINS = "/train/allTrains";
     public final static String CREATE_TRAIN = "/train/add";
     public final static String DELETE_TRAIN = "/train/remove";
 
