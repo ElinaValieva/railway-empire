@@ -1,6 +1,7 @@
 package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.DTO.TicketDTO;
+import com.elina.railwayApp.DTO.TicketInfoDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
@@ -34,4 +35,6 @@ public interface TicketService {
     boolean checkScheduleForAvailability(Schedule schedule);
 
     List<Ticket> getBySchedules(Schedule schedule);
+
+    List<TicketInfoDTO> getByScheduleId(Long id);
 }

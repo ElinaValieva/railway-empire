@@ -2,6 +2,7 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.TicketDAO;
 import com.elina.railwayApp.DTO.TicketDTO;
+import com.elina.railwayApp.DTO.TicketInfoDTO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
@@ -10,6 +11,7 @@ import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.SeatService;
 import com.elina.railwayApp.service.TicketService;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j
 @Service
@@ -30,6 +33,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private SeatService seatService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -123,5 +129,15 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public List<Ticket> getBySchedules(Schedule schedule) {
         return ticketDAO.getBySchedule(schedule);
+    }
+
+    @Override
+    @Transactional
+    public List<TicketInfoDTO> getByScheduleId(Long id) {
+        Schedule schedule = scheduleService.getById(id);
+        List<Ticket> tickets = getBySchedules(schedule);
+        return tickets.stream()
+                .map(x -> modelMapper.map(x, TicketInfoDTO.class))
+                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,7 @@ $(function () {
 
     $('#stationTable').hide();
     $('#trainTable').hide();
+    $('#scheduleTable').hide();
 
     $('#addTrainBtn').click(function () {
         $('#stationTable').hide();
@@ -58,7 +59,7 @@ $(function () {
             };
             updateTrain(trainDTO);
             updateTrains();
-        }).catch(swal.noop)
+        }).catch(swal.noop);
     });
 
     $(this).on('click', '.deleteTrain', function () {
@@ -113,8 +114,8 @@ $(function () {
                 longitude: longitude
             };
             updateStation(stationDTO);
+            updateStations();
         }).catch(swal.noop);
-        updateStations();
     });
 
     $(this).on('click', '.deleteStation', function () {
@@ -176,14 +177,60 @@ $(function () {
                 dateArrival: $('#swal-input5').val().replace('T', ' ') + ':00'
             };
             updateSchedule(schedule);
+            updateSchedules();
         }).catch(swal.noop);
-        updateSchedules();
     });
 
     $(this).on('click', '.deleteSchedule', function () {
         var id = $(this).attr('id');
         deleteSchedule(id);
         updateSchedules();
+    });
+
+    $(this).on('click', '.openScheduleTicket', function () {
+        var id = $(this).attr('id');
+        var tickets = getTickets(id);
+        var content = '';
+        for (var i = 0; i < tickets.length; i++) {
+            if (tickets[i].userBirthDay == null)
+                tickets[i].userBirthDay = '-';
+            if (tickets[i].userSex == null)
+                tickets[i].userSex = '-';
+            content = content + "<tr><th class='text-center'>" + tickets[i].userFirstName +
+                "</th><th class='text-center'>" + tickets[i].userLastName +
+                "</th><th class='text-center'>" + tickets[i].userLogin +
+                "</th><th>" + tickets[i].userBirthDay +
+                "</th><th>" + tickets[i].userSex +
+                "</th><th>" + tickets[i].seatCarriage +
+                "</th><th>" + tickets[i].seatSeat + "</th></tr>"
+        }
+        if (tickets.length > 0) {
+            swal({
+                title: 'For this schedule bought ' + tickets.length + ' tickets',
+                width: '800px',
+                html:
+                `<table class="table table-striped table-dark text-center">
+        <thead class="font-weight-bold">
+        <tr>
+            <th class="text-center">First name</th>
+            <th class="text-center">Last name</th>
+            <th class="text-center">Login</th>
+            <th>Birthday</th>
+			<th>sex</th>
+			<th>carriage</th>
+			<th>seat</th>
+        </tr>
+        </thead>
+        <tbody class="text-center text-warning" id="ticketTableId">` + content +
+                `</tbody>
+    </table>`
+            });
+        }
+        else swal({
+            title: 'Empty..',
+            text: 'For this schedule nobody bought tickets.',
+            icon: 'warning'
+        });
     });
 
     var updateSchedules = function () {
@@ -199,7 +246,8 @@ $(function () {
                 "            <td>\n" +
                 "                <button class='btn btn-outline-warning editSchedule'  id=" + schedules[i].id + "><img src='static/images/edit.png'></button>\n" +
                 "                <button class='btn btn-outline-warning deleteSchedule' id=" + schedules[i].id + "><img src='static/images/rubbish-bin.png'></button>\n" +
+                "                <button class='btn btn-outline-warning openScheduleTicket' id=" + schedules[i].id + "><img src='static/images/magnifier.png'></button>\n" +
                 "            </td>\n" +
                 "        </tr>");
     };
-})
+});

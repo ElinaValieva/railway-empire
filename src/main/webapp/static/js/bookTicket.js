@@ -27,3 +27,8 @@ function bookTicket(id, seats, token, settings) {
         console.log('thrown error: ', JSON.stringify(errorThrown));
     });
 };
+
+var getTickets = function (id) {
+    var urlSearching = "/schedule/ticket/all/" + id;
+    return getRequest(urlSearching);
+}

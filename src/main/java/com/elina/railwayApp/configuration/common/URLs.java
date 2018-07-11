@@ -43,6 +43,7 @@ public final class URLs {
     public final static String GET_SCHEDULE_TRANSFER_BY_STATIONS = "/transferByStations";
     public final static String GET_SEATS_INFO_OF_DIRECT_TRIP = "/seat/{id}";
     public final static String BOOK_TICKET_OF_DIRECT_TRIP = "/ticket";
+    public final static String GET_TICKETS = "/ticket/all/{id}";
 
     /**
      * SEAT

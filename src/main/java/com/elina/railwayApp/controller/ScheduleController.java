@@ -1,9 +1,6 @@
 package com.elina.railwayApp.controller;
 
-import com.elina.railwayApp.DTO.ScheduleDTO;
-import com.elina.railwayApp.DTO.SeatsDTO;
-import com.elina.railwayApp.DTO.TicketDTO;
-import com.elina.railwayApp.DTO.TransferScheduleDTO;
+import com.elina.railwayApp.DTO.*;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.User;
@@ -58,6 +55,8 @@ public class ScheduleController {
      * 6. can't add schedule for current day or earlier day
      *
      * @param scheduleDTO with id, date arrival/departure, stations arrival/departure, train
+     * @throws BusinessLogicException
+     * @throws ParseException
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.CREATE_SCHEDULE)
@@ -68,6 +67,9 @@ public class ScheduleController {
     /**
      * get schedules by all parameters: stations, dates and train
      * only direct trip
+     *
+     * @throws BusinessLogicException
+     * @throws ParseException
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT)
     public ResponseEntity<?> getDirectSchedulesByStationsAndDatesAndTrain(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
@@ -79,6 +81,8 @@ public class ScheduleController {
      * get schedules by dates
      * if dateArrival empty return schedule for dateDeparture
      * only direct trip
+     *
+     * @throws ParseException
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_DATES)
     public ResponseEntity<?> getDirectSchedulesByDates(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
@@ -89,6 +93,9 @@ public class ScheduleController {
     /**
      * get schedules by stations and date
      * only direct trip
+     *
+     * @throws ParseException
+     * @throws BusinessLogicException
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_STATIONS)
     public ResponseEntity<?> getDirectSchedulesByStationsAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
@@ -99,6 +106,9 @@ public class ScheduleController {
     /**
      * get schedules by train and date
      * only direct trip
+     *
+     * @throws ParseException
+     * @throws BusinessLogicException
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_TRAIN)
     public ResponseEntity<?> getDirectSchedulesByTrainAndDate(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
@@ -109,6 +119,8 @@ public class ScheduleController {
     /**
      * get schedules by stations and date
      * with transfer
+     *
+     * @throws ParseException
      */
     @PostMapping(URLs.GET_SCHEDULE_TRANSFER_BY_STATIONS)
     public ResponseEntity<?> getTransferSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
@@ -121,6 +133,7 @@ public class ScheduleController {
      *
      * @param id
      * @return
+     * @throws BusinessLogicException
      */
     @GetMapping(URLs.GET_SEATS_INFO_OF_DIRECT_TRIP)
     public ResponseEntity<?> getSeats(@PathVariable Long id) throws BusinessLogicException {
@@ -137,6 +150,7 @@ public class ScheduleController {
      *
      * @param ticketDTO
      * @return
+     * @throws BusinessLogicException
      */
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
     public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException {
@@ -176,5 +190,17 @@ public class ScheduleController {
     @PutMapping(URLs.UPDATE_SCHEDULE)
     public void updateSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.update(scheduleDTO);
+    }
+
+    /**
+     * get tickets by schedule id
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(URLs.GET_TICKETS)
+    public ResponseEntity<?> getTickets(@PathVariable Long id) {
+        List<TicketInfoDTO> tickets = ticketService.getByScheduleId(id);
+        return ResponseEntity.ok(tickets);
     }
 }

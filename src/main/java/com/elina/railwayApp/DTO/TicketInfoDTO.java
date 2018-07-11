@@ -7,8 +7,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class TicketDTO implements Serializable {
-    Long schedule;
+public class TicketInfoDTO implements Serializable {
 
     String userFirstName;
 
@@ -20,5 +19,7 @@ public class TicketDTO implements Serializable {
 
     String userSex;
 
-    SeatDTO seatDTO;
+    Integer seatCarriage;
+
+    Integer seatSeat;
 }
