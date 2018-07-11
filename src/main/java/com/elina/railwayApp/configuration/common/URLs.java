@@ -10,7 +10,7 @@ public final class URLs {
     /**
      * STATION
      */
-    public final static String STATION = "/stations";
+    public final static String STATION = "/station";
     public final static String GET_STATIONS = "/all";
     public final static String CREATE_STATION = "/add";
     public final static String DELETE_STATION = "/delete/{name}";

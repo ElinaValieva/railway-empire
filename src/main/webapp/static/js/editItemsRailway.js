@@ -169,11 +169,11 @@ $(function () {
         }).then(function () {
             var schedule = {
                 id: id,
+                trainName: $('#swal-input1').val(),
                 stationDepartureName: $('#swal-input2').val(),
                 stationArrivalName: $('#swal-input3').val(),
-                dateArrival: $('#swal-input4').val().replace('T', ' '),
-                dateDeparture: $('#swal-input5').val().replace('T', ' '),
-                trainName: $('#swal-input1').val()
+                dateDeparture: $('#swal-input4').val().replace('T', ' ') + ':00',
+                dateArrival: $('#swal-input5').val().replace('T', ' ') + ':00'
             };
             updateSchedule(schedule);
         }).catch(swal.noop);
