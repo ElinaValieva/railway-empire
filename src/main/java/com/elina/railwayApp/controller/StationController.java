@@ -14,6 +14,7 @@ import java.util.List;
 
 @Log4j
 @RestController
+@RequestMapping(value = URLs.STATION)
 public class StationController {
 
     @Autowired
@@ -44,6 +45,8 @@ public class StationController {
 
     /**
      * REMOVE STATION IF IT NOT USED (only change status of station)
+     *
+     * @param name
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_STATION)
@@ -54,31 +57,13 @@ public class StationController {
 
     /**
      * FIND STATION FOR UPDATE BY ID IF NOT USED
+     *
+     * @param stationDTO
      */
-    /*
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(value = {URLs.STATION_UPDATE}, method = RequestMethod.GET)
-    public String updateStation(@PathVariable Long id, Model model) {
-        Station station = stationService.getById(id);
-        if (station != null
-                && station.getStatus().getStatusName().equals("NOT_USED")) {
-            stationService.update(station);
-            model.addAttribute("station", station);
-        } else log.warn("CAN'T UPDATE WORKING STATION");
-        return Views.STATION;
+    @PutMapping(URLs.UPDATE_STATION)
+    public void updateStation(@RequestBody StationDTO stationDTO) throws BusinessLogicException {
+        stationService.update(stationDTO);
     }
-*/
-    /**
-     * UPDATE STATION NAME
-     */
-    /*
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(value = {URLs.UPDATE_STATION}, method = RequestMethod.POST)
-    public String updateStation(@ModelAttribute("station") Station station) {
-        log.info("UPDATE STATION");
-        stationService.update(station);
-        return Views.STATION;
-    }
-    */
 }
 

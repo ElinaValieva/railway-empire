@@ -1,3 +1,8 @@
+/**
+ * @author Valieva Elina
+ *
+ * return seats view with booking functions
+ */
 $(function () {
 
     var token = $("meta[name='_csrf']").attr("content");

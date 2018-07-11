@@ -10,6 +10,8 @@ import java.io.Serializable;
 public class StationDTO implements Serializable {
     String name;
 
+    String newName;
+
     Double latitude;
 
     Double longitude;

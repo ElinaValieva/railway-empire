@@ -19,6 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/getSeats.js"></script>
     <script src="/static/js/bookTicket.js"></script>
     <script src="static/js/seats.js"></script>

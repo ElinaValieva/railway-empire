@@ -15,7 +15,7 @@ public interface TrainService {
 
     void delete(String name) throws BusinessLogicException;
 
-    void update(Train train);
+    void update(TrainDTO trainDTO) throws BusinessLogicException;
 
     List<TrainDTO> getAll();
 

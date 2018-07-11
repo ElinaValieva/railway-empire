@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/ajaxRequest.js"></script>
 </head>
 <body>
 <div class="wrapper">

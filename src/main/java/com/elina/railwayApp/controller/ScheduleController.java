@@ -148,6 +148,7 @@ public class ScheduleController {
 
     /**
      * remove schedule if for this schedule did't bought tickets
+     *
      * @param id
      * @throws BusinessLogicException
      */
@@ -156,4 +157,24 @@ public class ScheduleController {
         scheduleService.delete(id);
     }
 
+    /**
+     * update schedule if
+     * * conditionals:
+     * * 1. can't add same stations in schedule
+     * * 2. can't add wrong times in schedule (arrival < departure)
+     * * 3. can't add intersection of schedules
+     * * 4. can't add schedule for train which placed on another station! //TODO
+     * * 5. can't add duplicate schedule
+     * * 6. can't add schedule for current day or earlier day
+     * * 7. nobody bought ticket for this schedule
+     *
+     * @param scheduleDTO
+     * @throws ParseException
+     * @throws BusinessLogicException
+     */
+
+    @PutMapping(URLs.UPDATE_SCHEDULE)
+    public void updateSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
+        scheduleService.update(scheduleDTO);
+    }
 }

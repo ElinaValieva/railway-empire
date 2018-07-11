@@ -1,30 +1,10 @@
-/**
- * @author Valieva Elina
- *
- * TRAIN:
- * addTrain - create train with ajax request
- * getTrain - get trains with info with last schedule
- * getTrains - get trains
- * deleteTrain - remove train by train name
- * updateTrain - update trains name
- */
+var getRequest = function () {
 
-
-var addTrain = function () {
-
-    var scheduleDTO = {
-        trainName: $('#trainItemsRailway').val(),
-        cntCarriage: $('#cntCarriageItemsRailway').val(),
-        cntSeats: $('#cntSeatsItemsRailway').val()
-    };
-    var urlSearching = "/train/add";
-    postRequest(scheduleDTO, urlSearching, "You add new train");
 };
 
-var getTrains = function () {
+var postRequest = function (data, urlSearching, successMessage) {
+
     var token = $("meta[name='_csrf']").attr("content");
-    var urlSearching = "/train/all";
-    var dataResponse = null;
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -33,11 +13,11 @@ var getTrains = function () {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        method: "GET",
+        method: "POST",
         url: urlSearching,
-        async: false
-    }).done(function (response) {
-        dataResponse = response;
+        data: JSON.stringify(data),
+    }).done(function () {
+        swal("Good job!", successMessage, "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
         swal("Oops..", messageError, "error");
@@ -45,13 +25,10 @@ var getTrains = function () {
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));
     });
-    return dataResponse;
 };
 
-var getAllTrains = function () {
+var putRequest = function (data, urlSearching, successMessage) {
     var token = $("meta[name='_csrf']").attr("content");
-    var urlSearching = "/train/allTrains";
-    var dataResponse = null;
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', token);
@@ -60,11 +37,11 @@ var getAllTrains = function () {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        method: "GET",
+        method: "PUT",
         url: urlSearching,
-        async: false
-    }).done(function (response) {
-        dataResponse = response;
+        data: JSON.stringify(data),
+    }).done(function () {
+        swal("Good job!", successMessage, "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
         swal("Oops..", messageError, "error");
@@ -72,16 +49,28 @@ var getAllTrains = function () {
         console.log('status text: ', textStatus);
         console.log('thrown error: ', JSON.stringify(errorThrown));
     });
-    return dataResponse;
 };
 
-var deleteTrain = function (name) {
-    var urlSearching = "/train/delete/" + name;
-    deleteRequest(urlSearching, "You delete train");
-};
-
-
-var updateTrain = function (train) {
-    var urlSearching = "/train/update";
-    putRequest(train, urlSearching, "You edit train.");
+var deleteRequest = function (urlSearching, successMessage) {
+    var token = $("meta[name='_csrf']").attr("content");
+    $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', token);
+        },
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        method: "DELETE",
+        url: urlSearching,
+        async: false
+    }).done(function () {
+        swal("Good job!", successMessage, "success");
+    }).fail(function (qXHR, textStatus, errorThrown) {
+        var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+        swal("Oops..", messageError, "error");
+        console.log('request: ', qXHR);
+        console.log('status text: ', textStatus);
+        console.log('thrown error: ', JSON.stringify(errorThrown));
+    });
 };

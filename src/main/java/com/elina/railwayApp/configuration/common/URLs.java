@@ -10,26 +10,27 @@ public final class URLs {
     /**
      * STATION
      */
-    public final static String STATION = "/station";
-    public final static String GET_STATIONS = "/station/all";
-    public final static String CREATE_STATION = "/station/add";
-    public final static String DELETE_STATION = "/station/delete/{name}";
-    public final static String UPDATE_STATION = "/station/update";
-    public static final String STATION_UPDATE = "/station/update/{id}";
+    public final static String STATION = "/stations";
+    public final static String GET_STATIONS = "/all";
+    public final static String CREATE_STATION = "/add";
+    public final static String DELETE_STATION = "/delete/{name}";
+    public final static String UPDATE_STATION = "/update";
 
     /**
      * TRAIN
      */
     public final static String TRAIN = "/train";
-    public final static String GET_TRAINS = "/train/all";
-    public final static String GET_ALL_TRAINS = "/train/allTrains";
-    public final static String CREATE_TRAIN = "/train/add";
-    public final static String DELETE_TRAIN = "/train/delete/{name}";
+    public final static String GET_TRAINS = "/all";
+    public final static String GET_ALL_TRAINS = "/allTrains";
+    public final static String CREATE_TRAIN = "/add";
+    public final static String DELETE_TRAIN = "/delete/{name}";
+    public final static String UPDATE_TRAIN = "/update";
 
     /**
      * SCHEDULE
      */
     public final static String SCHEDULE = "/schedule";
+    public final static String UPDATE_SCHEDULE = "/update";
     public final static String NEW_SCHEDULE = "/test";
     public final static String SCHEDULE_CREATE = "/createSchedule";
     public final static String GET_SCHEDULES = "/all";

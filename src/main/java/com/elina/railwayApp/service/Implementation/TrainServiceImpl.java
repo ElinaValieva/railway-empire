@@ -12,7 +12,6 @@ import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
 import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +29,6 @@ public class TrainServiceImpl implements TrainService {
     @Autowired
     private StatusDAO statusDAO;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @Override
     @Transactional
     public void add(TrainDTO trainDTO) throws BusinessLogicException {
@@ -43,20 +39,11 @@ public class TrainServiceImpl implements TrainService {
         if (trainDTO.getCntCarriage() < 0 || trainDTO.getCntCarriage() > 25 && trainDTO.getCntSeats() < 0)
             throw new BusinessLogicException(ErrorCode.WRONG_PARAMETERS_FOR_SEATS.getMessage());
 
-        Set<Seat> seats = new HashSet<>();
         Train train = new Train();
         Status status = statusDAO.getByName("NOT_USED");
         train.setStatus(status);
         train.setName(trainDTO.getTrainName());
-        for (int i = 1; i <= trainDTO.getCntCarriage(); i++) {
-            for (int j = 1; j <= trainDTO.getCntSeats(); j++) {
-                Seat seat = new Seat();
-                seat.setCarriage(i);
-                seat.setSeat(j);
-                seat.setTrain(train);
-                seats.add(seat);
-            }
-        }
+        Set<Seat> seats = getSeats(trainDTO.getCntCarriage(), trainDTO.getCntSeats(), train);
         train.setSeats(seats);
         trainDAO.add(train);
     }
@@ -79,7 +66,12 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public void update(Train train) {
+    public void update(TrainDTO trainDTO) throws BusinessLogicException {
+        Train train = getByName(trainDTO.getTrainNewName());
+        if (train != null)
+            throw new BusinessLogicException(ErrorCode.TRAIN_NOT_UNIQUE.getMessage());
+        train = getByName(trainDTO.getTrainName());
+        train.setName(trainDTO.getTrainNewName());
         Status status = statusDAO.getByName("NOT_USED");
         train.setStatus(status);
         trainDAO.update(train);
@@ -147,4 +139,17 @@ public class TrainServiceImpl implements TrainService {
         return trainDAO.getLastSchedule(train);
     }
 
+    public Set<Seat> getSeats(Integer cntCarriage, Integer cntSeats, Train train) {
+        Set<Seat> seats = new HashSet<>();
+        for (int i = 1; i <= cntCarriage; i++) {
+            for (int j = 1; j <= cntSeats; j++) {
+                Seat seat = new Seat();
+                seat.setCarriage(i);
+                seat.setSeat(j);
+                seat.setTrain(train);
+                seats.add(seat);
+            }
+        }
+        return seats;
+    }
 }

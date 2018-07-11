@@ -1,6 +1,5 @@
 package com.elina.railwayApp.controller;
 
-import com.elina.railwayApp.DTO.StationDTO;
 import com.elina.railwayApp.DTO.TrainDTO;
 import com.elina.railwayApp.DTO.TrainInfoDTO;
 import com.elina.railwayApp.configuration.common.URLs;
@@ -16,6 +15,7 @@ import java.util.List;
 
 @RestController
 @Log4j
+@RequestMapping(value = URLs.TRAIN)
 public class TrainController {
 
 
@@ -48,7 +48,7 @@ public class TrainController {
      * @param trainDTO
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @PutMapping(URLs.CREATE_TRAIN)
+    @PostMapping(URLs.CREATE_TRAIN)
     public void createTrain(@RequestBody TrainDTO trainDTO) throws BusinessLogicException {
         trainService.add(trainDTO);
     }
@@ -64,4 +64,9 @@ public class TrainController {
         trainService.delete(name);
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PutMapping(URLs.UPDATE_TRAIN)
+    public void updateTrain(@RequestBody TrainDTO trainDTO) throws BusinessLogicException {
+        trainService.update(trainDTO);
+    }
 }

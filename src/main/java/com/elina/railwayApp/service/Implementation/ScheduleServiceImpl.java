@@ -101,7 +101,46 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void update(Schedule schedule) {
+    public void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException {
+        Schedule schedule = getById(scheduleDTO.getId());
+
+        if (!ticketService.getBySchedules(schedule).isEmpty())
+            throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
+
+        Train train = trainService.getByName(scheduleDTO.getTrainName());
+        Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
+
+        if (train == null || stationDeparture == null || stationArrival == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
+        Date dateArrival = Utils.parseToDateTime(scheduleDTO.getDateArrival());
+
+        train.setName(scheduleDTO.getTrainName());
+        stationDeparture.setName(scheduleDTO.getStationDepartureName());
+        stationArrival.setName(scheduleDTO.getStationArrivalName());
+        schedule.setTrain(train);
+        schedule.setStationDeparture(stationDeparture);
+        schedule.setStationArrival(stationArrival);
+        schedule.setDateDeparture(dateDeparture);
+        schedule.setDateArrival(dateArrival);
+
+        if (!ticketService.getBySchedules(schedule).isEmpty())
+            throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
+
+        if (stationDeparture.equals(stationArrival))
+            throw new BusinessLogicException(ErrorCode.SAME_STATIONS.getMessage());
+
+        if (!dateDeparture.before(dateArrival))
+            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
+        if (!getByDateAndTrainToCheckIntersection(schedule).isEmpty())
+            throw new BusinessLogicException(ErrorCode.INTERSECTION_SCHEDULES.getMessage());
+
+        if (Utils.checkCurrentDay(dateDeparture))
+            throw new BusinessLogicException(ErrorCode.SCHEDULE_FOR_CURRENT_DAY.getMessage());
+
         scheduleDAO.update(schedule);
     }
 

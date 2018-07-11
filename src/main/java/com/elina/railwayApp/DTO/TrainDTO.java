@@ -10,6 +10,8 @@ import java.io.Serializable;
 public class TrainDTO implements Serializable {
     String trainName;
 
+    String trainNewName;
+
     Integer cntCarriage;
 
     Integer cntSeats;

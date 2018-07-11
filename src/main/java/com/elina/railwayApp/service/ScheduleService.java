@@ -22,7 +22,7 @@ public interface ScheduleService {
 
     void delete(Long id) throws BusinessLogicException;
 
-    void update(Schedule schedule);
+    void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException;
 
     List<ScheduleDTO> getAll();
 

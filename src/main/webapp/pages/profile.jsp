@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/profile.css">
     <link rel="stylesheet" href="/static/css/railway.css">
+    <script src="/static/js/ajaxRequest.js"></script>
 </head>
 <body>
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">

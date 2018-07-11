@@ -32,7 +32,7 @@ public class StationServiceImpl implements StationService {
     @Transactional
     public void add(StationDTO stationDTO) throws BusinessLogicException {
         Station stationCreating = getByName(stationDTO.getName());
-        if (stationCreating!=null)
+        if (stationCreating != null)
             throw new BusinessLogicException(ErrorCode.STATION_NOT_UNIQUE.getMessage());
         Station station = new Station();
         station.setName(stationDTO.getName());
@@ -61,7 +61,12 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public void update(Station station) {
+    public void update(StationDTO stationDTO) throws BusinessLogicException {
+        Station station = getByName(stationDTO.getNewName());
+        if (station != null)
+            throw new BusinessLogicException(ErrorCode.STATION_NOT_UNIQUE.getMessage());
+        station = getByName(stationDTO.getName());
+        station.setName(stationDTO.getNewName());
         Status status = statusDAO.getByName("NOT_USED");
         station.setStatus(status);
         stationDAO.update(station);
@@ -71,8 +76,8 @@ public class StationServiceImpl implements StationService {
     @Transactional
     public List<StationDTO> getAll() {
         List<Station> stations = stationDAO.getAll();
-        return stations.stream().filter(x->!x.getStatus().getStatusName().equals("DELETED"))
-                .map(x->modelMapper.map(x, StationDTO.class)).collect(Collectors.toList());
+        return stations.stream().filter(x -> !x.getStatus().getStatusName().equals("DELETED"))
+                .map(x -> modelMapper.map(x, StationDTO.class)).collect(Collectors.toList());
     }
 
     @Override

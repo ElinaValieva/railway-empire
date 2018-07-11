@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://unpkg.com/sweetalert@2.1.0/dist/sweetalert.min.js"></script>
+    <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/jquery-3.3.1.js"></script>
     <script src="/static/js/registration.js"></script>
 </head>

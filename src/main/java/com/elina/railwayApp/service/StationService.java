@@ -14,7 +14,7 @@ public interface StationService {
 
     void delete(String name) throws BusinessLogicException;
 
-    void update(Station station);
+    void update(StationDTO stationDTO) throws BusinessLogicException;
 
     List<StationDTO> getAll();
 

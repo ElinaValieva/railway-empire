@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/ajaxRequest.js"></script>
 </head>
 <body>
 <div>
