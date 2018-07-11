@@ -6,8 +6,6 @@ public final class Views {
     public static final String REGISTRATION = "registration";
     public static final String WELCOME = "home";
     public static final String PROFILE = "profile";
-    public static final String STATION = "station";
-    public static final String TRAIN = "train";
     public static final String SCHEDULE = "schedule";
     public static final String CREATE_SCHEDULE = "addSchedule";
     public static final String SEAT = "seat";

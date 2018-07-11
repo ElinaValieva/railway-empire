@@ -92,7 +92,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void delete(Schedule schedule) {
+    public void delete(Long id) throws BusinessLogicException {
+        Schedule schedule = getById(id);
+        if (!ticketService.getBySchedules(schedule).isEmpty())
+            throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
     }
 

@@ -1,16 +1,17 @@
 package com.elina.railwayApp.controller;
 
-import com.elina.railwayApp.DTO.*;
+import com.elina.railwayApp.DTO.ScheduleDTO;
+import com.elina.railwayApp.DTO.SeatsDTO;
+import com.elina.railwayApp.DTO.TicketDTO;
+import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
-import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.TicketService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -133,6 +134,7 @@ public class ScheduleController {
      * 1. schedule is available
      * 2. ticket not booked yet
      * 3. user with same name and date not registered on same train
+     *
      * @param ticketDTO
      * @return
      */
@@ -144,9 +146,14 @@ public class ScheduleController {
         ticketService.add(ticketDTO, user);
     }
 
-    /*
-    TODO
-    delete and update schedule
+    /**
+     * remove schedule if for this schedule did't bought tickets
+     * @param id
+     * @throws BusinessLogicException
      */
+    @DeleteMapping(URLs.DELETE_SCHEDULE)
+    public void deleteSchedule(@PathVariable Long id) throws BusinessLogicException {
+        scheduleService.delete(id);
+    }
 
 }

@@ -27,17 +27,17 @@ public class ViewController {
         return Views.WELCOME;
     }
 
-    @RequestMapping(value = URLs.REGISTRATION, method = RequestMethod.GET)
+    @RequestMapping(value = URLs.REGISTRATION)
     public String registration() {
         return Views.REGISTRATION;
     }
 
-    @RequestMapping(value = URLs.LOGIN, method = RequestMethod.GET)
+    @RequestMapping(value = URLs.LOGIN)
     public String login() {
         return Views.LOGIN;
     }
 
-    @RequestMapping(value = URLs.UPDATE_PROFILE, method = RequestMethod.GET)
+    @RequestMapping(value = URLs.UPDATE_PROFILE)
     public String getProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
@@ -46,22 +46,12 @@ public class ViewController {
         return Views.PROFILE;
     }
 
-    @RequestMapping(value = URLs.TRAIN, method = RequestMethod.GET)
-    public String train() {
-        return Views.TRAIN;
-    }
-
-    @RequestMapping(value = URLs.STATION, method = RequestMethod.GET)
-    public String station() {
-        return Views.STATION;
-    }
-
-    @RequestMapping(value = URLs.SCHEDULE, method = RequestMethod.GET)
+    @RequestMapping(value = URLs.SCHEDULE)
     public String schedule() {
         return Views.SCHEDULE;
     }
 
-    @RequestMapping(value = URLs.SCHEDULE_CREATE, method = RequestMethod.GET)
+    @RequestMapping(value = URLs.SCHEDULE_CREATE)
     public String createSchedule() {
         return Views.CREATE_SCHEDULE;
     }

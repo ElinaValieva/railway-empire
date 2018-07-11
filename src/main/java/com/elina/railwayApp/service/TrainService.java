@@ -1,6 +1,5 @@
 package com.elina.railwayApp.service;
 
-import com.elina.railwayApp.DTO.StationDTO;
 import com.elina.railwayApp.DTO.TrainDTO;
 import com.elina.railwayApp.DTO.TrainInfoDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
@@ -14,7 +13,7 @@ public interface TrainService {
 
     void add(TrainDTO trainDTO) throws BusinessLogicException;
 
-    void delete(Long id) throws BusinessLogicException;
+    void delete(String name) throws BusinessLogicException;
 
     void update(Train train);
 

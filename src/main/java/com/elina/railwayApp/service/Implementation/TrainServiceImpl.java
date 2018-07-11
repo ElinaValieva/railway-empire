@@ -63,17 +63,18 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public void delete(Long id) throws BusinessLogicException {
-        Train train = getById(id);
-        if (train == null
-                || !train.getStatus().getStatusName().equals("NOT_USED"))
+    public void delete(String name) throws BusinessLogicException {
+        Train train = getByName(name);
+        if (train == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        if (!train.getStatus().getStatusName().equals("NOT_USED"))
+            throw new BusinessLogicException(ErrorCode.TRAIN_USED.getMessage());
 
         Status status = statusDAO.getByName("DELETED");
         train.setStatus(status);
         trainDAO.update(train);
         log.info("TRAIN WAS REMOVED");
-
     }
 
     @Override
@@ -89,17 +90,18 @@ public class TrainServiceImpl implements TrainService {
     public List<TrainDTO> getAll() {
         List<Train> trains = trainDAO.getAll();
         List<TrainDTO> trainDTOList = new ArrayList<>();
-        for (Train train :
-                trains) {
-            Set<Seat> seats = train.getSeats();
-            Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
-            Integer cntSeats = Collections.max(seats.stream().map(x -> x.getSeat()).collect(Collectors.toList()));
-            TrainDTO trainDTO = new TrainDTO();
-            trainDTO.setTrainName(train.getName());
-            trainDTO.setCntCarriage(cntCarriage);
-            trainDTO.setCntSeats(cntSeats);
-            trainDTOList.add(trainDTO);
-        }
+        trains.stream()
+                .filter(train -> !train.getStatus().getStatusName().equals("DELETED"))
+                .forEach(train -> {
+                    Set<Seat> seats = train.getSeats();
+                    Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+                    Integer cntSeats = Collections.max(seats.stream().map(x -> x.getSeat()).collect(Collectors.toList()));
+                    TrainDTO trainDTO = new TrainDTO();
+                    trainDTO.setTrainName(train.getName());
+                    trainDTO.setCntCarriage(cntCarriage);
+                    trainDTO.setCntSeats(cntSeats);
+                    trainDTOList.add(trainDTO);
+                });
         return trainDTOList;
     }
 
@@ -120,12 +122,11 @@ public class TrainServiceImpl implements TrainService {
     public List<TrainInfoDTO> getLastPositionTrain() {
         List<Train> trains = trainDAO.getAll();
         List<Schedule> schedules = new ArrayList<>();
-        for (Train train :
-                trains) {
+        trains.stream().forEach(train -> {
             Schedule schedule = findLastScheduleForTrain(train);
             if (schedule != null)
                 schedules.add(schedule);
-        }
+        });
         List<TrainInfoDTO> trainInfoDTOList = new ArrayList<>();
         schedules.stream().forEach(x -> {
             Random random = new Random();

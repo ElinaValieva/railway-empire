@@ -56,12 +56,12 @@ public class TrainController {
     /**
      * REMOVE TRAIN IF IT ISN'T EXIST IN SCHEDULE
      *
-     * @param id
+     * @param name
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_TRAIN)
-    public void removeTrain(@PathVariable Long id) throws BusinessLogicException {
-        trainService.delete(id);
+    public void removeTrain(@PathVariable String name) throws BusinessLogicException {
+        trainService.delete(name);
     }
 
 }

@@ -118,4 +118,10 @@ public class TicketServiceImpl implements TicketService {
         Date date = schedule.getDateDeparture();
         return Utils.checkForCurrentDayForBookingTicket(date);
     }
+
+    @Override
+    @Transactional
+    public List<Ticket> getBySchedules(Schedule schedule) {
+        return ticketDAO.getBySchedule(schedule);
+    }
 }

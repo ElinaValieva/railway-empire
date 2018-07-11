@@ -21,7 +21,9 @@ public enum ErrorCode {
     SCHEDULE_FOR_CURRENT_DAY(13, "Can't add schedule for current day."),
     WRONG_PARAMETERS_FOR_SEATS(14, "Wrong parameters for seats"),
     STATION_NOT_UNIQUE(15, "Station not unique, it was added before."),
-    STATION_USED(16, "You try to remove station what used on schedule.");
+    STATION_USED(16, "You try to remove station what used on schedule."),
+    TRAIN_USED(17, "You try to remove train what used on schedule."),
+    SCHEDULE_IS_AVAILABLE(18, "For this schedule bought tickets.");
 
     private int code;
     private String reason;

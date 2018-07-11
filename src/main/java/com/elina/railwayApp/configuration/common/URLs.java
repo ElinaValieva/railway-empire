@@ -24,7 +24,7 @@ public final class URLs {
     public final static String GET_TRAINS = "/train/all";
     public final static String GET_ALL_TRAINS = "/train/allTrains";
     public final static String CREATE_TRAIN = "/train/add";
-    public final static String DELETE_TRAIN = "/train/remove";
+    public final static String DELETE_TRAIN = "/train/delete/{name}";
 
     /**
      * SCHEDULE
@@ -34,7 +34,7 @@ public final class URLs {
     public final static String SCHEDULE_CREATE = "/createSchedule";
     public final static String GET_SCHEDULES = "/all";
     public final static String CREATE_SCHEDULE = "/add";
-    public final static String DELETE_SCHEDULE = "/remove";
+    public final static String DELETE_SCHEDULE = "/delete/{id}";
     public final static String GET_SCHEDULE_DIRECT = "/direct";
     public final static String GET_SCHEDULE_DIRECT_BY_STATIONS = "/directByStations";
     public final static String GET_SCHEDULE_DIRECT_BY_TRAIN = "/directByTrain";

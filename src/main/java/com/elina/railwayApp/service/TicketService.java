@@ -1,6 +1,5 @@
 package com.elina.railwayApp.service;
 
-import com.elina.railwayApp.DTO.SeatDTO;
 import com.elina.railwayApp.DTO.TicketDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
@@ -33,4 +32,6 @@ public interface TicketService {
     boolean checkSeatUntilBooking(Seat seat, Schedule schedule);
 
     boolean checkScheduleForAvailability(Schedule schedule);
+
+    List<Ticket> getBySchedules(Schedule schedule);
 }

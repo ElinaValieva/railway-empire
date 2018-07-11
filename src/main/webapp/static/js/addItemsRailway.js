@@ -44,7 +44,7 @@ $(function () {
         $('#coordinatesY').hide();
         $('#addItem').click(function (event) {
             event.preventDefault();
-            trains();
+            addTrain();
         });
     });
 
