@@ -105,6 +105,6 @@ $(function () {
             carriage: currentCarriage,
             seat: parseInt(item)
         };
-        bookTicket(id, seat, token, settings);
+        tickets(id, seat, token, settings);
     });
 });

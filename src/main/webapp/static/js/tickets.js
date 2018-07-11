@@ -1,4 +1,4 @@
-function bookTicket(id, seats, token, settings) {
+function tickets(id, seats, token, settings) {
 
     var urlSearching = "/schedule/ticket";
     var data = {
@@ -30,5 +30,10 @@ function bookTicket(id, seats, token, settings) {
 
 var getTickets = function (id) {
     var urlSearching = "/schedule/ticket/all/" + id;
+    return getRequest(urlSearching);
+}
+
+var getUserTickets = function () {
+    var urlSearching = "/userMap/show";
     return getRequest(urlSearching);
 }

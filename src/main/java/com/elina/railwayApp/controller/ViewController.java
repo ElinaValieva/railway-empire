@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Log4j
 @Controller
@@ -79,5 +78,10 @@ public class ViewController {
     @RequestMapping(value = URLs.EDIT_ITEMS_RAILWAY)
     public String editItemsRailway() {
         return Views.EDIT_ITEMS_RAILWAY;
+    }
+
+    @RequestMapping(value = URLs.USERS_MAP)
+    public String showUsersMap() {
+        return Views.USERS_MAP;
     }
 }

@@ -26,4 +26,6 @@ public interface TicketDAO {
     List<Ticket> findSameUserOnTrain(User user, Schedule schedule);
 
     Ticket findTicketByScheduleAndSeat(Schedule schedule, Seat seat);
+
+    List<Ticket> getByUser(User user);
 }

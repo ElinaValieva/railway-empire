@@ -21,7 +21,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/getSeats.js"></script>
-    <script src="/static/js/bookTicket.js"></script>
+    <script src="/static/js/tickets.js"></script>
     <script src="static/js/seats.js"></script>
 </head>
 <body class="bg-light">

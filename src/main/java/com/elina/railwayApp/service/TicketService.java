@@ -37,4 +37,6 @@ public interface TicketService {
     List<Ticket> getBySchedules(Schedule schedule);
 
     List<TicketInfoDTO> getByScheduleId(Long id);
+
+    List<TicketInfoDTO> getByUser(User user);
 }

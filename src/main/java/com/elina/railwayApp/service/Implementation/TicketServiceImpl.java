@@ -140,4 +140,13 @@ public class TicketServiceImpl implements TicketService {
                 .map(x -> modelMapper.map(x, TicketInfoDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public List<TicketInfoDTO> getByUser(User user) {
+        List<Ticket> tickets = ticketDAO.getByUser(user);
+        return tickets.stream()
+                .map(x -> modelMapper.map(x, TicketInfoDTO.class))
+                .collect(Collectors.toList());
+    }
 }

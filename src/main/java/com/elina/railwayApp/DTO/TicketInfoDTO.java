@@ -19,6 +19,22 @@ public class TicketInfoDTO implements Serializable {
 
     String userSex;
 
+    String scheduleStationDepartureName;
+
+    String scheduleStationArrivalName;
+
+    String scheduleDateDeparture;
+
+    String scheduleDateArrival;
+
+    Double scheduleStationDepartureLatitude;
+
+    Double scheduleStationDepartureLongitude;
+
+    Double scheduleStationArrivalLatitude;
+
+    Double scheduleStationArrivalLongitude;
+
     Integer seatCarriage;
 
     Integer seatSeat;
