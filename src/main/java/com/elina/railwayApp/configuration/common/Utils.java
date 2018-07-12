@@ -42,7 +42,7 @@ public class Utils {
     }
 
     public static String getContext() throws IOException {
-        File file = ResourceUtils.getFile("classpath:themesMessage/templateForEmailWelcomeMessage.txt");
+        File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.txt");
         return new String(Files.readAllBytes(file.toPath()));
     }
 

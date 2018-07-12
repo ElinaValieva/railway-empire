@@ -8,15 +8,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import java.io.File;
 
 @Log4j
 @Component
@@ -52,21 +46,14 @@ public class MailService {
         javaMailSender.send(mimeMailMessage);
     }
 
-    public void sendMimeFile(Message message, String filename) throws MessagingException {
+    public void sendMimeFile(Message message, File file) throws MessagingException {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
         mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
         mimeMessageHelper.setTo(message.getAddressee());
         mimeMessageHelper.setSubject(message.getSubject());
-        MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        Multipart multipart = new MimeMultipart();
-        BodyPart messageBodyPart = new MimeBodyPart();
-        DataSource source = new FileDataSource(filename);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(filename);
-        multipart.addBodyPart(messageBodyPart);
-        if (message.getText() != null) {
-            mimeMailMessage.setContent(multipart);
+        if (file != null && message.getText() != null) {
+            mimeMessageHelper.addAttachment("TICKET PDF", file);
             mimeMessageHelper.setText(message.getText());
         }
         javaMailSender.send(mimeMailMessage);
