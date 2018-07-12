@@ -37,31 +37,43 @@
 <div class="container">
     <br>
     <div class="row text-center">
-        <div class="col-4">
+        <div class="col-3">
             <button id="chartStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
                 <img
                         src="/static/images/railroad.png"></button>
         </div>
-        <div class="col-4">
-            <button id="chartScheduleBtn"
+        <div class="col-3">
+            <button id="chartStatisticAgesBtn"
                     class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
                 <img
-                        src="/static/images/calendar.png"></button>
+                        src="/static/images/circular-line-with-word-age-in-the-center.png"></button>
         </div>
-        <div class="col-4">
-            <button id="chartTrainBtn"
-                    class="btn  btn-circle btn-xl bg-warning btn-o5
-                    1/utline-warning form-control"><img
-                    src="/static/images/subway.png"></button>
+        <div class="col-3">
+            <button id="chartTicketCntBtn"
+                    class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
+                    src="/static/images/price.png"></button>
+        </div>
+        <div class="col-3">
+            <button id="chartProfitBtn"
+                    class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
+                    src="/static/images/money.png"></button>
         </div>
     </div>
-    <div>
-        <input type="date" id="dateFrom">
-        <input type="date" id="dateTo">
+    <br>
+    <div class="row">
+        <div class="col">
+            <h4 class="text-warning font-weight-bold">DATE FROM</h4><input type="date" id="dateFrom"
+                                                                           class="form-control">
+        </div>
+        <div class="col">
+            <h4 class="text-warning font-weight-bold">DATE TO</h4><input type="date" id="dateTo" class="form-control">
+        </div>
     </div>
     <br>
     <div style="width: 1100px; height: 500px">
-        <canvas id="bar-chart" height="50" style="background: #1d2124;"></canvas>
+        <canvas hidden id="bar-chart" height="50" style="background: #1d2124"></canvas>
+        <canvas hidden id="pie-chart" height="120" style="background: #1d2124"></canvas>
+        <canvas hidden id="line-chart" height="50" style="background: #1d2124"></canvas>
     </div>
 </div>
 </body>

@@ -42,4 +42,6 @@ public interface TicketService {
     List<TicketInfoDTO> getByUser(User user);
 
     List<Ticket> getByDate(Date date);
+
+    List<Ticket> getByDates(Date dateFrom, Date dateTo);
 }

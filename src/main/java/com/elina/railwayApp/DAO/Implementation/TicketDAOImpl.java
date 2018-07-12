@@ -97,4 +97,15 @@ public class TicketDAOImpl implements TicketDAO {
                 .setParameter("date", date)
                 .getResultList();
     }
+
+    @Override
+    public List<Ticket> getByDates(Date dateFrom, Date dateTo) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Ticket " +
+                        "where schedule.dateDeparture between :dateFrom and :dateTo " +
+                        "and schedule.dateArrival between :dateFrom and :dateTo")
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .getResultList();
+    }
 }

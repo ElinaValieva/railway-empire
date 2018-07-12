@@ -31,4 +31,6 @@ public interface TicketDAO {
     List<Ticket> getByUser(User user);
 
     List<Ticket> getByDate(Date date);
+
+    List<Ticket> getByDates(Date dateFrom, Date dateTo);
 }

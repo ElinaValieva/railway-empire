@@ -27,4 +27,7 @@ public class Ticket {
 
     @OneToOne
     private Seat seat;
+
+    @Column(name = "price")
+    private Integer price;
 }

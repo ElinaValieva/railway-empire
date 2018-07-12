@@ -31,6 +31,11 @@ public class Utils {
         return newDate;
     }
 
+    public static Date getNextDay(Date date) throws ParseException {
+        Date newDate = new Date();
+        newDate.setTime(date.getTime() + (long) 1000 * 24 * 60 * 60);
+        return newDate;
+    }
     public static Date parseToDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);

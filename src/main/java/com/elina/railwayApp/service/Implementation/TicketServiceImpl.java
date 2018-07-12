@@ -155,4 +155,9 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> getByDate(Date date) {
         return ticketDAO.getByDate(date);
     }
+
+    @Override
+    public List<Ticket> getByDates(Date dateFrom, Date dateTo) {
+        return ticketDAO.getByDates(dateFrom, dateTo);
+    }
 }
