@@ -149,4 +149,10 @@ public class TicketServiceImpl implements TicketService {
                 .map(x -> modelMapper.map(x, TicketInfoDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public List<Ticket> getByDate(Date date) {
+        return ticketDAO.getByDate(date);
+    }
 }

@@ -20,8 +20,16 @@ public class Message {
 
     public static Message createWelcomeMessage(String addressee) throws IOException {
         Message message = new Message();
-        message.setContext(Utils.getContext());
+        message.setContext(Utils.getHelloContext());
         message.setSubject("WELCOME. GET START TO TRAVEL WITH RAILWAY EMPIRE!");
+        message.setAddressee(addressee);
+        return message;
+    }
+
+    public static Message createTicketMessage(String addressee) throws IOException {
+        Message message = new Message();
+        message.setContext(Utils.getTicketContext());
+        message.setSubject("HELLO. TRAVEL WITH RAILWAY EMPIRE!");
         message.setAddressee(addressee);
         return message;
     }

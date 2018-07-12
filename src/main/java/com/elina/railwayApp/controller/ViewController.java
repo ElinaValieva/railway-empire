@@ -3,7 +3,6 @@ package com.elina.railwayApp.controller;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.User;
-import com.elina.railwayApp.service.TicketBuilderPDF;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +83,10 @@ public class ViewController {
     @RequestMapping(value = URLs.USERS_MAP)
     public String showUsersMap() {
         return Views.USERS_MAP;
+    }
+
+    @RequestMapping(value = URLs.CHART)
+    public String showChart() {
+        return Views.CHART;
     }
 }

@@ -56,5 +56,7 @@ public interface ScheduleService {
 
     SeatsDTO getSeats(Long id) throws BusinessLogicException;
 
+    List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo);
+
 }
 

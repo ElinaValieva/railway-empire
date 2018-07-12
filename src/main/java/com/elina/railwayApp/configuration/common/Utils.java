@@ -41,8 +41,13 @@ public class Utils {
         return format.parse(date);
     }
 
-    public static String getContext() throws IOException {
-        File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.txt");
+    public static String getHelloContext() throws IOException {
+        File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.html");
+        return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    public static String getTicketContext() throws IOException {
+        File file = ResourceUtils.getFile("classpath:messages/templateForEmailTicketMessage.html");
         return new String(Files.readAllBytes(file.toPath()));
     }
 

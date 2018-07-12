@@ -6,6 +6,7 @@ import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -28,4 +29,6 @@ public interface TicketDAO {
     Ticket findTicketByScheduleAndSeat(Schedule schedule, Seat seat);
 
     List<Ticket> getByUser(User user);
+
+    List<Ticket> getByDate(Date date);
 }

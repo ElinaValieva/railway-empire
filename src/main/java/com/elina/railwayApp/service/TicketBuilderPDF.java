@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Component
 public class TicketBuilderPDF {
@@ -20,7 +20,7 @@ public class TicketBuilderPDF {
     @Autowired
     private MailService mailService;
 
-    public void createTicket(Ticket ticket) throws FileNotFoundException, DocumentException, MessagingException {
+    public void createTicket(Ticket ticket) throws IOException, DocumentException, MessagingException {
         Document document = new Document();
         File file = new File(getClass().getResource("/messages/ticket.pdf").getFile());
         PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
@@ -55,11 +55,7 @@ public class TicketBuilderPDF {
         document.add(new Phrase("SEX: " + ticket.getUser().getSex(), font));
         document.close();
 
-        Message message = new Message();
-        message.setAddressee(ticket.getUser().getLogin());
-        message.setSubject("TICKET FOR RAILWAY");
-        //TODO set context html
-        message.setText("hello");
+        Message message = Message.createTicketMessage(ticket.getUser().getLogin());
         mailService.sendMimeFile(message, file);
     }
 }

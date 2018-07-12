@@ -9,6 +9,7 @@ import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,4 +40,6 @@ public interface TicketService {
     List<TicketInfoDTO> getByScheduleId(Long id);
 
     List<TicketInfoDTO> getByUser(User user);
+
+    List<Ticket> getByDate(Date date);
 }

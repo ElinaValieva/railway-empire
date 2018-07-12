@@ -8,6 +8,12 @@ public final class URLs {
     public final static String USERS_MAP = "/userMap";
     public final static String SHOW_MARKERS_ON_USERS_MAP = "/userMap/show";
 
+    /**
+     * CHART
+     */
+    public final static String CHART = "/chart";
+    public final static String GET_POPULAR_STATIONS = "popularStations/dateFrom/{dateFrom}/dateTo/{dateTo}";
+
 
     /**
      * STATION

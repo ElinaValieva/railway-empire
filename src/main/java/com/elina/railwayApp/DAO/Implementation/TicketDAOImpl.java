@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -85,6 +86,15 @@ public class TicketDAOImpl implements TicketDAO {
                 .createQuery("from Ticket " +
                         "where user = :user")
                 .setParameter("user", user)
+                .getResultList();
+    }
+
+    @Override
+    public List<Ticket> getByDate(Date date) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Ticket " +
+                        "where date(schedule.dateDeparture) = :date")
+                .setParameter("date", date)
                 .getResultList();
     }
 }

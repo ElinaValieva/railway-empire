@@ -3,7 +3,6 @@ package com.elina.railwayApp.DAO.Implementation;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
-import com.elina.railwayApp.model.Train;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -205,6 +204,17 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .getResultList();
     }
 
+    @Override
+    public List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " +
+                        "where stationArrival = :station and " +
+                        "dateArrival between :dateFrom and :dateTo")
+                .setParameter("station", station)
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .getResultList();
+    }
 
 
 }

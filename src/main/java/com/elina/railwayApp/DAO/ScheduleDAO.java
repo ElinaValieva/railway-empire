@@ -38,4 +38,6 @@ public interface ScheduleDAO {
     List<Schedule> getWorkingStation(Station station, Date date);
 
     List<Schedule> getByStationsAndDatesAndTrains(Schedule schedule);
+
+    List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo);
 }

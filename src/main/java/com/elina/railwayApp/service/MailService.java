@@ -50,10 +50,11 @@ public class MailService {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
         mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
+        mimeMailMessage.setContent(message.getContext(), "text/html");
         mimeMessageHelper.setTo(message.getAddressee());
         mimeMessageHelper.setSubject(message.getSubject());
         if (file != null && message.getText() != null) {
-            mimeMessageHelper.addAttachment("TICKET PDF", file);
+            mimeMessageHelper.addAttachment("RAILWAY.pdf", file);
             mimeMessageHelper.setText(message.getText());
         }
         javaMailSender.send(mimeMailMessage);

@@ -458,5 +458,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return seatsDTO;
 
     }
+
+    @Override
+    @Transactional
+    public List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo) {
+        return scheduleDAO.getByStationArrivalAndDates(station, dateFrom, dateTo);
+    }
 }
 

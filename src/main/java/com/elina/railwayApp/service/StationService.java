@@ -18,6 +18,8 @@ public interface StationService {
 
     List<StationDTO> getAll();
 
+    List<Station> getAllStations();
+
     Station getById(Long id);
 
     Station getByName(String name);
