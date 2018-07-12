@@ -5,8 +5,8 @@ $(function () {
     var colors = [];
     var dateFrom, dateTo;
 
-    $('#dateFrom').val("2018-06-01");
-    $('#dateTo').val("2018-07-01");
+    $('#dateFrom').val("2018-06-29");
+    $('#dateTo').val("2018-07-29");
     $('#chartStationBtn').click(function (event) {
         event.preventDefault();
         dateFrom = $('#dateFrom').val();
@@ -17,7 +17,7 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartBar("",  'POPULAR STATIONS from ' + dateFrom + " to " + dateTo);
+        chartBar("station",  'POPULAR STATIONS from ' + dateFrom + " to " + dateTo);
 
     });
 
@@ -33,7 +33,7 @@ $(function () {
         values = [cnt18, cnt25, cnt35, cnt45];
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor());
-        chartPie("","AGGREGATION BY AGE");
+        chartPie("age","AGGREGATION BY AGE");
     });
 
     $('#chartTicketCntBtn').click(function (event) {
@@ -46,7 +46,7 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartLine("",  'BOOKING TICKETS COUNT on ' + dateFrom);
+        chartLine("ticket cnt",  'BOOKING TICKETS COUNT on ' + dateFrom);
         $('#dateTo').prop('disabled', false);
     });
 
@@ -60,7 +60,7 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartBar("",  'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
+        chartBar("profit",  'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
     });
 
     var chartPie = function (label, text) {
@@ -127,7 +127,7 @@ $(function () {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'AAAA',
+                        label: label,
                         backgroundColor: colors,
                         data: data
                     }

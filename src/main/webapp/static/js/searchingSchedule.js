@@ -141,6 +141,41 @@ $(function () {
         });
     });
 
+    $('#searchingBtnByDatesAndTrain').click(function (event) {
+        event.preventDefault();
+        var urlSearching = "/schedule/directByTrain";
+        var scheduleDTO = {
+            stationDepartureName: '',
+            stationArrivalName: '',
+            trainName: $('#trainInSearchingByDatesAndTrain').val(),
+            dateDeparture: $('#dateDepartureInSearchingByDatesAndTrain').val(),
+            dateArrival: $('#dateArrivalInSearchingByDatesAndTrain').val()
+        };
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            method: "POST",
+            url: urlSearching,
+            data: JSON.stringify(scheduleDTO),
+        }).done(function (response) {
+            $('#containerForSearching').show();
+            $('#containerForSearchingDirect').empty();
+            for (var i = 0; i < response.length; i++)
+                setContextForDirect(response[i]);
+        }).fail(function (qXHR, textStatus, errorThrown) {
+            var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+            swal("Oops..", messageError, "error");
+            console.log('request: ', qXHR);
+            console.log('status text: ', textStatus);
+            console.log('thrown error: ', JSON.stringify(errorThrown));
+        });
+    });
+
     var setContextForDirect = function (response) {
         $('#containerForSearchingDirect').append("<tr><th scope='row'><div><div><img src='static/images/trainIcoWarn.png'></div><label class='font-weight-normal'>" +
             response.trainName +

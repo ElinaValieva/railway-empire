@@ -42,10 +42,68 @@
         <li data-slide-to="0" class="active border-light bg-warning"></li>
         <li data-slide-to="1" class="border-light bg-warning"></li>
         <li data-slide-to="2" class="border-light bg-warning"></li>
+        <li data-slide-to="3" class="border-light bg-warning"></li>
     </ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
+
+        <div class="item active">
+            <header class="masthead" style="background-image: url('/static/images/bg.png')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10 mx-auto">
+                            <div class="site-heading">
+                                <form class="form-horizontal login_box2 align-items-center">
+                                    <div class="row">
+                                        <div class="col form-group">
+                                            <label class="text-warning font-weight-bold">FROM</label>
+                                            <input id="stationDepartureSearchingByAllParameters" type="text"
+                                                   class="form-control text-center text-dark"
+                                                   placeholder="DEPARTURE STATION" required>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col form-group">
+                                            <label class="text-warning font-weight-bold">TO</label>
+                                            <input id="stationArrivalSearchingByAllParameters" type="text"
+                                                   class="form-control text-center text-dark"
+                                                   placeholder="ARRIVAL STATION" required>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col form-group-4">
+                                            <label class="text-warning font-weight-bold">DATE DEPARTURE</label>
+                                            <input id="dateDepartureSearchingByAllParameters" type="date"
+                                                   class="form-control text-center" width="50" required>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col form-group4">
+                                            <label class="text-warning font-weight-bold">DATE ARRIVAL</label>
+                                            <input id="dateArrivalSearchingByAllParameters" type="date"
+                                                   class="form-control text-center" width="50" required>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col form-group">
+                                            <label class="text-warning font-weight-bold">TRAIN</label>
+                                            <input id="trainSearchingByAllParameters" type="text"
+                                                   class="form-control text-center" width="50" required>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="text-center">
+                                        <button id="searchingBtnByAllParameters" type="button"
+                                                class="btn btn-lg btn-outline-warning">search schedule
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
         <div class="item">
             <header class="masthead" style="background-image: url('/static/images/bg.png')">
                 <div class="container">
@@ -137,51 +195,38 @@
 
         </div>
 
-        <div class="item active">
+        <div class="item">
             <header class="masthead" style="background-image: url('/static/images/bg.png')">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 col-md-10 mx-auto">
                             <div class="site-heading">
-                                <form class="form-horizontal login_box2 align-items-center">
-                                    <div class="row">
+                                <form class="form-horizontal login_box align-items-center">
+                                    <div class="row text-center">
                                         <div class="col form-group">
-                                            <label class="text-warning font-weight-bold">FROM</label>
-                                            <input id="stationDepartureSearchingByAllParameters" type="text"
-                                                   class="form-control text-center text-dark"
-                                                   placeholder="DEPARTURE STATION" required>
-                                        </div>
-                                        <div class="col-1"></div>
-                                        <div class="col form-group">
-                                            <label class="text-warning font-weight-bold">TO</label>
-                                            <input id="stationArrivalSearchingByAllParameters" type="text"
-                                                   class="form-control text-center text-dark"
-                                                   placeholder="ARRIVAL STATION" required>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col form-group-4">
                                             <label class="text-warning font-weight-bold">DATE DEPARTURE</label>
-                                            <input id="dateDepartureSearchingByAllParameters" type="date"
-                                                   class="form-control text-center" width="50" required>
+                                            <input id="dateDepartureInSearchingByDatesAndTrain" type="date"
+                                                   class="form-control text-center text-dark"
+                                                   placeholder="DEPARTURE DATE" required>
                                         </div>
                                         <div class="col-1"></div>
-                                        <div class="col form-group4">
+                                        <div class="col form-group">
                                             <label class="text-warning font-weight-bold">DATE ARRIVAL</label>
-                                            <input id="dateArrivalSearchingByAllParameters" type="date"
-                                                   class="form-control text-center" width="50" required>
+                                            <input id="dateArrivalInSearchingByDatesAndTrain" type="date"
+                                                   class="form-control text-center text-dark"
+                                                   placeholder="ARRIVAL DATE" required>
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TRAIN</label>
-                                            <input id="trainSearchingByAllParameters" type="text"
-                                                   class="form-control text-center" width="50" required>
+                                            <input id="trainInSearchingByDatesAndTrain" type="text"
+                                                   class="form-control text-center text-dark"
+                                                   placeholder="TRAIN" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="text-center">
-                                        <button id="searchingBtnByAllParameters" type="button"
+                                        <button type="button" id="searchingBtnByDatesAndTrain"
                                                 class="btn btn-lg btn-outline-warning">search schedule
                                         </button>
                                     </div>
@@ -191,6 +236,8 @@
                     </div>
                 </div>
             </header>
+
+
         </div>
     </div>
 
