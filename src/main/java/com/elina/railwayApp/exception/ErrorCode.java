@@ -23,7 +23,9 @@ public enum ErrorCode {
     STATION_NOT_UNIQUE(15, "Station not unique, it was added before."),
     STATION_USED(16, "You try to remove station what used on schedule."),
     TRAIN_USED(17, "You try to remove train what used on schedule."),
-    SCHEDULE_IS_AVAILABLE(18, "For this schedule bought tickets.");
+    SCHEDULE_IS_AVAILABLE(18, "For this schedule bought tickets."),
+    DOCUMENT_EXCEPTION(19, "Document exception, something went wrong."),
+    FILE_EXCEPTION(20, "File not found.");
 
     private int code;
     private String reason;

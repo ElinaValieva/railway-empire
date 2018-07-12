@@ -2,11 +2,13 @@ package com.elina.railwayApp.exception;
 
 import com.elina.railwayApp.DTO.ErrorDTO;
 import lombok.extern.log4j.Log4j;
+import org.dom4j.DocumentException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -33,5 +35,13 @@ public class RailwayExceptionHandler {
     public ResponseEntity<?> handleMailException(Exception ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.MAIL_EXCEPTION.getMessage()));
+    }
+
+    @ExceptionHandler({FileNotFoundException.class, DocumentException.class})
+    public ResponseEntity<?> handleFilesException(Exception ex) {
+        log.error(ex.getMessage(), ex);
+        if (ex instanceof FileNotFoundException)
+            return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.FILE_EXCEPTION.getMessage()));
+        else return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.DOCUMENT_EXCEPTION.getMessage()));
     }
 }

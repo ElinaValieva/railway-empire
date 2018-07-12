@@ -3,7 +3,9 @@ package com.elina.railwayApp.controller;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.model.User;
+import com.elina.railwayApp.service.TicketBuilderPDF;
 import com.elina.railwayApp.service.UserService;
+import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
+
 @Log4j
 @Controller
 public class ViewController {
@@ -19,8 +24,12 @@ public class ViewController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TicketBuilderPDF ticketBuilderPDF;
+
     @RequestMapping(value = URLs.WELCOME)
-    public String home(Model model) {
+    public String home(Model model) throws FileNotFoundException, DocumentException, MessagingException {
+        ticketBuilderPDF.createTicket();
         model.addAttribute("startPage", "Hello beach!");
         model.addAttribute("message", "this is project from Elinaaas");
         return Views.WELCOME;
