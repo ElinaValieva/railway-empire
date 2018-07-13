@@ -20,6 +20,8 @@ public class ScheduleDTO implements Serializable {
     String dateDeparture;
 
     String dateArrival;
+
+    Integer price;
 }
 
 

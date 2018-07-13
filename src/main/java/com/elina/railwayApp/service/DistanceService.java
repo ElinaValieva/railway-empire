@@ -1,10 +1,13 @@
 package com.elina.railwayApp.service;
 
-import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.DTO.ScheduleDTO;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Station;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.awt.geom.Point2D;
+import java.text.ParseException;
 import java.util.Date;
 
 @Component
@@ -17,22 +20,28 @@ public class DistanceService {
     private final static Double K_PRICE = 5.0;
     private final static Double K_DAY = 62.35;
 
+    @Autowired
+    private StationService stationService;
+
     /**
      * PRICE = DISTANCE * K1 - (DATE_DEPARTURE - CURRENT_DATE) * K2;
      *
-     * @param schedule
+     * @param scheduleDTO
      * @return
      */
-    public Integer calculatePrice(Schedule schedule) {
-        if (!schedule.getDateDeparture().before(new Date())) {
+    public Integer calculatePrice(ScheduleDTO scheduleDTO) throws ParseException {
+        Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
+        Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+        Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
+        if (!dateDeparture.before(new Date())) {
             Date date = new Date();
-            Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(), schedule.getStationDeparture().getLongitude());
-            Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(), schedule.getStationArrival().getLongitude());
+            Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
+            Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
             Double distance = distance(pointDeparture, pointArrival);
         /*
         count dates between
          */
-            Long deltaDates = (schedule.getDateDeparture().getTime() - date.getTime()) / DATE;
+            Long deltaDates = (dateDeparture.getTime() - date.getTime()) / DATE;
             return (int) (distance * K_PRICE - deltaDates * K_DAY);
         } else return 0;
     }

@@ -24,7 +24,6 @@
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-light" href="/schedule">Schedule</a>
             <a class="p-2 text-light" href="/test">new Schedule</a>
-            <a class="p-2 text-light" href="/createSchedule">Add schedule</a>
             <a class="p-2 text-light" href="/userMap">new Show markers</a>
             <a class="p-2 text-light" href="/chart">Chart</a>
             <a class="p-2 text-light" href="/home/update">Profile</a>

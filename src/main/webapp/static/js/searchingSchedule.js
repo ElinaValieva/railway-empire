@@ -163,6 +163,7 @@ $(function () {
             url: urlSearching,
             data: JSON.stringify(scheduleDTO),
         }).done(function (response) {
+            alert(JSON.stringify(response));
             $('#containerForSearching').show();
             $('#containerForSearchingDirect').empty();
             for (var i = 0; i < response.length; i++)
@@ -177,20 +178,25 @@ $(function () {
     });
 
     var setContextForDirect = function (response) {
+        var disabledFlag = response.price == 0 ? 'hidden' : '';
+        var price = response.price == 0 ? 'Train arrived' : '$' + response.price;
         $('#containerForSearchingDirect').append("<tr><th scope='row'><div><div><img src='static/images/trainIcoWarn.png'></div><label class='font-weight-normal'>" +
             response.trainName +
             "</label></div></th><td><br><div><label class='font-weight-normal'>" +
             response.dateDeparture +
             "</label></div><div><label class='font-weight-bold'>" +
             response.stationDepartureName +
-            "</label></div></td><td><div style='margin-left: 40%'><label class='font-weight-light'>" +
+            "</label></div></td><td><div style='margin-left: 50%'><label class='font-weight-light'>" +
             getDelayBetweenTwoDates(response.dateDeparture, response.dateArrival) +
-            "</label></div><div style='margin-left: 40%'><img src='static/images/arrow-13-xxl.png' width='50'></div></td><td><br><div><label class='font-weight-normal'>" +
+            "</label></div><div style='margin-left: 50%'><img src='static/images/arrow-13-xxl.png' width='50'></div></td><td><br>" +
+            "<div style='margin-left: 50%'><label class='font-weight-normal'>" +
             response.dateArrival +
-            "</label></div><div><label class='font-weight-bold'>" +
+            "</label></div><div style='margin-left: 50%'><label class='font-weight-bold'>" +
             response.stationArrivalName +
             "</label></div></td><td><br>" +
-            "<button type='button' style='margin-left: 50%' class='btn btn-lg btn-outline-warning btnFindTicket' id='" + response.id + "'>FIND TICKET</button>" +
+            "<div style='margin-left: 50%'><label>" + price +
+            "</label></div><button type='button' style='margin-left: 50%' class='btn btn-lg btn-outline-warning btnFindTicket' id='" + response.id + "'" + disabledFlag +
+            ">FIND TICKET</button>" +
             "</td></tr>");
     };
 
@@ -231,7 +237,7 @@ $(function () {
 
     var getDelayBetweenTwoDates = function (dateStart, dateEnd) {
         var hourDiff = new Date(dateEnd).getTime() - new Date(dateStart).getTime();
-        var minDiff = hourDiff / 60 / 1000; //in minutes
+        var minDiff = Math.ceil(hourDiff / 60 / 1000); //in minutes
         var hDiff = hourDiff / 3600 / 1000; //in hours
         var humanReadable = {};
         humanReadable.hours = Math.floor(hDiff);
@@ -306,7 +312,6 @@ var addSchedule = function () {
         $('#dateDepartureItemsRailway').val().replace("T", " ") + ":00",
         dateArrival: dateArrival
     };
-    alert(JSON.stringify(scheduleDTO));
     var urlSearching = "/schedule/add";
     postRequest(scheduleDTO, urlSearching, "You add new schedule", "success");
 };

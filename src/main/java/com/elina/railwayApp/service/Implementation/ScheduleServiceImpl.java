@@ -66,7 +66,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
         Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
-        
+
         Date dateArrival;
         if (scheduleDTO.getDateArrival().isEmpty())
             dateArrival = distanceService.calculateDateArrival(dateDeparture, stationDeparture, stationArrival);
@@ -317,9 +317,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setStationArrival(stationArrival);
         schedules = scheduleDAO.getByStationsAndDatesAndTrains(schedule);
 
-        return schedules.stream()
-                .map(x -> modelMapper.map(x, ScheduleDTO.class))
-                .collect(Collectors.toList());
+        return mapping(schedules);
     }
 
     /**
@@ -353,9 +351,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         log.info("FOUND SCHEDULES BY STATIONS AND DATE");
 
 
-        return schedules.stream()
-                .map(x -> modelMapper.map(x, ScheduleDTO.class))
-                .collect(Collectors.toList());
+        return mapping(schedules);
     }
 
     /**
@@ -387,9 +383,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         log.info("FOUND SCHEDULES BY TRAIN AND DATE");
 
 
-        return schedules.stream()
-                .map(x -> modelMapper.map(x, ScheduleDTO.class))
-                .collect(Collectors.toList());
+        return mapping(schedules);
     }
 
     /**
@@ -410,10 +404,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
             schedules = scheduleDAO.getByDates(dateDeparture, dateArrival);
         } else schedules = scheduleDAO.getByDate(dateDeparture);
-
-        return schedules.stream()
-                .map(x -> modelMapper.map(x, ScheduleDTO.class))
-                .collect(Collectors.toList());
+        return mapping(schedules);
     }
 
     /**
@@ -472,6 +463,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo) {
         return scheduleDAO.getByStationArrivalAndDates(station, dateFrom, dateTo);
+    }
+
+    public List<ScheduleDTO> mapping(List<Schedule> schedules){
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .map(x -> {
+                    Integer price = null;
+                    try {
+                        price = distanceService.calculatePrice(x);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    x.setPrice(price);
+                    return x;
+                })
+                .collect(Collectors.toList());
     }
 }
 
