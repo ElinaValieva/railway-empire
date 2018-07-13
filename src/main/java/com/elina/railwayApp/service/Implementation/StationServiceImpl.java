@@ -7,6 +7,7 @@ import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
+import com.elina.railwayApp.service.AuditService;
 import com.elina.railwayApp.service.StationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class StationServiceImpl implements StationService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AuditService auditService;
+
     @Override
     @Transactional
     public void add(StationDTO stationDTO) throws BusinessLogicException {
@@ -41,6 +45,7 @@ public class StationServiceImpl implements StationService {
         Status status = statusDAO.getByName("NOT_USED");
         station.setStatus(status);
         stationDAO.add(station);
+        auditService.createStationAuditInfo(station);
     }
 
     @Override
@@ -57,6 +62,7 @@ public class StationServiceImpl implements StationService {
         Status status = statusDAO.getByName("DELETED");
         station.setStatus(status);
         stationDAO.update(station);
+        auditService.deleteStationAuditInfo(station);
     }
 
     @Override
@@ -70,6 +76,7 @@ public class StationServiceImpl implements StationService {
         Status status = statusDAO.getByName("NOT_USED");
         station.setStatus(status);
         stationDAO.update(station);
+        auditService.updateStationAuditInfo(stationDTO.getName(), stationDTO.getNewName());
     }
 
     @Override
@@ -79,6 +86,7 @@ public class StationServiceImpl implements StationService {
         Status status = statusDAO.getByName("NOT_USED");
         station.setStatus(status);
         stationDAO.update(station);
+        auditService.reestablishStationAuditInfo(station);
     }
 
     @Override

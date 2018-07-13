@@ -10,6 +10,7 @@ import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.model.Train;
+import com.elina.railwayApp.service.AuditService;
 import com.elina.railwayApp.service.TrainService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class TrainServiceImpl implements TrainService {
     @Autowired
     private StatusDAO statusDAO;
 
+    @Autowired
+    private AuditService auditService;
+
     @Override
     @Transactional
     public void add(TrainDTO trainDTO) throws BusinessLogicException {
@@ -46,6 +50,7 @@ public class TrainServiceImpl implements TrainService {
         Set<Seat> seats = getSeats(trainDTO.getCntCarriage(), trainDTO.getCntSeats(), train);
         train.setSeats(seats);
         trainDAO.add(train);
+        auditService.createTrainAuditInfo(train);
     }
 
     @Override
@@ -62,6 +67,7 @@ public class TrainServiceImpl implements TrainService {
         train.setStatus(status);
         trainDAO.update(train);
         log.info("TRAIN WAS REMOVED");
+        auditService.deleteTrainAuditInfo(train);
     }
 
     @Override
@@ -75,6 +81,7 @@ public class TrainServiceImpl implements TrainService {
         Status status = statusDAO.getByName("NOT_USED");
         train.setStatus(status);
         trainDAO.update(train);
+        auditService.updateTrainAuditInfo(trainDTO.getTrainName(), trainDTO.getTrainNewName());
     }
 
     @Override
@@ -84,6 +91,7 @@ public class TrainServiceImpl implements TrainService {
         Status status = statusDAO.getByName("NOT_USED");
         train.setStatus(status);
         trainDAO.update(train);
+        auditService.reestablishTrainAuditInfo(train);
     }
 
     @Override

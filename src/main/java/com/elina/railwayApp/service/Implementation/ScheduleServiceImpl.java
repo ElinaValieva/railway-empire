@@ -46,6 +46,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private DistanceService distanceService;
 
+    @Autowired
+    private AuditService auditService;
+
 
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
@@ -96,6 +99,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getStationDeparture().setStatus(status);
         schedule.getStationArrival().setStatus(status);
         scheduleDAO.add(schedule);
+        auditService.createScheduleAuditInfo(schedule);
         log.info("SCHEDULE WAS CREATED!");
     }
 
@@ -106,13 +110,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (!ticketService.getBySchedules(schedule).isEmpty())
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
+        auditService.deleteScheduleAuditInfo(schedule);
     }
 
     @Override
     @Transactional
     public void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException {
         Schedule schedule = getById(scheduleDTO.getId());
-
+        Schedule scheduleOld = schedule;
         if (!ticketService.getBySchedules(schedule).isEmpty())
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
 
@@ -151,6 +156,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.SCHEDULE_FOR_CURRENT_DAY.getMessage());
 
         scheduleDAO.update(schedule);
+        auditService.updateScheduleAuditInfo(scheduleOld, schedule);
     }
 
     @Override
