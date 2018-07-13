@@ -290,3 +290,23 @@ var updateSchedule = function (schedule) {
     var urlSearching = "/schedule/update";
     putRequest(schedule, urlSearching, "You edit schedule.");
 };
+
+var addSchedule = function () {
+    var dateArrival = '';
+    if ($('#dateArrivalItemsRailway').val() != "")
+        dateArrival = $('#dateArrivalItemsRailway').val().replace("T", " ") + ":00";
+    var scheduleDTO = {
+        stationDepartureName:
+            $('#stationDepartureItemsRailway').val(),
+        stationArrivalName:
+            $('#stationArrivalItemsRailway').val(),
+        trainName:
+            $('#trainItemsRailway').val(),
+        dateDeparture:
+        $('#dateDepartureItemsRailway').val().replace("T", " ") + ":00",
+        dateArrival: dateArrival
+    };
+    alert(JSON.stringify(scheduleDTO));
+    var urlSearching = "/schedule/add";
+    postRequest(scheduleDTO, urlSearching, "You add new schedule", "success");
+};

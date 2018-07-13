@@ -16,7 +16,7 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/style.css" rel="stylesheet" type="text/css">
     <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/plugins/jquery-3.3.1.js"></script>
     <script src="/static/js/schedule.js"></script>
 </head>
 <body class="bg-light pointer">

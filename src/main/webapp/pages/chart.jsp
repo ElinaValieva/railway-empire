@@ -16,12 +16,13 @@
     <sec:csrfMetaTags/>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/button.css">
-    <script src="/static/js/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
+    <script src="/static/js/plugins/jquery-3.3.1.js"></script>
+    <script src="/static/js/plugins/randomColor.js"></script>
+    <script src="/static/js/plugins/sweetalert2.js"></script>
+    <script src="/static/js/plugins/Chart.js"></script>
     <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/chartShowing.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png')">
 <div class="d-flex align-items-center p-3 bg-dark  box-shadow">

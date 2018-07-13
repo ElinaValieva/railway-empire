@@ -10,10 +10,7 @@ import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.*;
-import com.elina.railwayApp.service.ScheduleService;
-import com.elina.railwayApp.service.StationService;
-import com.elina.railwayApp.service.TicketService;
-import com.elina.railwayApp.service.TrainService;
+import com.elina.railwayApp.service.*;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private DistanceService distanceService;
+
+
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
 
@@ -57,19 +58,27 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
-        Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
-        Date dateArrival = Utils.parseToDateTime(scheduleDTO.getDateArrival());
         Train train = trainService.getByName(scheduleDTO.getTrainName());
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
+
+        if (stationArrival == null || stationDeparture == null || train == null)
+            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
+        
+        Date dateArrival;
+        if (scheduleDTO.getDateArrival().isEmpty())
+            dateArrival = distanceService.calculateDateArrival(dateDeparture, stationDeparture, stationArrival);
+        else dateArrival = Utils.parseToDateTime(scheduleDTO.getDateArrival());
+
         Schedule schedule = new Schedule();
         schedule.setStationDeparture(stationDeparture);
         schedule.setStationArrival(stationArrival);
         schedule.setDateDeparture(dateDeparture);
         schedule.setDateArrival(dateArrival);
         schedule.setTrain(train);
-        if (stationArrival == null || stationDeparture == null || train == null)
-            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
 
         if (stationArrival.equals(stationDeparture))
             throw new BusinessLogicException(ErrorCode.SAME_STATIONS.getMessage());

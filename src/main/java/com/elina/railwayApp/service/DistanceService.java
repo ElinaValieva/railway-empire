@@ -1,6 +1,7 @@
 package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Component;
 
 import java.awt.geom.Point2D;
@@ -17,34 +18,37 @@ public class DistanceService {
     private final static Double K_DAY = 62.35;
 
     /**
-     * PRICE = DISTANCE * K1 - (CURRENT_DATE - DATE_DEPARTURE) * K2;
+     * PRICE = DISTANCE * K1 - (DATE_DEPARTURE - CURRENT_DATE) * K2;
      *
      * @param schedule
      * @return
      */
     public Integer calculatePrice(Schedule schedule) {
-        Date date = new Date();
-        Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(), schedule.getStationDeparture().getLongitude());
-        Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(), schedule.getStationArrival().getLongitude());
-        Double distance = distance(pointDeparture, pointArrival);
+        if (!schedule.getDateDeparture().before(new Date())) {
+            Date date = new Date();
+            Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(), schedule.getStationDeparture().getLongitude());
+            Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(), schedule.getStationArrival().getLongitude());
+            Double distance = distance(pointDeparture, pointArrival);
         /*
         count dates between
          */
-        Long deltaDates = (schedule.getDateDeparture().getTime() - date.getTime()) / DATE;
-        return (int) (distance * K_PRICE - deltaDates * K_DAY);
+            Long deltaDates = (schedule.getDateDeparture().getTime() - date.getTime()) / DATE;
+            return (int) (distance * K_PRICE - deltaDates * K_DAY);
+        } else return 0;
     }
 
     /**
      * DATE_ARRIVAL = DATE_DEPARTURE + DISTANCE / SPEED_TRAIN;
      *
-     * @param schedule
+     * @param dateDeparture
+     * @param stationArrival
+     * @param stationDeparture
      * @return
      */
-    public Date calculateDateArrival(Schedule schedule) {
+    public Date calculateDateArrival(Date dateDeparture, Station stationDeparture, Station stationArrival) {
         Date newDate = new Date();
-        Date dateDeparture = schedule.getDateDeparture();
-        Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(), schedule.getStationDeparture().getLongitude());
-        Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(), schedule.getStationArrival().getLongitude());
+        Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
+        Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
         Double distance = distance(pointDeparture, pointArrival);
         /*
         time in milliseconds

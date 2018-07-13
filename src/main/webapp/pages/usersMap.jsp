@@ -16,8 +16,9 @@
     <sec:csrfMetaTags/>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/map.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.0/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
+    <script src="/static/js/plugins/jquery-3.3.1.js"></script>
+    <script src="/static/js/plugins/sweetalert2.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/tickets.js"></script>

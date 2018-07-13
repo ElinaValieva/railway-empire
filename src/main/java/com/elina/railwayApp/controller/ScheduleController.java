@@ -59,7 +59,7 @@ public class ScheduleController {
      * @throws ParseException
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @PutMapping(URLs.CREATE_SCHEDULE)
+    @PostMapping(URLs.CREATE_SCHEDULE)
     public void createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.add(scheduleDTO);
     }
@@ -174,12 +174,12 @@ public class ScheduleController {
     /**
      * update schedule if
      * * conditionals:
-     * * 1. can't add same stations in schedule
-     * * 2. can't add wrong times in schedule (arrival < departure)
-     * * 3. can't add intersection of schedules
-     * * 4. can't add schedule for train which placed on another station! //TODO
-     * * 5. can't add duplicate schedule
-     * * 6. can't add schedule for current day or earlier day
+     * * 1. can't update same stations in schedule
+     * * 2. can't update wrong times in schedule (arrival < departure)
+     * * 3. can't update intersection of schedules
+     * * 4. can't update schedule for train which placed on another station! //TODO
+     * * 5. can't update duplicate schedule
+     * * 6. can't update schedule for current day or earlier day
      * * 7. nobody bought ticket for this schedule
      *
      * @param scheduleDTO
