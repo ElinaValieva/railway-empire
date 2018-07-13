@@ -274,6 +274,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                         transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
                         transferScheduleDTO.setIdScheduleDeparture(schedule.getId());
                         transferScheduleDTO.setIdScheduleArrival(transfer.getId());
+                        transferScheduleDTO.setPrice(distanceService.calculateTransferTripPrice(schedule, transfer));
                         transferScheduleDTOS.add(transferScheduleDTO);
                     });
             }
@@ -465,13 +466,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleDAO.getByStationArrivalAndDates(station, dateFrom, dateTo);
     }
 
-    public List<ScheduleDTO> mapping(List<Schedule> schedules){
+    public List<ScheduleDTO> mapping(List<Schedule> schedules) {
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .map(x -> {
                     Integer price = null;
                     try {
-                        price = distanceService.calculatePrice(x);
+                        price = distanceService.calculateDirectTripPrice(x);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

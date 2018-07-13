@@ -201,6 +201,8 @@ $(function () {
     };
 
     var setContextForTransfer = function (response) {
+        var disabledFlag = response.price == 0 ? 'hidden' : '';
+        var price = response.price == 0 ? 'Train arrived' : '$' + response.price;
         $('#containerForSearchingTransfer').append("<tr><th scope='row'><div><div><img src='static/images/trainIcoWarn.png'></div><label class='font-weight-normal'>" +
             response.trainDepartureName +
             "</label></div></th><td><br><div><label class='font-weight-normal'>" +
@@ -228,11 +230,12 @@ $(function () {
             response.dateArrival +
             "</label></div><div><label class='font-weight-bold'>" +
             response.stationArrivalName +
-            "</label></div></td><td><br><button class='btn btn-lg btn-outline-warning btnFindTicketTransfer' id='dep"
+            "</label></div></td><td><br>" +
+            "<label>" + price + "</label>" +
+            "<button class='btn btn-lg btn-outline-warning btnFindTicketTransfer' id='dep"
             + response.idScheduleDeparture +
-            "arr" + response.idScheduleArrival + "'" + ">FIND TICKET</button></td></tr>"
-        )
-        ;
+            "arr" + response.idScheduleArrival + "'" + disabledFlag + ">FIND TICKET</button></td></tr>"
+        );
     };
 
     var getDelayBetweenTwoDates = function (dateStart, dateEnd) {

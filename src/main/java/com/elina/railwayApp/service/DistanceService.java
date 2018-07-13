@@ -2,6 +2,7 @@ package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.DTO.ScheduleDTO;
 import com.elina.railwayApp.configuration.common.Utils;
+import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class DistanceService {
      * @param scheduleDTO
      * @return
      */
-    public Integer calculatePrice(ScheduleDTO scheduleDTO) throws ParseException {
+    public Integer calculateDirectTripPrice(ScheduleDTO scheduleDTO) throws ParseException {
         Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
@@ -43,6 +44,26 @@ public class DistanceService {
          */
             Long deltaDates = (dateDeparture.getTime() - date.getTime()) / DATE;
             return (int) (distance * K_PRICE - deltaDates * K_DAY);
+        } else return 0;
+    }
+
+    public Integer calculateTransferTripPrice(Schedule scheduleDeparture, Schedule scheduleArrival) {
+        Date dateDeparture = scheduleDeparture.getDateDeparture();
+        Station stationDeparture = scheduleDeparture.getStationDeparture();
+        Station stationIntermediate = scheduleDeparture.getStationArrival();
+        Station stationArrival = scheduleArrival.getStationArrival();
+        if (!dateDeparture.before(new Date())) {
+            Date date = new Date();
+            Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
+            Point2D pointIntermediateDeparture = new Point2D.Double(stationIntermediate.getLatitude(), stationIntermediate.getLongitude());
+            Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
+            Double distanceA = distance(pointDeparture, pointIntermediateDeparture);
+            Double distanceB = distance(pointIntermediateDeparture, pointArrival);
+        /*
+        count dates between
+         */
+            Long deltaDates = (dateDeparture.getTime() - date.getTime()) / DATE;
+            return (int) ((distanceA + distanceB) * K_PRICE - deltaDates * K_DAY);
         } else return 0;
     }
 

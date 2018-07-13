@@ -30,4 +30,6 @@ public class TransferScheduleDTO implements Serializable {
     String dateIntermediateArrival;
 
     String dateArrival;
+
+    Integer price;
 }
