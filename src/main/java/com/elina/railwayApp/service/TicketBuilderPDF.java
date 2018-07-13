@@ -33,29 +33,29 @@ public class TicketBuilderPDF {
                 ticket.getSchedule().getStationArrival().getLatitude().toString() + ' ' + ticket.getSchedule().getStationArrival().getLongitude().toString());
         barcode128.setCodeType(Barcode128.CODE128);
         barcode128.setBarHeight(100);
-        Image code128Image = barcode128.createImageWithBarcode(pdfContentByte, BaseColor.RED, BaseColor.BLACK);
-        code128Image.setAbsolutePosition(10, 700);
+        Image code128Image = barcode128.createImageWithBarcode(pdfContentByte, BaseColor.BLACK, BaseColor.ORANGE);
+        code128Image.setAbsolutePosition(10, 10);
         code128Image.scalePercent(100);
-
         document.add(code128Image);
-
-        Font font = new Font(Font.FontFamily.TIMES_ROMAN, 36, Font.NORMAL, BaseColor.BLACK);
-        document.add(new Phrase("TICKET INFO", font));
-        document.add(new Phrase("STATION DEPARTURE: " + ticket.getSchedule().getStationDeparture().getName(), font));
-        document.add(new Phrase("STATION ARRIVAL: " + ticket.getSchedule().getStationArrival().getName(), font));
-        document.add(new Phrase("TRAIN: " + ticket.getSchedule().getTrain().getName(), font));
-        document.add(new Phrase("DATE DEPARTURE: " + ticket.getSchedule().getDateDeparture().toString(), font));
-        document.add(new Phrase("DATE ARRIVAL: " + ticket.getSchedule().getStationArrival().toString(), font));
-        document.add(new Phrase("CARRIAGE: " + String.valueOf(ticket.getSeat().getCarriage()), font));
-        document.add(new Phrase("SEAT: " + String.valueOf(ticket.getSeat().getSeat()), font));
-        document.add(new Phrase("PASSENGER INFO: ", font));
-        document.add(new Phrase("FIRST NAME: " + ticket.getUser().getFirstName(), font));
-        document.add(new Phrase("LAST NAME: " + ticket.getUser().getLastName(), font));
-        document.add(new Phrase("BIRTHDAY: " + ticket.getUser().getBirthDay(), font));
-        document.add(new Phrase("SEX: " + ticket.getUser().getSex(), font));
+        Font font = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD, BaseColor.ORANGE);
+        Font fontText = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.NORMAL, BaseColor.BLACK);
+        document.add(new Paragraph("TICKET INFO", font));
+        document.add(new Paragraph("STATION DEPARTURE: " + ticket.getSchedule().getStationDeparture().getName(), fontText));
+        document.add(new Paragraph("STATION ARRIVAL: " + ticket.getSchedule().getStationArrival().getName(), fontText));
+        document.add(new Paragraph("TRAIN: " + ticket.getSchedule().getTrain().getName(), fontText));
+        document.add(new Paragraph("DATE DEPARTURE: " + ticket.getSchedule().getDateDeparture().toString(), fontText));
+        document.add(new Paragraph("DATE ARRIVAL: " + ticket.getSchedule().getStationArrival().toString(), fontText));
+        document.add(new Paragraph("CARRIAGE: " + String.valueOf(ticket.getSeat().getCarriage()), fontText));
+        document.add(new Paragraph("SEAT: " + String.valueOf(ticket.getSeat().getSeat()), fontText));
+        document.add(new Paragraph("PRICE: $" + String.valueOf(ticket.getPrice()), fontText));
+        document.add(new Paragraph());
+        document.add(new Paragraph("PASSENGER INFO: ", font));
+        document.add(new Paragraph("FIRST NAME: " + ticket.getUser().getFirstName(), fontText));
+        document.add(new Paragraph("LAST NAME: " + ticket.getUser().getLastName(), fontText));
         document.close();
 
         Message message = Message.createTicketMessage(ticket.getUser().getLogin());
         mailService.sendMimeFile(message, file);
+
     }
 }

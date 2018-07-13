@@ -7,6 +7,7 @@ import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.TicketService;
 import com.elina.railwayApp.service.UserService;
+import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -153,7 +156,7 @@ public class ScheduleController {
      * @throws BusinessLogicException
      */
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
-    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException {
+    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userService.findByEmail(userName);

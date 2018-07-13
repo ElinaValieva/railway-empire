@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
     USER_ALREADY_EXIST(1, "User already was registered. Try another e-mail or sign in."),
-    TICKET_ALREADY_BOOKED(2, "You book ticket on this yet."),
+    TICKET_ALREADY_BOOKED(2, "You book ticket on this train yet."),
     TRAIN_WAS_ARRIVED(3, "Train was arrived or will arrive after 10 minutes."),
     NULL_ELEMENTS(4, "Wrong parameters, not found."),
     WRONG_PARAMETERS_FOR_SCHEDULE(5, "Wrong parameters for schedule. Try to check date or stations."),

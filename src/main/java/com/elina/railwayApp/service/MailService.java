@@ -9,8 +9,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.File;
+import java.io.IOException;
 
 @Log4j
 @Component
@@ -46,17 +50,23 @@ public class MailService {
         javaMailSender.send(mimeMailMessage);
     }
 
-    public void sendMimeFile(Message message, File file) throws MessagingException {
+    public void sendMimeFile(Message message, File file) throws MessagingException, IOException {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
         mimeMessageHelper.setFrom("railway.t-systems@mail.ru");
-        mimeMailMessage.setContent(message.getContext(), "text/html");
         mimeMessageHelper.setTo(message.getAddressee());
         mimeMessageHelper.setSubject(message.getSubject());
-        if (file != null && message.getText() != null) {
-            mimeMessageHelper.addAttachment("RAILWAY.pdf", file);
-            mimeMessageHelper.setText(message.getText());
-        }
+
+        Multipart multipart = new MimeMultipart();
+        MimeBodyPart attachment = new MimeBodyPart();
+        attachment.attachFile(file);
+        multipart.addBodyPart(attachment);
+
+        MimeBodyPart textContext = new MimeBodyPart();
+        textContext.setContent(message.getContext(), "text/html");
+        multipart.addBodyPart(textContext);
+
+        mimeMailMessage.setContent(multipart);
         javaMailSender.send(mimeMailMessage);
     }
 

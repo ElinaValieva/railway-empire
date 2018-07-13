@@ -17,8 +17,20 @@ function tickets(id, seats, token, settings) {
         url: urlSearching,
         data: JSON.stringify(data),
     }).done(function () {
-        swal("Congratulations!", "You book ticket", "success");
         $('.' + settings.selectingSeatCss).removeClass(settings.selectingSeatCss).addClass(settings.selectedSeatCss);
+        swal({
+            title: "Congratulations!",
+            text: "You book ticket",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'home page!',
+        }).then((result) => {
+            if (result.value) {
+                window.location = "/home";
+            }
+        });
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
         swal("Oops..", messageError, "error");

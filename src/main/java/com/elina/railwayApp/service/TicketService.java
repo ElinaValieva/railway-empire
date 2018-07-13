@@ -7,8 +7,11 @@ import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
+import com.itextpdf.text.DocumentException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +20,7 @@ public interface TicketService {
 
     void add(Ticket ticket);
 
-    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException;
+    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException;
 
     void delete(Ticket ticket);
 

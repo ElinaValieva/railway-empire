@@ -47,6 +47,22 @@ public class DistanceService {
         } else return 0;
     }
 
+    public Integer calculateDirectTripPrice(Schedule schedule) {
+        if (!schedule.getDateDeparture().before(new Date())) {
+            Date date = new Date();
+            Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(),
+                    schedule.getStationDeparture().getLongitude());
+            Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(),
+                    schedule.getStationArrival().getLongitude());
+            Double distance = distance(pointDeparture, pointArrival);
+        /*
+        count dates between
+         */
+            Long deltaDates = (schedule.getDateDeparture().getTime() - date.getTime()) / DATE;
+            return (int) (distance * K_PRICE - deltaDates * K_DAY);
+        } else return 0;
+    }
+
     public Integer calculateTransferTripPrice(Schedule scheduleDeparture, Schedule scheduleArrival) {
         Date dateDeparture = scheduleDeparture.getDateDeparture();
         Station stationDeparture = scheduleDeparture.getStationDeparture();

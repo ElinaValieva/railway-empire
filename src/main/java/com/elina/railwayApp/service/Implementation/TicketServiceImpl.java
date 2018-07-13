@@ -7,15 +7,16 @@ import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.*;
-import com.elina.railwayApp.service.ScheduleService;
-import com.elina.railwayApp.service.SeatService;
-import com.elina.railwayApp.service.TicketService;
+import com.elina.railwayApp.service.*;
+import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,13 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private TicketBuilderPDF ticketBuilderPDF;
+
+    @Autowired
+    private DistanceService distanceService;
+
+
     @Override
     @Transactional
     public void add(Ticket ticket) {
@@ -45,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException {
+    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException {
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
 
         if (schedule == null || user == null)
@@ -67,7 +75,9 @@ public class TicketServiceImpl implements TicketService {
         ticket.setSchedule(schedule);
         ticket.setSeat(seat);
         ticket.setUser(user);
+        ticket.setPrice(distanceService.calculateDirectTripPrice(schedule));
         add(ticket);
+        ticketBuilderPDF.createTicket(ticket);
         log.info("TICKET BOOKED WITH SUCCESS STATUS");
     }
 
