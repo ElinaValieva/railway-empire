@@ -80,6 +80,20 @@
         <tbody class="text-center text-warning" id="trainTableId">
         </tbody>
     </table>
+
+    <table class="table table-striped table-dark" id="auditTable">
+        <thead class="font-weight-bold">
+        <tr>
+            <th class="text-center">Changed date</th>
+            <th class="text-center">Changed by</th>
+            <th class="text-center">Event</th>
+            <th class="text-center">New value</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="text-center text-warning" id="auditTableId">
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

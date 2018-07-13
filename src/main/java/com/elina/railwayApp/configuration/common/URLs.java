@@ -7,6 +7,7 @@ public final class URLs {
     public final static String UPDATE_PROFILE = "/home/update";
     public final static String USERS_MAP = "/userMap";
     public final static String SHOW_MARKERS_ON_USERS_MAP = "/userMap/show";
+    public final static String AUDIT = "/audit";
 
     /**
      * CHART

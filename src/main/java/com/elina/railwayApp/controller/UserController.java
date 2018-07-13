@@ -1,11 +1,13 @@
 package com.elina.railwayApp.controller;
 
+import com.elina.railwayApp.DTO.AuditDTO;
 import com.elina.railwayApp.DTO.TicketInfoDTO;
 import com.elina.railwayApp.DTO.UserDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.User;
+import com.elina.railwayApp.service.AuditService;
 import com.elina.railwayApp.service.TicketService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
@@ -31,6 +33,9 @@ public class UserController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private AuditService auditService;
+
     @PutMapping(URLs.REGISTRATION)
     public void registration(@RequestBody UserDTO userDTO) throws BusinessLogicException, MessagingException, IOException {
         userService.registration(userDTO);
@@ -54,6 +59,12 @@ public class UserController {
         User user = userService.findByEmail(userName);
         List<TicketInfoDTO> tickets = ticketService.getByUser(user);
         return ResponseEntity.ok(tickets);
+    }
+
+    @GetMapping(URLs.AUDIT)
+    public ResponseEntity<?> getAuditInfo() {
+        List<AuditDTO> auditDTOList = auditService.getAuditsInfo();
+        return ResponseEntity.ok(auditDTOList);
     }
 
 }

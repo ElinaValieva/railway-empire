@@ -1,9 +1,12 @@
 package com.elina.railwayApp.service;
 
+import com.elina.railwayApp.DTO.AuditDTO;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Train;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface AuditService {
@@ -29,5 +32,7 @@ public interface AuditService {
     void deleteScheduleAuditInfo(Schedule schedule);
 
     void updateScheduleAuditInfo(Schedule oldSchedule, Schedule newSchedule);
+
+    List<AuditDTO> getAuditsInfo();
 
 }

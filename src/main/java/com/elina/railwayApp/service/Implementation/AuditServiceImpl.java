@@ -1,9 +1,11 @@
 package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.AuditDAO;
+import com.elina.railwayApp.DTO.AuditDTO;
 import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.AuditService;
 import com.elina.railwayApp.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuditServiceImpl implements AuditService {
@@ -20,6 +24,9 @@ public class AuditServiceImpl implements AuditService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -155,6 +162,14 @@ public class AuditServiceImpl implements AuditService {
                 + newSchedule.getDateDeparture() + " - "
                 + newSchedule.getDateArrival());
         auditDAO.add(audit);
+    }
+
+    @Override
+    @Transactional
+    public List<AuditDTO> getAuditsInfo() {
+        return auditDAO.getAll().stream()
+                .map(x -> modelMapper.map(x, AuditDTO.class))
+                .collect(Collectors.toList());
     }
 
     public User getAuthorisedUser() {
