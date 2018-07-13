@@ -89,4 +89,9 @@ public class ViewController {
     public String showChart() {
         return Views.CHART;
     }
+
+    @RequestMapping(value = URLs.SHOW_DELETED_ITEMS_RAILWAY)
+    public String showDeletedItemsRailway() {
+        return Views.DELETED_ITEMS_RAILWAY;
+    }
 }

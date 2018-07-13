@@ -65,5 +65,24 @@ public class StationController {
     public void updateStation(@RequestBody StationDTO stationDTO) throws BusinessLogicException {
         stationService.update(stationDTO);
     }
+
+    /**
+     * RETURN DELETED STATIONS FOR REESTABLISH BY ADMIN
+     * @return
+     */
+    @GetMapping(URLs.DELETED_STATIONS)
+    public ResponseEntity<?> getAllDeletedStations() {
+        List<StationDTO> stationDTOList = stationService.getAllDeletedStations();
+        return ResponseEntity.ok(stationDTOList);
+    }
+
+    /**
+     * REESTABLISH STATIONS
+     * @param name
+     */
+    @GetMapping(URLs.REESTABLISH_STATION)
+    public void reestablishTrain(@PathVariable String name){
+        stationService.reestablish(name);
+    }
 }
 

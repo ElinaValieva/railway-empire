@@ -64,9 +64,34 @@ public class TrainController {
         trainService.delete(name);
     }
 
+    /**
+     * UPDATE TRAINS NAME
+     *
+     * @param trainDTO
+     * @throws BusinessLogicException
+     */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.UPDATE_TRAIN)
     public void updateTrain(@RequestBody TrainDTO trainDTO) throws BusinessLogicException {
         trainService.update(trainDTO);
+    }
+
+    /**
+     * RETURN ALL DELETED TRAINS
+     * @return
+     */
+    @GetMapping(URLs.DELETED_TRAINS)
+    public ResponseEntity<?> getAllDeletedTrains() {
+        List<TrainDTO> trainDTOList = trainService.getAllDeletedTrains();
+        return ResponseEntity.ok(trainDTOList);
+    }
+
+    /**
+     * REESTABLISH TRAIN
+     * @param name
+     */
+    @GetMapping(URLs.REESTABLISH_TRAIN)
+    public void reestablishTrain(@PathVariable String name){
+        trainService.reestablish(name);
     }
 }

@@ -74,6 +74,15 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
+    public void reestablish(String name) {
+        Station station = getByName(name);
+        Status status = statusDAO.getByName("NOT_USED");
+        station.setStatus(status);
+        stationDAO.update(station);
+    }
+
+    @Override
+    @Transactional
     public List<StationDTO> getAll() {
         List<Station> stations = stationDAO.getAll();
         return stations.stream().filter(x -> !x.getStatus().getStatusName().equals("DELETED"))
@@ -84,6 +93,14 @@ public class StationServiceImpl implements StationService {
     @Transactional
     public List<Station> getAllStations() {
         return stationDAO.getAll();
+    }
+
+    @Override
+    @Transactional
+    public List<StationDTO> getAllDeletedStations() {
+        List<Station> stations = stationDAO.getAll();
+        return stations.stream().filter(x -> x.getStatus().getStatusName().equals("DELETED"))
+                .map(x -> modelMapper.map(x, StationDTO.class)).collect(Collectors.toList());
     }
 
     @Override

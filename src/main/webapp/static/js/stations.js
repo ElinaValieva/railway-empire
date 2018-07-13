@@ -57,3 +57,14 @@ var updateStation = function (station) {
     var urlSearching = "/station/update";
     putRequest(station, urlSearching, "You edit station.");
 }
+
+var reestablishStation = function (station) {
+    var urlSearching = "/station/reestablish/" + station;
+    getRequest(urlSearching);
+}
+
+var getAllDeletedStations = function () {
+    var urlSearching = "/station/deletedStations";
+    return getRequest(urlSearching);
+
+}

@@ -41,3 +41,14 @@ var updateTrain = function (train) {
     var urlSearching = "/train/update";
     putRequest(train, urlSearching, "You edit train.");
 };
+
+
+var reestablishTrain = function (station) {
+    var urlSearching = "/train/reestablish/" + station;
+    getRequest(urlSearching);
+}
+
+var getAllDeletedTrains = function () {
+    var urlSearching = "/train/deletedTrains";
+    return getRequest(urlSearching);
+}

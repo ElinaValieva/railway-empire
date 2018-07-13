@@ -17,6 +17,8 @@ public interface TrainService {
 
     void update(TrainDTO trainDTO) throws BusinessLogicException;
 
+    void reestablish(String name);
+
     List<TrainDTO> getAll();
 
     Train getById(Long id);
@@ -24,4 +26,6 @@ public interface TrainService {
     Train getByName(String name);
 
     List<TrainInfoDTO> getLastPositionTrain();
+
+    List<TrainDTO> getAllDeletedTrains();
 }

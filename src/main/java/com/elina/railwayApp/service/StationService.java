@@ -16,9 +16,13 @@ public interface StationService {
 
     void update(StationDTO stationDTO) throws BusinessLogicException;
 
+    void reestablish(String name);
+
     List<StationDTO> getAll();
 
     List<Station> getAllStations();
+
+    List<StationDTO> getAllDeletedStations();
 
     Station getById(Long id);
 

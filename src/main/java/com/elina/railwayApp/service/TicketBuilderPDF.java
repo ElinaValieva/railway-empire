@@ -49,7 +49,7 @@ public class TicketBuilderPDF {
         document.add(new Paragraph("SEAT: " + String.valueOf(ticket.getSeat().getSeat()), fontText));
         document.add(new Paragraph("PRICE: $" + String.valueOf(ticket.getPrice()), fontText));
         document.add(new Paragraph());
-        document.add(new Paragraph("PASSENGER INFO: ", font));
+        document.add(new Paragraph("PASSENGER INFO", font));
         document.add(new Paragraph("FIRST NAME: " + ticket.getUser().getFirstName(), fontText));
         document.add(new Paragraph("LAST NAME: " + ticket.getUser().getLastName(), fontText));
         document.close();

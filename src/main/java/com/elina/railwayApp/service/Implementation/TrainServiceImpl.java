@@ -79,19 +79,22 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
+    public void reestablish(String name) {
+        Train train = getByName(name);
+        Status status = statusDAO.getByName("NOT_USED");
+        train.setStatus(status);
+        trainDAO.update(train);
+    }
+
+    @Override
+    @Transactional
     public List<TrainDTO> getAll() {
         List<Train> trains = trainDAO.getAll();
         List<TrainDTO> trainDTOList = new ArrayList<>();
         trains.stream()
                 .filter(train -> !train.getStatus().getStatusName().equals("DELETED"))
                 .forEach(train -> {
-                    Set<Seat> seats = train.getSeats();
-                    Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
-                    Integer cntSeats = Collections.max(seats.stream().map(x -> x.getSeat()).collect(Collectors.toList()));
-                    TrainDTO trainDTO = new TrainDTO();
-                    trainDTO.setTrainName(train.getName());
-                    trainDTO.setCntCarriage(cntCarriage);
-                    trainDTO.setCntSeats(cntSeats);
+                    TrainDTO trainDTO = mapping(train);
                     trainDTOList.add(trainDTO);
                 });
         return trainDTOList;
@@ -134,6 +137,20 @@ public class TrainServiceImpl implements TrainService {
         return trainInfoDTOList;
     }
 
+    @Override
+    @Transactional
+    public List<TrainDTO> getAllDeletedTrains() {
+        List<Train> trains = trainDAO.getAll();
+        List<TrainDTO> trainDTOList = new ArrayList<>();
+        trains.stream()
+                .filter(train -> train.getStatus().getStatusName().equals("DELETED"))
+                .forEach(train -> {
+                    TrainDTO trainDTO = mapping(train);
+                    trainDTOList.add(trainDTO);
+                });
+        return trainDTOList;
+    }
+
     @Transactional
     public Schedule findLastScheduleForTrain(Train train) {
         return trainDAO.getLastSchedule(train);
@@ -151,5 +168,16 @@ public class TrainServiceImpl implements TrainService {
             }
         }
         return seats;
+    }
+
+    public TrainDTO mapping(Train train) {
+        Set<Seat> seats = train.getSeats();
+        Integer cntCarriage = Collections.max(seats.stream().map(x -> x.getCarriage()).collect(Collectors.toList()));
+        Integer cntSeats = Collections.max(seats.stream().map(x -> x.getSeat()).collect(Collectors.toList()));
+        TrainDTO trainDTO = new TrainDTO();
+        trainDTO.setTrainName(train.getName());
+        trainDTO.setCntCarriage(cntCarriage);
+        trainDTO.setCntSeats(cntSeats);
+        return trainDTO;
     }
 }

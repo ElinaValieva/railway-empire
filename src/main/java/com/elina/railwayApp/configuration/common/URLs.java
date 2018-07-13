@@ -26,6 +26,8 @@ public final class URLs {
     public final static String CREATE_STATION = "/add";
     public final static String DELETE_STATION = "/delete/{name}";
     public final static String UPDATE_STATION = "/update";
+    public final static String DELETED_STATIONS = "/deletedStations";
+    public final static String REESTABLISH_STATION = "/reestablish/{name}";
 
     /**
      * TRAIN
@@ -36,6 +38,8 @@ public final class URLs {
     public final static String CREATE_TRAIN = "/add";
     public final static String DELETE_TRAIN = "/delete/{name}";
     public final static String UPDATE_TRAIN = "/update";
+    public final static String DELETED_TRAINS = "/deletedTrains";
+    public final static String REESTABLISH_TRAIN = "/reestablish/{name}";
 
     /**
      * SCHEDULE
@@ -62,10 +66,11 @@ public final class URLs {
     public final static String SEAT = "/seat";
 
     /**
-     * ADD ITEM RAILWAY
+     * ITEM RAILWAY
      */
     public final static String ADD_ITEM_RAILWAY = "/addItems";
     public final static String SHOW_ITEMS_RAILWAY = "/showItems";
     public final static String EDIT_ITEMS_RAILWAY = "/editItems";
+    public final static String SHOW_DELETED_ITEMS_RAILWAY = "/showDeletedItems";
 }
 
