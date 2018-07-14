@@ -26,7 +26,8 @@ public enum ErrorCode {
     SCHEDULE_IS_AVAILABLE(18, "For this schedule bought tickets."),
     DOCUMENT_EXCEPTION(19, "Document exception, something went wrong."),
     FILE_EXCEPTION(20, "File not found."),
-    WRONG_BIRTHDAY(21, "Wrong birthday date. Try to change it.");
+    WRONG_BIRTHDAY(21, "Wrong birthday date. Try to change it."),
+    USER_NOT_FOUND(22, "Wrong login or pass. Try again.");
 
     private int code;
     private String reason;

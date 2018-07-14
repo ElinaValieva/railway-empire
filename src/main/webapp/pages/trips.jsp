@@ -21,18 +21,31 @@
     <script src="/static/js/trips.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png')">
-<div class="d-flex align-items-center p-3 bg-dark  box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-light" href="#">Schedule</a>
-        <a class="p-2 text-light" href="#">Train</a>
-        <a class="p-2 text-light" href="#">Station</a>
-        <a class="p-2 text-light" href="#">Profile</a>
-    </nav>
-    <a class="btn btn-outline-warning" href="#">Sign out</a>
-</div>
-<div class="container" id="ticketsContainer">
-    <br>
-</div>
+<sec:authorize access="hasRole('ROLE_USER')">
+    <div class="d-flex align-items-center p-3 bg-dark  box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-light" href="/home">Home</a>
+            <a class="p-2 text-light" href="/schedule">Schedule</a>
+            <sec:authorize access="hasRole('ROLE_MANAGER')">
+                <a class="p-2 text-light" href="/addItems">New</a>
+                <a class="p-2 text-light" href="/editItems">Modifications</a>
+                <a class="p-2 text-light" href="/showItems">Map</a>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <a class="p-2 text-light" href="/chart">Chart</a>
+                <a class="p-2 text-light" href="/showDeletedItems">Audit</a>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_USER')">
+                <a class="p-2 text-light" href="/userMap">Show trips on map</a>
+                <a class="p-2 text-light" href="/home/profile">Profile</a>
+            </sec:authorize>
+        </nav>
+        <a class="btn btn-outline-warning" href="/logout">Sign out</a>
+    </div>
+    <div class="container" id="ticketsContainer">
+        <br>
+    </div>
+</sec:authorize>
 </body>
 </html>

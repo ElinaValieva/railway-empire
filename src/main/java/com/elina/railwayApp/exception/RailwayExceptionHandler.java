@@ -4,6 +4,7 @@ import com.elina.railwayApp.DTO.ErrorDTO;
 import lombok.extern.log4j.Log4j;
 import org.dom4j.DocumentException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -43,5 +44,11 @@ public class RailwayExceptionHandler {
         if (ex instanceof FileNotFoundException)
             return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.FILE_EXCEPTION.getMessage()));
         else return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.DOCUMENT_EXCEPTION.getMessage()));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.USER_NOT_FOUND.getMessage()));
     }
 }

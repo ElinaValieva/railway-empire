@@ -12,7 +12,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>RAILWAY EMPIRE: CHART</title>
     <sec:csrfMetaTags/>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/button.css">
@@ -25,57 +25,71 @@
     <script src="/static/js/chartShowing.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png')">
-<div class="d-flex align-items-center p-3 bg-dark  box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-light" href="#">Schedule</a>
-        <a class="p-2 text-light" href="#">Train</a>
-        <a class="p-2 text-light" href="#">Station</a>
-        <a class="p-2 text-light" href="#">Profile</a>
-    </nav>
-    <a class="btn btn-outline-warning" href="#">Sign out</a>
-</div>
-<div class="container">
-    <br>
-    <div class="row text-center">
-        <div class="col-3">
-            <button id="chartStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
-                <img
-                        src="/static/images/railroad.png"></button>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-light" href="/home">Home</a>
+            <a class="p-2 text-light" href="/schedule">Schedule</a>
+            <sec:authorize access="hasRole('ROLE_MANAGER')">
+                <a class="p-2 text-light" href="/addItems">New</a>
+                <a class="p-2 text-light" href="/editItems">Modifications</a>
+                <a class="p-2 text-light" href="/showItems">Map</a>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <a class="p-2 text-light" href="/showDeletedItems">Audit</a>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_USER')">
+                <a class="p-2 text-light" href="/trips">Trips</a>
+                <a class="p-2 text-light" href="/userMap">Show trips on map</a>
+                <a class="p-2 text-light" href="/home/profile">Profile</a>
+            </sec:authorize>
+        </nav>
+        <a class="btn btn-outline-warning" href="/logout">Sign out</a>
+    </div>
+    <div class="container">
+        <br>
+        <div class="row text-center">
+            <div class="col-3">
+                <button id="chartStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
+                    <img
+                            src="/static/images/railroad.png"></button>
+            </div>
+            <div class="col-3">
+                <button id="chartStatisticAgesBtn"
+                        class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
+                    <img
+                            src="/static/images/circular-line-with-word-age-in-the-center.png"></button>
+            </div>
+            <div class="col-3">
+                <button id="chartTicketCntBtn"
+                        class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
+                        src="/static/images/price.png"></button>
+            </div>
+            <div class="col-3">
+                <button id="chartProfitBtn"
+                        class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
+                        src="/static/images/money.png"></button>
+            </div>
         </div>
-        <div class="col-3">
-            <button id="chartStatisticAgesBtn"
-                    class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
-                <img
-                        src="/static/images/circular-line-with-word-age-in-the-center.png"></button>
+        <br>
+        <div class="row">
+            <div class="col">
+                <h4 class="text-warning font-weight-bold">DATE FROM</h4><input type="date" id="dateFrom"
+                                                                               class="form-control">
+            </div>
+            <div class="col">
+                <h4 class="text-warning font-weight-bold">DATE TO</h4><input type="date" id="dateTo"
+                                                                             class="form-control">
+            </div>
         </div>
-        <div class="col-3">
-            <button id="chartTicketCntBtn"
-                    class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
-                    src="/static/images/price.png"></button>
-        </div>
-        <div class="col-3">
-            <button id="chartProfitBtn"
-                    class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
-                    src="/static/images/money.png"></button>
+        <br>
+        <div style="width: 1100px; height: 500px">
+            <canvas hidden id="bar-chart" height="50" style="background: #1d2124"></canvas>
+            <canvas hidden id="pie-chart" height="120" style="background: #1d2124"></canvas>
+            <canvas hidden id="line-chart" height="50" style="background: #1d2124"></canvas>
         </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col">
-            <h4 class="text-warning font-weight-bold">DATE FROM</h4><input type="date" id="dateFrom"
-                                                                           class="form-control">
-        </div>
-        <div class="col">
-            <h4 class="text-warning font-weight-bold">DATE TO</h4><input type="date" id="dateTo" class="form-control">
-        </div>
-    </div>
-    <br>
-    <div style="width: 1100px; height: 500px">
-        <canvas hidden id="bar-chart" height="50" style="background: #1d2124"></canvas>
-        <canvas hidden id="pie-chart" height="120" style="background: #1d2124"></canvas>
-        <canvas hidden id="line-chart" height="50" style="background: #1d2124"></canvas>
-    </div>
-</div>
+</sec:authorize>
 </body>
 </html>
