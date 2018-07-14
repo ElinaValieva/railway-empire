@@ -6,20 +6,26 @@ import com.elina.railwayApp.DTO.UserDTO;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.AuditService;
+import com.elina.railwayApp.service.TicketBuilderPDF;
 import com.elina.railwayApp.service.TicketService;
 import com.elina.railwayApp.service.UserService;
+import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
 import java.util.List;
 
 @Log4j
@@ -35,6 +41,9 @@ public class UserController {
 
     @Autowired
     private AuditService auditService;
+
+    @Autowired
+    private TicketBuilderPDF ticketBuilderPDF;
 
     @PutMapping(URLs.REGISTRATION)
     public void registration(@RequestBody UserDTO userDTO) throws BusinessLogicException, MessagingException, IOException {
@@ -67,5 +76,17 @@ public class UserController {
         return ResponseEntity.ok(auditDTOList);
     }
 
+    @GetMapping(URLs.DOWNLOAD)
+    public void downloadTicket(HttpServletResponse response,
+                               @PathVariable Long id) throws IOException, DocumentException {
+        Ticket ticket = ticketService.getById(id);
+        File file = ticketBuilderPDF.createPDF(ticket);
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        response.setContentType(mimeType);
+        response.setContentLength((int) file.length());
+        response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+    }
 }
 

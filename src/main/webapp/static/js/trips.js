@@ -58,4 +58,11 @@ $(function () {
             icon: 'success'
         });
     });
+
+    $(this).on('click', '.download', function () {
+        var id = $(this).attr('id');
+        alert('aaa');
+        var urlSearching = "/download/" + id;
+        window.open(urlSearching);
+    });
 });
