@@ -41,7 +41,6 @@ public class ScheduleController {
      *
      * @return all schedules
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(URLs.GET_SCHEDULES)
     public ResponseEntity<?> getSchedules() {
         List<ScheduleDTO> schedules = scheduleService.getAll();
@@ -62,7 +61,7 @@ public class ScheduleController {
      * @throws BusinessLogicException
      * @throws ParseException
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(URLs.CREATE_SCHEDULE)
     public void createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.add(scheduleDTO);
@@ -156,6 +155,7 @@ public class ScheduleController {
      * @return
      * @throws BusinessLogicException
      */
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
     public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -170,6 +170,7 @@ public class ScheduleController {
      * @param id
      * @throws BusinessLogicException
      */
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_SCHEDULE)
     public void deleteSchedule(@PathVariable Long id) throws BusinessLogicException {
         scheduleService.delete(id);
@@ -190,7 +191,7 @@ public class ScheduleController {
      * @throws ParseException
      * @throws BusinessLogicException
      */
-
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.UPDATE_SCHEDULE)
     public void updateSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.update(scheduleDTO);
@@ -202,6 +203,7 @@ public class ScheduleController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(URLs.GET_TICKETS)
     public ResponseEntity<?> getTickets(@PathVariable Long id) {
         List<TicketInfoDTO> tickets = ticketService.getByScheduleId(id);

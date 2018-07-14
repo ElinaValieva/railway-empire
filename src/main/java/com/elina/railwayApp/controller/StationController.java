@@ -70,6 +70,7 @@ public class StationController {
      * RETURN DELETED STATIONS FOR REESTABLISH BY ADMIN
      * @return
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.DELETED_STATIONS)
     public ResponseEntity<?> getAllDeletedStations() {
         List<StationDTO> stationDTOList = stationService.getAllDeletedStations();

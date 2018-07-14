@@ -87,6 +87,9 @@ public class UserServiceImpl implements UserService {
         if (!birthDay.before(new Date()))
             throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
 
+        if (findByEmail(userDTO.getLogin()) != null)
+            throw new BusinessLogicException(ErrorCode.WRONG_LOGIN.getMessage());
+
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setLogin(userDTO.getLogin());

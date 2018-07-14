@@ -80,6 +80,7 @@ public class TrainController {
      * RETURN ALL DELETED TRAINS
      * @return
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.DELETED_TRAINS)
     public ResponseEntity<?> getAllDeletedTrains() {
         List<TrainDTO> trainDTOList = trainService.getAllDeletedTrains();
@@ -90,6 +91,7 @@ public class TrainController {
      * REESTABLISH TRAIN
      * @param name
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.REESTABLISH_TRAIN)
     public void reestablishTrain(@PathVariable String name){
         trainService.reestablish(name);

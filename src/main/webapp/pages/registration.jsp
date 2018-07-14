@@ -12,7 +12,7 @@
 <html>
 <head>
     <sec:csrfMetaTags/>
-    <title>Title</title>
+    <title>RAILWAY EMPIRE: REGISTRATION</title>
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">

@@ -84,12 +84,14 @@ public class UserController {
         return ResponseEntity.ok(tickets);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(URLs.AUDIT)
     public ResponseEntity<?> getAuditInfo() {
         List<AuditDTO> auditDTOList = auditService.getAuditsInfo();
         return ResponseEntity.ok(auditDTOList);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(URLs.DOWNLOAD)
     public void downloadTicket(HttpServletResponse response,
                                @PathVariable Long id) throws IOException, DocumentException {
@@ -103,6 +105,7 @@ public class UserController {
         FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(URLs.ADD_FEEDBACK)
     public void addFeedback(@RequestBody String text) {
 //        feedBackService.add(text);

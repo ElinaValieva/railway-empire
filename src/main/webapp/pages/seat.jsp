@@ -11,7 +11,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>RAILWAY EMPIRE: SEATS</title>
     <sec:csrfMetaTags/>
     <link rel="stylesheet" href="static/css/seat.css">
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
