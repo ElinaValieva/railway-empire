@@ -2,15 +2,18 @@ package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
-import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Log4j
 @Controller
@@ -36,12 +39,8 @@ public class ViewController {
         return Views.LOGIN;
     }
 
-    @RequestMapping(value = URLs.UPDATE_PROFILE)
-    public String getProfile(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
-        model.addAttribute("user", user);
+    @RequestMapping(value = URLs.PROFILE)
+    public String getProfile() {
         return Views.PROFILE;
     }
 
@@ -98,5 +97,13 @@ public class ViewController {
     @RequestMapping(value = URLs.TRIPS)
     public String showTrips() {
         return Views.TRIPS;
+    }
+
+    @RequestMapping(value = URLs.LOGOUT)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null)
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        return Views.LOGIN;
     }
 }

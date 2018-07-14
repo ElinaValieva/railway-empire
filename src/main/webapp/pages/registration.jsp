@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
+    <script src="/static/js/plugins/jquery-3.3.1.js"></script>
     <script src="/static/js/plugins/sweetalert2.js"></script>
     <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/plagins/jquery-3.3.1.js"></script>
     <script src="/static/js/registration.js"></script>
 </head>
 <body>

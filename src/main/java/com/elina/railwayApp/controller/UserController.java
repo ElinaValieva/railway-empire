@@ -4,16 +4,13 @@ import com.elina.railwayApp.DTO.AuditDTO;
 import com.elina.railwayApp.DTO.TicketInfoDTO;
 import com.elina.railwayApp.DTO.UserDTO;
 import com.elina.railwayApp.configuration.common.URLs;
-import com.elina.railwayApp.configuration.common.Views;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
-import com.elina.railwayApp.service.AuditService;
-import com.elina.railwayApp.service.TicketBuilderPDF;
-import com.elina.railwayApp.service.TicketService;
-import com.elina.railwayApp.service.UserService;
+import com.elina.railwayApp.service.*;
 import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +23,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
+import java.text.ParseException;
 import java.util.List;
 
 @Log4j
@@ -45,19 +43,35 @@ public class UserController {
     @Autowired
     private TicketBuilderPDF ticketBuilderPDF;
 
-    @PutMapping(URLs.REGISTRATION)
+    @Autowired
+    private FeedBackService feedBackService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @PostMapping(URLs.REGISTRATION)
     public void registration(@RequestBody UserDTO userDTO) throws BusinessLogicException, MessagingException, IOException {
         userService.registration(userDTO);
     }
 
-    /*
-    TODO - refactor
-     */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping(URLs.UPDATE_PROFILE)
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateProfile(user);
-        return Views.PROFILE;
+    @GetMapping(URLs.GET_PROFILE)
+    public ResponseEntity<?> getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userService.findByEmail(userName);
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return ResponseEntity.ok(userDTO);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping(URLs.UPDATE_PROFILE)
+    public void updateUser(@RequestBody UserDTO userDTO) throws ParseException, BusinessLogicException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userService.findByEmail(userName);
+        userService.updateProfile(userDTO, user);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -87,6 +101,11 @@ public class UserController {
         response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(inputStream, response.getOutputStream());
+    }
+
+    @PostMapping(URLs.ADD_FEEDBACK)
+    public void addFeedback(@RequestBody String text) {
+//        feedBackService.add(text);
     }
 }
 

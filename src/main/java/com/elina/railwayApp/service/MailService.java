@@ -47,7 +47,9 @@ public class MailService {
         mimeMessageHelper.setSubject(message.getSubject());
         if (message.getText() != null)
             mimeMessageHelper.setText(message.getText());
+
         javaMailSender.send(mimeMailMessage);
+
     }
 
     public void sendMimeFile(Message message, File file) throws MessagingException, IOException {

@@ -22,19 +22,17 @@
     <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-light" href="/trips">TRIPS</a>
-            <a class="p-2 text-light" href="/test">new Schedule</a>
-            <a class="p-2 text-light" href="/userMap">Show markers</a>
+            <a class="p-2 text-light" href="/trips">Trips</a>
+            <a class="p-2 text-light" href="/test">Schedule</a>
+            <a class="p-2 text-light" href="/userMap">Map</a>
             <a class="p-2 text-light" href="/chart">Chart</a>
-            <a class="p-2 text-light" href="/home/update">Profile</a>
-            <a class="p-2 text-light" href="/addItems">AddItems</a>
-            <a class="p-2 text-light" href="/showItems">ShowOnMap</a>
-            <a class="p-2 text-light" href="/editItems">EditItems</a>
-            <a class="p-2 text-light" href="/showDeletedItems">Deleted</a>
-
-
+            <a class="p-2 text-light" href="/home/profile">Profile</a>
+            <a class="p-2 text-light" href="/addItems">New</a>
+            <a class="p-2 text-light" href="/editItems">Modifications</a>
+            <a class="p-2 text-light" href="/showItems">Map</a>
+            <a class="p-2 text-light" href="/showDeletedItems">Audit</a>
         </nav>
-        <a class="btn btn-outline-warning" href="/login">Sign up</a>
+        <a class="btn btn-outline-warning" href="/logout">Sign out</a>
     </div>
     <div class="wrapper">
         <div class="background"></div>

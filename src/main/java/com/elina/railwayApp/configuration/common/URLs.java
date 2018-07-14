@@ -1,10 +1,16 @@
 package com.elina.railwayApp.configuration.common;
 
 public final class URLs {
+    /**
+     * USERS
+     */
     public final static String WELCOME = "/home";
     public final static String LOGIN = "/login";
+    public final static String LOGOUT = "/logout";
     public final static String REGISTRATION = "/registration";
+    public final static String PROFILE = "/home/profile";
     public final static String UPDATE_PROFILE = "/home/update";
+    public final static String GET_PROFILE = "/home/profile/get";
     public final static String TRIPS = "/trips";
     public final static String USERS_MAP = "/userMap";
     public final static String GET_USERS_TICKETS = "/userMap/show";
@@ -75,5 +81,10 @@ public final class URLs {
     public final static String SHOW_ITEMS_RAILWAY = "/showItems";
     public final static String EDIT_ITEMS_RAILWAY = "/editItems";
     public final static String SHOW_DELETED_ITEMS_RAILWAY = "/showDeletedItems";
+
+    /**
+     * FEEDBACK
+     */
+    public final static String ADD_FEEDBACK = "/feedback/add";
 }
 

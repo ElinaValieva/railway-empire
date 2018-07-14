@@ -54,8 +54,12 @@ $(function () {
         var id = $(this).attr('id');
         swal({
             title: 'FEEDBACK',
-            text: 'hello, beach' + id,
-            icon: 'success'
+            input: 'text',
+            type: 'info',
+            confirmButtonText: 'SEND'
+        }).then((result) => {
+            var urlSearching = "feedback/add";
+            postRequest(result.value, urlSearching, "Thanks, for your feedback!");
         });
     });
 

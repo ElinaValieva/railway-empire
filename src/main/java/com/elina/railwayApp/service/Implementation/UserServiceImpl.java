@@ -12,13 +12,14 @@ import com.elina.railwayApp.service.MailService;
 import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,9 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MailService mailService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -83,20 +81,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateProfile(User user) {
-        String password = user.getPassword();
-        user.setPassword(Utils.encodePassword(password));
+    public void updateProfile(UserDTO userDTO, User user) throws ParseException, BusinessLogicException {
+        Date birthDay = Utils.parseToDate(userDTO.getBirthDay());
+
+        if (!birthDay.before(new Date()))
+            throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
+
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setLogin(userDTO.getLogin());
+        user.setBirthDay(userDTO.getBirthDay());
+        user.setSex(userDTO.getSex());
         userDAO.updateProfile(user);
     }
 
     @Override
     @Transactional
     public void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException {
-        if (findByEmail(userDTO.getLogin()) != null)
-            throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
-
         if (userDTO == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+
+        if (findByEmail(userDTO.getLogin()) != null)
+            throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
 
         Role role = roleService.getRole();
         Set<Role> roleSet = new HashSet<>();

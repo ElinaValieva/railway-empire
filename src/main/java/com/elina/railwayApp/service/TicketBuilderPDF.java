@@ -52,7 +52,7 @@ public class TicketBuilderPDF {
         document.add(new Paragraph("STATION ARRIVAL: " + ticket.getSchedule().getStationArrival().getName(), fontText));
         document.add(new Paragraph("TRAIN: " + ticket.getSchedule().getTrain().getName(), fontText));
         document.add(new Paragraph("DATE DEPARTURE: " + ticket.getSchedule().getDateDeparture().toString(), fontText));
-        document.add(new Paragraph("DATE ARRIVAL: " + ticket.getSchedule().getStationArrival().toString(), fontText));
+        document.add(new Paragraph("DATE ARRIVAL: " + ticket.getSchedule().getDateArrival().toString(), fontText));
         document.add(new Paragraph("CARRIAGE: " + String.valueOf(ticket.getSeat().getCarriage()), fontText));
         document.add(new Paragraph("SEAT: " + String.valueOf(ticket.getSeat().getSeat()), fontText));
         document.add(new Paragraph("PRICE: $" + String.valueOf(ticket.getPrice()), fontText));

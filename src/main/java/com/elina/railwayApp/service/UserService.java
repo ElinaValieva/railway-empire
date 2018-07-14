@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -26,7 +27,7 @@ public interface UserService {
 
     void update(User user);
 
-    void updateProfile(User user);
+    void updateProfile(UserDTO userDTO, User user) throws ParseException, BusinessLogicException;
 
     void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException;
 }

@@ -25,7 +25,8 @@ public enum ErrorCode {
     TRAIN_USED(17, "You try to remove train what used on schedule."),
     SCHEDULE_IS_AVAILABLE(18, "For this schedule bought tickets."),
     DOCUMENT_EXCEPTION(19, "Document exception, something went wrong."),
-    FILE_EXCEPTION(20, "File not found.");
+    FILE_EXCEPTION(20, "File not found."),
+    WRONG_BIRTHDAY(21, "Wrong birthday date. Try to change it.");
 
     private int code;
     private String reason;

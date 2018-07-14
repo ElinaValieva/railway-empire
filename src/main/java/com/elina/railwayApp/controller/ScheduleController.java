@@ -41,7 +41,7 @@ public class ScheduleController {
      *
      * @return all schedules
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(URLs.GET_SCHEDULES)
     public ResponseEntity<?> getSchedules() {
         List<ScheduleDTO> schedules = scheduleService.getAll();
@@ -62,7 +62,7 @@ public class ScheduleController {
      * @throws BusinessLogicException
      * @throws ParseException
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PostMapping(URLs.CREATE_SCHEDULE)
     public void createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         scheduleService.add(scheduleDTO);
