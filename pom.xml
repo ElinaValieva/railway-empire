@@ -202,6 +202,15 @@
             <version>1.52</version>
         </dependency>
 
+        <!--MOCKITO-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
