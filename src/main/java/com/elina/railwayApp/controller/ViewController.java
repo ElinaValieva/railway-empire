@@ -94,4 +94,9 @@ public class ViewController {
     public String showDeletedItemsRailway() {
         return Views.DELETED_ITEMS_RAILWAY;
     }
+
+    @RequestMapping(value = URLs.TRIPS)
+    public String showTrips() {
+        return Views.TRIPS;
+    }
 }

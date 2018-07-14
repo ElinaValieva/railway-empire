@@ -16,5 +16,6 @@ public final class Views {
     public static final String USERS_MAP = "usersMap";
     public static final String CHART = "chart";
     public static final String DELETED_ITEMS_RAILWAY = "deletedItemsRailway";
+    public static final String TRIPS = "trips";
 
 }

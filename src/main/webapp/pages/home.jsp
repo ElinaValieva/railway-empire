@@ -22,7 +22,7 @@
     <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-light" href="/schedule">Schedule</a>
+            <a class="p-2 text-light" href="/trips">TRIPS</a>
             <a class="p-2 text-light" href="/test">new Schedule</a>
             <a class="p-2 text-light" href="/userMap">Show markers</a>
             <a class="p-2 text-light" href="/chart">Chart</a>

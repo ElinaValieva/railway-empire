@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping(URLs.SHOW_MARKERS_ON_USERS_MAP)
+    @GetMapping(URLs.GET_USERS_TICKETS)
     public ResponseEntity<?> showTrips() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

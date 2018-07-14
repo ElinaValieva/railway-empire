@@ -9,6 +9,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class TicketInfoDTO implements Serializable {
 
+    Integer id;
+
     String userFirstName;
 
     String userLastName;
@@ -25,6 +27,8 @@ public class TicketInfoDTO implements Serializable {
 
     String scheduleDateDeparture;
 
+    String scheduleTrainName;
+
     String scheduleDateArrival;
 
     Double scheduleStationDepartureLatitude;
@@ -38,4 +42,6 @@ public class TicketInfoDTO implements Serializable {
     Integer seatCarriage;
 
     Integer seatSeat;
+
+    Integer price;
 }
