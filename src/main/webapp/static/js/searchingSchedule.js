@@ -301,20 +301,35 @@ var updateSchedule = function (schedule) {
 };
 
 var addSchedule = function () {
-    var dateArrival = '';
-    if ($('#dateArrivalItemsRailway').val() != "")
-        dateArrival = $('#dateArrivalItemsRailway').val().replace("T", " ") + ":00";
-    var scheduleDTO = {
-        stationDepartureName:
-            $('#stationDepartureItemsRailway').val(),
-        stationArrivalName:
-            $('#stationArrivalItemsRailway').val(),
-        trainName:
-            $('#trainItemsRailway').val(),
-        dateDeparture:
-        $('#dateDepartureItemsRailway').val().replace("T", " ") + ":00",
-        dateArrival: dateArrival
-    };
-    var urlSearching = "/schedule/add";
-    postRequest(scheduleDTO, urlSearching, "You add new schedule", "success");
+    var date = $('#dateDepartureItemsRailway').val();
+    if (checkFieldsSchedule(date)) {
+        var dateArrival = '';
+        if ($('#dateArrivalItemsRailway').val() != "")
+            dateArrival = $('#dateArrivalItemsRailway').val().replace("T", " ") + ":00";
+        var scheduleDTO = {
+            stationDepartureName:
+                $('#stationDepartureItemsRailway').val(),
+            stationArrivalName:
+                $('#stationArrivalItemsRailway').val(),
+            trainName:
+                $('#trainItemsRailway').val(),
+            dateDeparture:
+            $('#dateDepartureItemsRailway').val().replace("T", " ") + ":00",
+            dateArrival: dateArrival
+        };
+        var urlSearching = "/schedule/add";
+        postRequest(scheduleDTO, urlSearching, "You add new schedule", "success");
+    }
+};
+
+var checkFieldsSchedule = function (date) {
+    if (date == "") {
+        swal({
+            title: 'Oops..',
+            text: 'Date departure is empty. Try again!',
+            type: 'error'
+        });
+        return false;
+    }
+    else return true;
 };

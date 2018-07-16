@@ -11,14 +11,17 @@
 
 
 var addTrain = function () {
-
-    var scheduleDTO = {
-        trainName: $('#trainItemsRailway').val(),
-        cntCarriage: $('#cntCarriageItemsRailway').val(),
-        cntSeats: $('#cntSeatsItemsRailway').val()
-    };
-    var urlSearching = "/train/add";
-    postRequest(scheduleDTO, urlSearching, "You add new train");
+    var train = $('#trainItemsRailway').val();
+    var carriage = $('#cntCarriageItemsRailway').val();
+    if (checkFieldsTrains(train, carriage)) {
+        var scheduleDTO = {
+            trainName: train,
+            cntCarriage: carriage,
+            cntSeats: $('#cntSeatsItemsRailway').val()
+        };
+        var urlSearching = "/train/add";
+        postRequest(scheduleDTO, urlSearching, "You add new train");
+    }
 };
 
 var getTrains = function () {
@@ -46,9 +49,28 @@ var updateTrain = function (train) {
 var reestablishTrain = function (station) {
     var urlSearching = "/train/reestablish/" + station;
     getRequest(urlSearching);
-}
+};
 
 var getAllDeletedTrains = function () {
     var urlSearching = "/train/deletedTrains";
     return getRequest(urlSearching);
-}
+};
+var checkFieldsTrains = function (train, carriage) {
+    if (!/^[a-zA-Z]+$/.test(train.charAt(0))) {
+        swal({
+            title: 'Oops...',
+            text: 'Fields for train name should start with letter. Try again!',
+            type: 'error'
+        });
+        return false;
+    }
+    else if (carriage < 0 || carriage > 25) {
+        swal({
+            title: 'Oops...',
+            text: 'Fields for carriage wrong, max count carriage should be 25! Try again.',
+            type: 'error'
+        });
+        return false;
+    }
+    else return true;
+};

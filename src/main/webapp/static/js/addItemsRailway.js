@@ -1,19 +1,8 @@
 $(function () {
 
-
-    $('#stationDepartureItemsRailway').hide();
-    $('#stationArrivalItemsRailway').hide();
-    $('#dateDepartureItemsRailway').hide();
-    $('#dateArrivalItemsRailway').hide()
-    $('#trainItemsRailway').hide();
-    $('#stationNameItemsRailway').hide();
-    $('#coordinatesX').hide();
-    $('#coordinatesY').hide();
-    $('#cntCarriageItemsRailway').hide();
-    $('#cntSeatsItemsRailway').hide();
-
     $('#addScheduleBtn').click(function (event) {
         event.preventDefault();
+        $('#newItemForm').prop('hidden', false);
         $('#stationDepartureItemsRailway').show();
         $('#stationArrivalItemsRailway').show();
         $('#dateDepartureItemsRailway').show();
@@ -24,7 +13,10 @@ $(function () {
         $('#coordinatesY').hide();
         $('#cntCarriageItemsRailway').hide();
         $('#cntSeatsItemsRailway').hide();
-        $('#addItem').click(function (event) {
+        $('#addItem1').show();
+        $('#addItem2').hide();
+        $('#addItem3').hide();
+        $('#addItem1').click(function (event) {
             event.preventDefault();
             addSchedule();
         });
@@ -32,6 +24,7 @@ $(function () {
 
     $('#addTrainBtn').click(function (event) {
         event.preventDefault();
+        $('#newItemForm').prop('hidden', false);
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();
         $('#dateDepartureItemsRailway').hide();
@@ -42,7 +35,10 @@ $(function () {
         $('#stationNameItemsRailway').hide();
         $('#coordinatesX').hide();
         $('#coordinatesY').hide();
-        $('#addItem').click(function (event) {
+        $('#addItem2').show();
+        $('#addItem1').hide();
+        $('#addItem3').hide();
+        $('#addItem2').click(function (event) {
             event.preventDefault();
             addTrain();
         });
@@ -50,6 +46,7 @@ $(function () {
 
     $('#addStationBtn').click(function (event) {
         event.preventDefault();
+        $('#newItemForm').prop('hidden', false);
         $('#stationDepartureItemsRailway').hide();
         $('#stationArrivalItemsRailway').hide();
         $('#dateDepartureItemsRailway').hide();
@@ -60,7 +57,10 @@ $(function () {
         $('#stationNameItemsRailway').show();
         $('#coordinatesX').show();
         $('#coordinatesY').show();
-        $('#addItem').click(function (event) {
+        $('#addItem3').show();
+        $('#addItem2').hide();
+        $('#addItem1').hide();
+        $('#addItem3').click(function (event) {
             event.preventDefault();
             var coordX = $('#coordinatesX').val();
             var coordY = $('#coordinatesY').val();

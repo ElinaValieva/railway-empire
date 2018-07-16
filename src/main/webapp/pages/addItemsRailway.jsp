@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <br>
-                <form class="login-form">
+                <form class="login-form" id="newItemForm" hidden>
                     <input type="text" placeholder="station name" id="stationNameItemsRailway"/>
                     <div class="row">
                         <div class="col">
@@ -115,7 +115,10 @@
                             <input type="number" class="form-control" id="cntSeatsItemsRailway" value="30" disabled>
                         </div>
                     </div>
-                    <button id="addItem">ADD ITEM</button>
+                    <button id="addItem1">ADD ITEM</button>
+                    <button id="addItem2">ADD ITEM</button>
+                    <button id="addItem3">ADD ITEM</button>
+
                 </form>
             </div>
         </div>
