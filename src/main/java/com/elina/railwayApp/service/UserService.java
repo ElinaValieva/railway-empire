@@ -23,7 +23,7 @@ public interface UserService {
 
     User findByEmail(String login);
 
-    User findUserByForm(User user);
+    UserDTO findUserByForm(UserDTO userDTO) throws BusinessLogicException;
 
     void update(User user);
 

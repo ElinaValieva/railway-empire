@@ -12,6 +12,7 @@ import com.elina.railwayApp.service.MailService;
 import com.elina.railwayApp.service.RoleService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -69,8 +73,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User findUserByForm(User user) {
-        return userDAO.findUserByForm(user);
+    public UserDTO findUserByForm(UserDTO userDTO) throws BusinessLogicException {
+        User user = userDAO.findUserByForm(userDTO.getLogin(), Utils.encodePassword(userDTO.getPassword()));
+        if (user == null)
+            throw new BusinessLogicException(ErrorCode.USER_NOT_FOUND.getMessage());
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override

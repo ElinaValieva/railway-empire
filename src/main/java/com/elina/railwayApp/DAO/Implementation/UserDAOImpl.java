@@ -48,11 +48,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findUserByForm(User user) {
+    public User findUserByForm(String login, String password) {
         return (User) sessionFactory.getCurrentSession()
                 .createQuery("FROM User where login = :login and password = :password")
-                .setParameter("login", user.getLogin())
-                .setParameter("password", user.getPassword())
+                .setParameter("login", login)
+                .setParameter("password", password)
                 .uniqueResult();
     }
 
