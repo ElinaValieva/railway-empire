@@ -84,7 +84,7 @@ public class UserController {
         return ResponseEntity.ok(tickets);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.AUDIT)
     public ResponseEntity<?> getAuditInfo() {
         List<AuditDTO> auditDTOList = auditService.getAuditsInfo();

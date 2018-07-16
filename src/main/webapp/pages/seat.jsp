@@ -26,7 +26,7 @@
     <script src="static/js/seats.js"></script>
 </head>
 <body class="bg-light">
-<sec:authorize access="hasRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MANAGER')">
     <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
         <nav class="my-2 my-md-0 mr-md-3">
@@ -59,9 +59,11 @@
 
                 </ul>
             </div>
-            <div class="text-center">
-                <button class="btn btn-warning center-block" id="btnBookTicket">BOOK TICKET</button>
-            </div>
+            <sec:authorize access="hasRole('ROLE_USER')">
+                <div class="text-center">
+                    <button class="btn btn-warning center-block" id="btnBookTicket">BOOK TICKET</button>
+                </div>
+            </sec:authorize>
             <br>
             <br>
         </div>

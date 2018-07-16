@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Log4j
 public class Utils {
@@ -44,6 +45,13 @@ public class Utils {
     public static Date parseToDateTime(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.parse(date);
+    }
+
+    public static Date parseToDateTimeNewFormat(String date) throws ParseException {
+        SimpleDateFormat formatOld = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date1 = formatOld.parse(date);
+        SimpleDateFormat format = new SimpleDateFormat("d MMMM H:m:s", Locale.getDefault());
+        return format.parse(format.format(date1));
     }
 
     public static String getHelloContext() throws IOException {

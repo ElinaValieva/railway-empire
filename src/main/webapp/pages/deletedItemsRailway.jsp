@@ -67,7 +67,7 @@
             </div>
         </div>
         <br>
-        <table class="table table-striped table-dark text-center" id="stationTable">
+        <table class="table table-striped table-dark text-center" hidden id="stationTable">
             <thead class="font-weight-bold">
             <tr>
                 <th class="text-center">Station name</th>
@@ -80,7 +80,7 @@
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="trainTable">
+        <table class="table table-striped table-dark" hidden id="trainTable">
             <thead class="font-weight-bold">
             <tr>
                 <th class="text-center">Train</th>
@@ -93,7 +93,7 @@
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="auditTable">
+        <table class="table table-striped table-dark" hidden id="auditTable">
             <thead class="font-weight-bold">
             <tr>
                 <th class="text-center">Changed date</th>

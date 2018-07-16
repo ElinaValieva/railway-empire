@@ -4,28 +4,25 @@ $(function () {
     var stations = [];
     var audits = [];
 
-    $('#stationTable').hide();
-    $('#trainTable').hide();
-    $('#auditTable').hide();
 
     $('#addTrainBtn').click(function () {
-        $('#stationTable').hide();
-        $('#trainTable').show();
-        $('#auditTable').hide();
+        $('#stationTable').prop('hidden', true);
+        $('#trainTable').prop('hidden', false);
+        $('#auditTable').prop('hidden', true);
         updateTrains();
     });
 
     $('#addStationBtn').click(function () {
-        $('#stationTable').show();
-        $('#trainTable').hide();
-        $('#auditTable').hide();
+        $('#stationTable').prop('hidden', false);
+        $('#trainTable').prop('hidden', true);
+        $('#auditTable').prop('hidden', true);
         updateStations();
     });
 
     $('#auditBtn').click(function () {
-        $('#stationTable').hide();
-        $('#trainTable').hide();
-        $('#auditTable').show();
+        $('#stationTable').prop('hidden', true);
+        $('#trainTable').prop('hidden', true);
+        $('#auditTable').prop('hidden', false);
         updateAudit();
     })
 
@@ -37,19 +34,25 @@ $(function () {
 
     var updateTrains = function () {
         trains = getAllDeletedTrains();
-        alert(JSON.stringify(trains));
-        $('#trainTableId').empty();
-        for (var i = 0; i < trains.length; i++) {
-            $('#trainTableId').append("<tr>\n" +
-                "            <td>" + trains[i].trainName + "</td>\n" +
-                "            <td>" + trains[i].cntCarriage + "</td>\n" +
-                "            <td>" + trains[i].cntSeats + "</td>\n" +
-                "            <td>\n" +
-                "                <button class='btn btn-outline-warning reestablishTrain'  id=" + trains[i].trainName + "><img src='static/images/restore.png'></button>\n" +
-                "            </td>\n" +
-                "        </tr>"
-            );
+        if (trains.length > 0) {
+            $('#trainTableId').empty();
+            for (var i = 0; i < trains.length; i++) {
+                $('#trainTableId').append("<tr>\n" +
+                    "            <td>" + trains[i].trainName + "</td>\n" +
+                    "            <td>" + trains[i].cntCarriage + "</td>\n" +
+                    "            <td>" + trains[i].cntSeats + "</td>\n" +
+                    "            <td>\n" +
+                    "                <button class='btn btn-outline-warning reestablishTrain'  id=" + trains[i].trainName + "><img src='static/images/restore.png'></button>\n" +
+                    "            </td>\n" +
+                    "        </tr>"
+                );
+            }
         }
+        else swal({
+            title: 'Oops..',
+            text: 'All trains working ',
+            type: 'info'
+        })
     };
 
     $(this).on('click', '.reestablishStation', function () {
@@ -60,16 +63,22 @@ $(function () {
 
     var updateStations = function () {
         stations = getAllDeletedStations();
-        $('#stationTableId').empty();
-        for (var i = 0; i < stations.length; i++)
-            $('#stationTableId').append("<tr>\n" +
-                "            <td>" + stations[i].name + "</td>\n" +
-                "            <td>" + stations[i].latitude + "</td>\n" +
-                "            <td>" + stations[i].longitude + "</td>\n" +
-                "            <td>\n" +
-                "                <button class='btn btn-outline-warning reestablishStation'  id=" + stations[i].name + "><img src='static/images/restore.png'></button>\n" +
-                "            </td>\n" +
-                "        </tr>");
+        if (stations.length > 0) {
+            $('#stationTableId').empty();
+            for (var i = 0; i < stations.length; i++)
+                $('#stationTableId').append("<tr>\n" +
+                    "            <td>" + stations[i].name + "</td>\n" +
+                    "            <td>" + stations[i].latitude + "</td>\n" +
+                    "            <td>" + stations[i].longitude + "</td>\n" +
+                    "            <td>\n" +
+                    "                <button class='btn btn-outline-warning reestablishStation'  id=" + stations[i].name + "><img src='static/images/restore.png'></button>\n" +
+                    "            </td>\n" +
+                    "        </tr>");
+        } else swal({
+            title: 'Oops..',
+            text: 'All stations available',
+            type: 'info'
+        })
     };
 
     var updateAudit = function () {
@@ -99,11 +108,11 @@ $(function () {
         swal({
             title: 'AUDIT HISTORY',
             html:
-            "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + "' disabled>" +
-            "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLastName + "' disabled>" +
-            "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
-            "<input id='swal-input3' class='swal2-input' value='" + audit[0].oldValue + "' disabled>" +
-            "<input id='swal-input3' class='swal2-input' value='" + audit[0].newValue + "' disabled>",
+                "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + "' disabled>" +
+                "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLastName + "' disabled>" +
+                "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
+                "<input id='swal-input3' class='swal2-input' value='" + audit[0].oldValue == null ? '-' : audit[0].oldValue + "' disabled>" +
+                    "<input id='swal-input3' class='swal2-input' value='" + audit[0].newValue + "' disabled>",
 
             icon: "info",
         });

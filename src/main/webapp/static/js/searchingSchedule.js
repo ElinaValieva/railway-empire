@@ -38,6 +38,7 @@ $(function () {
     });
 
     $('#searchingBtnByStationsAndDates').click(function () {
+        alert('tyt');
         event.preventDefault();
         var urlSearching = "/schedule/directByStations";
         var scheduleDTO = {
@@ -59,13 +60,13 @@ $(function () {
             url: urlSearching,
             data: JSON.stringify(scheduleDTO),
         }).done(function (response) {
-            if (response.length != 0) {
                 $('#containerForSearching').show();
                 $('#containerForSearchingDirect').empty();
                 $('#containerForSearchingTransfer').empty();
                 for (var i = 0; i < response.length; i++)
                     setContextForDirect(response[i]);
                 if ($('input:checkbox').prop('checked')) {
+                    alert('a');
                     urlSearching = "/schedule/transferByStations";
                     $.ajax({
                         beforeSend: function (xhr) {
@@ -95,8 +96,6 @@ $(function () {
                     });
                 }
                 else $('#containerForSearchingTransfer').empty();
-            }
-            else $('#containerForSearching').hide();
         }).fail(function (qXHR, textStatus, errorThrown) {
             var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
             swal("Oops..", messageError, "error");

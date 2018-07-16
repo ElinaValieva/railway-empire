@@ -18,7 +18,7 @@ public enum ErrorCode {
     SAME_STATIONS(10, "You try to add same stations on schedule."),
     WRONG_DATES(11, "Date departure is later than date arrival."),
     INTERSECTION_SCHEDULES(12, "Train and stations used by another schedule. Try again"),
-    SCHEDULE_FOR_CURRENT_DAY(13, "Can't add schedule for current day."),
+    SCHEDULE_FOR_CURRENT_DAY(13, "Can't add schedule for current day or past time."),
     WRONG_PARAMETERS_FOR_SEATS(14, "Wrong parameters for seats"),
     STATION_NOT_UNIQUE(15, "Station not unique, it was added before."),
     STATION_USED(16, "You try to remove station what used on schedule."),

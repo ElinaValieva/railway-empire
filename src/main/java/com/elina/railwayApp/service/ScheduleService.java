@@ -30,7 +30,7 @@ public interface ScheduleService {
 
     List<Schedule> getByDate(Date dateDeparture);
 
-    List<Schedule> getByDates(Date dateDeparture, Date dateArrival);
+    List<Schedule> getByDates(Date dateDeparture, Date dateArrival) throws ParseException, BusinessLogicException;
 
     List<Schedule> getByStationsAndDate(Schedule schedule);
 
@@ -40,7 +40,7 @@ public interface ScheduleService {
 
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
 
-    List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException;
+    List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
     boolean checkWorkingStation(Station station, Date date);
 
@@ -50,7 +50,7 @@ public interface ScheduleService {
 
     List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
-    List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException;
+    List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
     List<SeatDTO> getFreeSeats(Schedule schedule);
 

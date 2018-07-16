@@ -30,7 +30,7 @@ public class AuditDAOImpl implements AuditDAO {
     @Override
     public List<Audit> getAll() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Audit ")
+                .createQuery("from Audit order by date desc ")
                 .getResultList();
     }
 

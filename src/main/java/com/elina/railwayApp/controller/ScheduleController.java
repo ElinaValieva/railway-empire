@@ -88,7 +88,7 @@ public class ScheduleController {
      * @throws ParseException
      */
     @PostMapping(URLs.GET_SCHEDULE_DIRECT_BY_DATES)
-    public ResponseEntity<?> getDirectSchedulesByDates(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public ResponseEntity<?> getDirectSchedulesByDates(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         List<ScheduleDTO> scheduleDTOList = scheduleService.getDirectSchedulesFromDTOByDates(scheduleDTO);
         return ResponseEntity.ok(scheduleDTOList);
     }
@@ -126,7 +126,7 @@ public class ScheduleController {
      * @throws ParseException
      */
     @PostMapping(URLs.GET_SCHEDULE_TRANSFER_BY_STATIONS)
-    public ResponseEntity<?> getTransferSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException {
+    public ResponseEntity<?> getTransferSchedules(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         List<TransferScheduleDTO> schedules = scheduleService.getTransferSchedules(scheduleDTO);
         return ResponseEntity.ok(schedules);
     }
@@ -155,7 +155,7 @@ public class ScheduleController {
      * @return
      * @throws BusinessLogicException
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
     public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

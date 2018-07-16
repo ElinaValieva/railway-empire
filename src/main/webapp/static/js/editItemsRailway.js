@@ -4,28 +4,24 @@ $(function () {
     var stations = [];
     var schedules = [];
 
-    $('#stationTable').hide();
-    $('#trainTable').hide();
-    $('#scheduleTable').hide();
-
     $('#addTrainBtn').click(function () {
-        $('#stationTable').hide();
-        $('#trainTable').show();
-        $('#scheduleTable').hide();
+        $('#stationTable').prop('hidden', true);
+        $('#trainTable').prop('hidden', false);
+        $('#scheduleTable').prop('hidden', true);
         updateTrains();
     });
 
     $('#addStationBtn').click(function () {
-        $('#stationTable').show();
-        $('#trainTable').hide();
-        $('#scheduleTable').hide();
+        $('#stationTable').prop('hidden', false);
+        $('#trainTable').prop('hidden', true);
+        $('#scheduleTable').prop('hidden', true);
         updateStations();
     });
 
     $('#addScheduleBtn').click(function () {
-        $('#stationTable').hide();
-        $('#trainTable').hide();
-        $('#scheduleTable').show();
+        $('#stationTable').prop('hidden', true);
+        $('#trainTable').prop('hidden', true);
+        $('#scheduleTable').prop('hidden', false);
         updateSchedules();
     });
 

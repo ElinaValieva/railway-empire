@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -71,7 +72,7 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    public void getByDates() {
+    public void getByDates() throws ParseException, BusinessLogicException {
         when(scheduleDAO.getByDates(date, date)).thenReturn(new ArrayList<>());
         scheduleService.getByDates(date, date);
         verify(scheduleDAO).getByDates(date, date);

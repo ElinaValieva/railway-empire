@@ -163,7 +163,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<ScheduleDTO> getAll() {
         List<Schedule> schedules = scheduleDAO.getAll();
-        return schedules.stream().map(x -> modelMapper.map(x, ScheduleDTO.class)).collect(Collectors.toList());
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -179,7 +181,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) {
+    public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) throws ParseException, BusinessLogicException {
+        dateArrival = Utils.getNextDay(dateArrival);
+        if (dateArrival.before(dateDeparture))
+            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
         return scheduleDAO.getByDates(dateDeparture, dateArrival);
     }
 
@@ -219,13 +225,17 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
 
     @Transactional
-    public Map<Station, List<Schedule>> getTransferList(String dateTransferDeparture, String dateTransferArrival) throws ParseException {
+    public Map<Station, List<Schedule>> getTransferList(String dateTransferDeparture, String dateTransferArrival) throws ParseException, BusinessLogicException {
         Date dateDeparture = Utils.parseToDate(dateTransferDeparture);
         Date dateArrival;
         if (dateTransferArrival != null)
             dateArrival = Utils.parseToDate(dateTransferArrival);
         else
             dateArrival = Utils.getNextDay(dateTransferArrival);
+
+        if (dateArrival.before(dateDeparture))
+            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
         List<Schedule> schedules = getByDates(dateDeparture, dateArrival);
         Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
         for (Schedule schedule :
@@ -249,7 +259,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Map<Station, List<Schedule>> mapStationForTransfer = getTransferList(scheduleDTO.getDateDeparture(), scheduleDTO.getDateArrival());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
@@ -317,6 +327,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
             dateArrival = Utils.getNextDay(scheduleDTO.getDateDeparture());
+
+        if (dateArrival.before(dateDeparture))
+            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
         schedule.setTrain(train);
         schedule.setDateArrival(dateArrival);
         schedule.setDateDeparture(dateDeparture);
@@ -340,6 +354,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
         List<Schedule> schedules = new ArrayList<>();
+
         if (stationArrivalForDirectSchedule == null || stationDepartureForDirectSchedule == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
@@ -350,8 +365,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setDateDeparture(dateDeparture);
         if (!scheduleDTO.getDateArrival().isEmpty()) {
             Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+
             if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
                 dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
+
+            if (dateArrival.before(dateDeparture))
+                throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
             schedule.setDateArrival(dateArrival);
             schedules = scheduleDAO.getByStationsAndDates(schedule);
         } else schedules = scheduleDAO.getByStationsAndDate(schedule);
@@ -384,6 +404,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
             if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
                 dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
+
+            if (dateArrival.before(dateDeparture))
+                throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
             schedule.setDateArrival(dateArrival);
             schedules = scheduleDAO.getByTrainAndDates(schedule);
         } else schedules = scheduleDAO.getByTrainAndDate(schedule);
@@ -402,13 +426,18 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException {
+    public List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Date dateDeparture = Utils.parseToDate(scheduleDTO.getDateDeparture());
         List<Schedule> schedules;
         if (!scheduleDTO.getDateArrival().isEmpty()) {
             Date dateArrival = Utils.parseToDate(scheduleDTO.getDateArrival());
+
             if (scheduleDTO.getDateArrival().equals(scheduleDTO.getDateDeparture()))
                 dateArrival = Utils.getNextDay(scheduleDTO.getDateArrival());
+
+            if (dateArrival.before(dateDeparture))
+                throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
+
             schedules = scheduleDAO.getByDates(dateDeparture, dateArrival);
         } else schedules = scheduleDAO.getByDate(dateDeparture);
         return mapping(schedules);

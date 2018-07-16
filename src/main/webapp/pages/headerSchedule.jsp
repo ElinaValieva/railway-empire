@@ -98,7 +98,7 @@
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TRAIN</label>
                                             <input id="trainSearchingByAllParameters" type="text"
-                                                   class="form-control text-center" width="50" required>
+                                                   class="form-control text-center" width="50" placeholder="TRAIN" required>
                                         </div>
                                     </div>
                                     <br>
