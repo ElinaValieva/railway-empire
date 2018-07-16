@@ -30,7 +30,7 @@ public class TrainServiceTest {
     private TrainServiceImpl trainService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         trainDTO = new TrainDTO();
         trainDTO.setCntSeats(10);
         trainDTO.setCntCarriage(2);
