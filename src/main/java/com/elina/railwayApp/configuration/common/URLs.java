@@ -81,10 +81,5 @@ public final class URLs {
     public final static String EDIT_ITEMS_RAILWAY = "/editItems";
     public final static String SHOW_DELETED_ITEMS_RAILWAY = "/showDeletedItems";
 
-    /**
-     * FEEDBACK
-     */
-    public final static String ADD_FEEDBACK = "/feedback/add";
-
 }
 

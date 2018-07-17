@@ -40,7 +40,6 @@ $(function () {
                 "            <h5 class=\"font-weight-bold\">" + "price: $" + tickets[i].price + "</h5>\n" +
                 "        </div>\n" +
                 "        <div class=\"text-right\">\n" +
-                "            <button class='btn btn-outline-warning feedback' id='" + tickets[i].id + "'><img src=\"/static/images/happy.png\"></button>\n" +
                 "            <button class='btn btn-outline-warning download' id='" + tickets[i].id + "'><img src=\"/static/images/download-button.png\"></button>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
@@ -49,19 +48,6 @@ $(function () {
     };
 
     loadTickets();
-
-    $(this).on('click', '.feedback', function () {
-        var id = $(this).attr('id');
-        swal({
-            title: 'FEEDBACK',
-            input: 'text',
-            type: 'info',
-            confirmButtonText: 'SEND'
-        }).then((result) => {
-            var urlSearching = "feedback/add";
-            postRequest(result.value, urlSearching, "Thanks, for your feedback!");
-        });
-    });
 
     $(this).on('click', '.download', function () {
         var id = $(this).attr('id');

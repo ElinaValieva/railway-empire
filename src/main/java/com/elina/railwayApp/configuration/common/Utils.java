@@ -32,7 +32,7 @@ public class Utils {
         return newDate;
     }
 
-    public static Date getNextDay(Date date) throws ParseException {
+    public static Date getNextDay(Date date) {
         Date newDate = new Date();
         newDate.setTime(date.getTime() + (long) 1000 * 24 * 60 * 60);
         return newDate;

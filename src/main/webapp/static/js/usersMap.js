@@ -98,21 +98,6 @@ function init() {
                     showCloseButton: true,
                     confirmButtonText: 'I want to leave feedback',
                     reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        swalWithBootstrapButtons({
-                            title: 'FEEDBACK',
-                            input: 'text',
-                            type: 'info',
-                            confirmButtonText: 'SEND'
-                        }).then((result) => {
-                            swalWithBootstrapButtons({
-                                title: 'THANK YOU!',
-                                text: 'FEEDBACK: ' + result.value,
-                                type: 'success'
-                            });
-                        });
-                    }
                 });
             });
             markers.push(marker);

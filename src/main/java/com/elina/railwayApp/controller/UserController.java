@@ -44,9 +44,6 @@ public class UserController {
     private TicketBuilderPDF ticketBuilderPDF;
 
     @Autowired
-    private FeedBackService feedBackService;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     @PostMapping(URLs.REGISTRATION)
@@ -103,12 +100,6 @@ public class UserController {
         response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(inputStream, response.getOutputStream());
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping(URLs.ADD_FEEDBACK)
-    public void addFeedback(@RequestBody String text) {
-//        feedBackService.add(text);
     }
 }
 
