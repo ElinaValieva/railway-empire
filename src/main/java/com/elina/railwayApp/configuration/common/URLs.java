@@ -85,5 +85,6 @@ public final class URLs {
      * FEEDBACK
      */
     public final static String ADD_FEEDBACK = "/feedback/add";
+
 }
 

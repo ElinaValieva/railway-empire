@@ -41,7 +41,7 @@ background-size: cover">
                 <a class="p-2 text-light" href="/showDeletedItems">Audit</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_USER')">
-                <a class="p-2 text-light" href="/userMap">Show trips on map</a>
+                <a class="p-2 text-light" href="/userMap" id="showTripsOnMapID">Show trips on map</a>
                 <a class="p-2 text-light" href="/home/profile">Profile</a>
             </sec:authorize>
         </nav>

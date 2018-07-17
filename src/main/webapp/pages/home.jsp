@@ -24,18 +24,18 @@
     <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-light" href="/schedule">Schedule</a>
+            <a class="p-2 text-light" href="/schedule" id="showScheduleID">Schedule</a>
             <sec:authorize access="hasRole('ROLE_MANAGER')">
-                <a class="p-2 text-light" href="/addItems">New</a>
+                <a class="p-2 text-light" href="/addItems" id="showNewItemID">New</a>
                 <a class="p-2 text-light" href="/editItems">Edit</a>
                 <a class="p-2 text-light" href="/showItems">Map</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <a class="p-2 text-light" href="/chart">Chart</a>
+                <a class="p-2 text-light" href="/chart" id="showChartID">Chart</a>
                 <a class="p-2 text-light" href="/showDeletedItems">Audit</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_USER')">
-                <a class="p-2 text-light" href="/trips">Trips</a>
+                <a class="p-2 text-light" href="/trips" id="showTripsID">Trips</a>
                 <a class="p-2 text-light" href="/userMap">Map</a>
                 <a class="p-2 text-light" href="/home/profile">Profile</a>
             </sec:authorize>

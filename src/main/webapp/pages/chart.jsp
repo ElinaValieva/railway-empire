@@ -45,7 +45,7 @@
                 <a class="p-2 text-light" href="/home/profile">Profile</a>
             </sec:authorize>
         </nav>
-        <a class="btn btn-outline-warning" href="/logout">Sign out</a>
+        <a class="btn btn-outline-warning" href="/logout" id="logoutID">Sign out</a>
     </div>
     <div class="container">
         <br>
