@@ -1,4 +1,4 @@
-package com.elina.railwayApp.service;
+package com.elina.railwayApp.junit.service;
 
 import com.elina.railwayApp.DAO.StationDAO;
 import com.elina.railwayApp.exception.BusinessLogicException;

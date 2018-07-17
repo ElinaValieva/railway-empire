@@ -1,4 +1,4 @@
-package com.elina.railwayApp.service;
+package com.elina.railwayApp.junit.service;
 
 import com.elina.railwayApp.DAO.TicketDAO;
 import com.elina.railwayApp.configuration.common.Utils;
