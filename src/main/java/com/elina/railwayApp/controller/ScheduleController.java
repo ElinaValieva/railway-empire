@@ -203,7 +203,7 @@ public class ScheduleController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping(URLs.GET_TICKETS)
     public ResponseEntity<?> getTickets(@PathVariable Long id) {
         List<TicketInfoDTO> tickets = ticketService.getByScheduleId(id);

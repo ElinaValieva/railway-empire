@@ -22,10 +22,10 @@ function tickets(id, seats, token, settings) {
             title: "Congratulations!",
             text: "You book ticket",
             icon: "success",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            // showCancelButton: true,
+            // confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'home page!',
+            confirmButtonText: 'OK',
         }).then((result) => {
             if (result.value) {
                 window.location = "/home";

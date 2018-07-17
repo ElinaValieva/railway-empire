@@ -20,7 +20,11 @@
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/trips.js"></script>
 </head>
-<body style="background: url('/static/images/bg.png')">
+<body style="background: url('/static/images/bg.png') no-repeat center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover">
 <sec:authorize access="hasRole('ROLE_USER')">
     <div class="d-flex align-items-center p-3 bg-dark  box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
@@ -29,7 +33,7 @@
             <a class="p-2 text-light" href="/schedule">Schedule</a>
             <sec:authorize access="hasRole('ROLE_MANAGER')">
                 <a class="p-2 text-light" href="/addItems">New</a>
-                <a class="p-2 text-light" href="/editItems">Modifications</a>
+                <a class="p-2 text-light" href="/editItems">Edit</a>
                 <a class="p-2 text-light" href="/showItems">Map</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">

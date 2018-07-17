@@ -32,7 +32,7 @@
             <a class="p-2 text-light" href="/schedule">Schedule</a>
             <sec:authorize access="hasRole('ROLE_MANAGER')">
                 <a class="p-2 text-light" href="/addItems">New</a>
-                <a class="p-2 text-light" href="/editItems">Modifications</a>
+                <a class="p-2 text-light" href="/editItems">Edit</a>
                 <a class="p-2 text-light" href="/showItems">Map</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">

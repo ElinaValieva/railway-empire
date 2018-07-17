@@ -1,10 +1,5 @@
 $(function () {
 
-    /*TODO
-    notification message
-    date departure not null
-     */
-
     var urlSearching = "/schedule/direct";
     $('#checkBoxId').prop('hidden', true);
     /**
