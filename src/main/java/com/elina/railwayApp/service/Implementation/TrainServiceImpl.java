@@ -110,6 +110,12 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
+    public List<Train> getAllTrains() {
+        return trainDAO.getAll();
+    }
+
+    @Override
+    @Transactional
     public Train getById(Long id) {
         return trainDAO.getById(id);
     }

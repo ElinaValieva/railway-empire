@@ -78,6 +78,9 @@
                 </div>
                 <br>
                 <form class="login-form" id="newItemForm" hidden>
+                    <datalist id="stationsList"></datalist>
+                    <datalist id="trainsList"></datalist>
+
                     <input type="text" placeholder="station name" id="stationNameItemsRailway"/>
                     <div class="row">
                         <div class="col">
@@ -89,10 +92,12 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input type="text" placeholder="station departure" id="stationDepartureItemsRailway"/>
+                            <input type="text" placeholder="station departure" id="stationDepartureItemsRailway"
+                                   autocomplete="off" list="stationsList"/>
                         </div>
                         <div class="col">
-                            <input type="text" placeholder="station arrival" id="stationArrivalItemsRailway"/>
+                            <input type="text" placeholder="station arrival" id="stationArrivalItemsRailway"
+                                   autocomplete="off" list="stationsList"/>
                         </div>
                     </div>
                     <div class="row">
@@ -105,7 +110,8 @@
                                    class="form-control" id="dateArrivalItemsRailway"/>
                         </div>
                     </div>
-                    <div><input type="text" placeholder="train" id="trainItemsRailway"/></div>
+                    <div><input type="text" placeholder="train" id="trainItemsRailway" autocomplete="off"
+                                list="trainsList"/></div>
                     <div class="row">
                         <div class="col">
                             <input type="number" placeholder="count carriage" class="form-control"

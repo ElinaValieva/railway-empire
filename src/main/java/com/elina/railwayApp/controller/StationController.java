@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j
 @RestController
@@ -68,6 +69,7 @@ public class StationController {
 
     /**
      * RETURN DELETED STATIONS FOR REESTABLISH BY ADMIN
+     *
      * @return
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -79,12 +81,25 @@ public class StationController {
 
     /**
      * REESTABLISH STATIONS
+     *
      * @param name
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.REESTABLISH_STATION)
-    public void reestablishTrain(@PathVariable String name){
+    public void reestablishTrain(@PathVariable String name) {
         stationService.reestablish(name);
+    }
+
+    /**
+     * FOR AUTOCOMPLETE
+     */
+    @GetMapping(URLs.STATIONS_AUTOCOMPLETE)
+    public ResponseEntity<?> getStationsAuto() {
+        List<String> stations = stationService.getAllStations()
+                .stream()
+                .map(x -> x.getName())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(stations);
     }
 }
 

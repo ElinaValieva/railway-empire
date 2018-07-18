@@ -23,6 +23,7 @@
     <script src="/static/js/plugins/sweetalert2.js"></script>
     <script src="/static/js/plugins/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/autocomplete.js"></script>
     <script src="/static/js/searchingSchedule.js"></script>
 </head>
 <body class="bg-dark pointer">
@@ -58,8 +59,10 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
+        <datalist id="stationsList"></datalist>
+        <datalist id="trainsList"></datalist>
 
-        <div class="item active">
+        <div class="item">
             <header class="masthead" style="background-image: url('/static/images/bg.png')">
                 <div class="container">
                     <div class="row">
@@ -71,14 +74,15 @@
                                             <label class="text-warning font-weight-bold">FROM</label>
                                             <input id="stationDepartureSearchingByAllParameters" type="text"
                                                    class="form-control text-center text-dark"
-                                                   placeholder="DEPARTURE STATION" required>
+                                                   placeholder="DEPARTURE STATION" autocomplete="off" required
+                                                   list="stationsList">
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TO</label>
                                             <input id="stationArrivalSearchingByAllParameters" type="text"
                                                    class="form-control text-center text-dark"
-                                                   placeholder="ARRIVAL STATION" required>
+                                                   placeholder="ARRIVAL STATION" required  autocomplete="off" list="stationsList">
                                         </div>
                                     </div>
                                     <br>
@@ -98,7 +102,8 @@
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TRAIN</label>
                                             <input id="trainSearchingByAllParameters" type="text"
-                                                   class="form-control text-center" width="50" placeholder="TRAIN" required>
+                                                   class="form-control text-center" width="50" placeholder="TRAIN"
+                                                   required autocomplete="off" list="trainsList">
                                         </div>
                                     </div>
                                     <br>
@@ -153,7 +158,7 @@
 
         </div>
 
-        <div class="item">
+        <div class="active item">
             <header class="masthead" style="background-image: url('/static/images/bg.png')">
                 <div class="container">
                     <div class="row">
@@ -165,14 +170,14 @@
                                             <label class="text-warning font-weight-bold">FROM</label>
                                             <input id="stationDepartureSearchingByStationsAndDates"
                                                    type="text" class="form-control text-dark text-xl-center"
-                                                   placeholder="DEPARTURE STATION" required>
+                                                   placeholder="DEPARTURE STATION" required autocomplete="off" list="stationsList">
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
                                             <label class="text-warning font-weight-bold">TO</label>
                                             <input id="stationArrivalSearchingByStationsAndDates"
                                                    type="text" class="form-control text-center text-dark"
-                                                   placeholder="ARRIVAL STATION" required>
+                                                   placeholder="ARRIVAL STATION" required autocomplete="off" list="stationsList">
                                         </div>
                                         <div class="col-1"></div>
                                         <div class="col form-group">
@@ -232,7 +237,7 @@
                                             <label class="text-warning font-weight-bold">TRAIN</label>
                                             <input id="trainInSearchingByDatesAndTrain" type="text"
                                                    class="form-control text-center text-dark"
-                                                   placeholder="TRAIN" required>
+                                                   placeholder="TRAIN" required autocomplete="off" list="trainsList">
                                         </div>
                                     </div>
                                     <br>

@@ -2,6 +2,8 @@ $(function () {
 
     var token = $("meta[name='_csrf']").attr("content");
 
+    autocomplete();
+
     $('#searchingBtnByDates').click(function (event) {
         event.preventDefault();
         var urlSearching = "/schedule/directByDates";
@@ -38,7 +40,6 @@ $(function () {
     });
 
     $('#searchingBtnByStationsAndDates').click(function () {
-        alert('tyt');
         event.preventDefault();
         var urlSearching = "/schedule/directByStations";
         var scheduleDTO = {
@@ -60,42 +61,41 @@ $(function () {
             url: urlSearching,
             data: JSON.stringify(scheduleDTO),
         }).done(function (response) {
-                $('#containerForSearching').show();
-                $('#containerForSearchingDirect').empty();
-                $('#containerForSearchingTransfer').empty();
-                for (var i = 0; i < response.length; i++)
-                    setContextForDirect(response[i]);
-                if ($('input:checkbox').prop('checked')) {
-                    alert('a');
-                    urlSearching = "/schedule/transferByStations";
-                    $.ajax({
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        method: "POST",
-                        url: urlSearching,
-                        data: JSON.stringify(scheduleDTO),
-                    }).done(function (response) {
-                        if (response.length != 0) {
-                            $('#mainScheduleContainer').show();
-                            $('#containerForSearchingTransfer').empty();
-                            for (var i = 0; i < response.length; i++) {
-                                setContextForTransfer(response[i]);
-                            }
+            $('#containerForSearching').show();
+            $('#containerForSearchingDirect').empty();
+            $('#containerForSearchingTransfer').empty();
+            for (var i = 0; i < response.length; i++)
+                setContextForDirect(response[i]);
+            if ($('input:checkbox').prop('checked')) {
+                urlSearching = "/schedule/transferByStations";
+                $.ajax({
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    method: "POST",
+                    url: urlSearching,
+                    data: JSON.stringify(scheduleDTO),
+                }).done(function (response) {
+                    if (response.length != 0) {
+                        $('#mainScheduleContainer').show();
+                        $('#containerForSearchingTransfer').empty();
+                        for (var i = 0; i < response.length; i++) {
+                            setContextForTransfer(response[i]);
                         }
-                    }).fail(function (qXHR, textStatus, errorThrown) {
-                        var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
-                        swal("Oops..", messageError, "error");
-                        console.log('request: ', qXHR);
-                        console.log('status text: ', textStatus);
-                        console.log('thrown error: ', JSON.stringify(errorThrown));
-                    });
-                }
-                else $('#containerForSearchingTransfer').empty();
+                    }
+                }).fail(function (qXHR, textStatus, errorThrown) {
+                    var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
+                    swal("Oops..", messageError, "error");
+                    console.log('request: ', qXHR);
+                    console.log('status text: ', textStatus);
+                    console.log('thrown error: ', JSON.stringify(errorThrown));
+                });
+            }
+            else $('#containerForSearchingTransfer').empty();
         }).fail(function (qXHR, textStatus, errorThrown) {
             var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
             swal("Oops..", messageError, "error");
@@ -230,7 +230,7 @@ $(function () {
             "</label></div><div><label class='font-weight-bold'>" +
             response.stationArrivalName +
             "</label></div></td><td><br>" +
-            "<label>" + price + "</label>" +
+            "<label>" + price + ' ' + "</label>" +
             "<button class='btn btn-lg btn-outline-warning btnFindTicketTransfer' id='dep"
             + response.idScheduleDeparture +
             "arr" + response.idScheduleArrival + "'" + disabledFlag + ">FIND TICKET</button></td></tr>"

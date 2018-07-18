@@ -81,5 +81,12 @@ public final class URLs {
     public final static String EDIT_ITEMS_RAILWAY = "/editItems";
     public final static String SHOW_DELETED_ITEMS_RAILWAY = "/showDeletedItems";
 
+    /**
+     * FOR AUTOCOMPLETE
+     */
+    public final static String STATIONS_AUTOCOMPLETE = "/auto/stations";
+    public final static String TRAINS_AUTOCOMPLETE = "auto/trains";
+
+
 }
 

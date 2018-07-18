@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j
@@ -78,6 +79,7 @@ public class TrainController {
 
     /**
      * RETURN ALL DELETED TRAINS
+     *
      * @return
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -89,11 +91,24 @@ public class TrainController {
 
     /**
      * REESTABLISH TRAIN
+     *
      * @param name
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.REESTABLISH_TRAIN)
-    public void reestablishTrain(@PathVariable String name){
+    public void reestablishTrain(@PathVariable String name) {
         trainService.reestablish(name);
+    }
+
+    /**
+     * FOR AUTOCOMPLETE
+     */
+    @GetMapping(URLs.TRAINS_AUTOCOMPLETE)
+    public ResponseEntity<?> getTrainsAuto() {
+        List<String> trains = trainService.getAllTrains()
+                .stream()
+                .map(x -> x.getName())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(trains);
     }
 }

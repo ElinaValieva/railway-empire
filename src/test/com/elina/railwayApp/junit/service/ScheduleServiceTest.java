@@ -1,6 +1,7 @@
 package com.elina.railwayApp.junit.service;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
@@ -25,7 +26,7 @@ public class ScheduleServiceTest {
 
     private Schedule schedule;
     private Station station;
-    private Date date;
+    private Date date, dateTo;
 
     @Mock
     private ScheduleDAO scheduleDAO;
@@ -36,6 +37,7 @@ public class ScheduleServiceTest {
     @Before
     public void setUp() throws Exception {
         date = new Date();
+        dateTo = Utils.getNextDay(new Date());
         schedule = new Schedule();
         schedule.setId(31L);
 
@@ -73,9 +75,9 @@ public class ScheduleServiceTest {
 
     @Test
     public void getByDates() throws ParseException, BusinessLogicException {
-        when(scheduleDAO.getByDates(date, date)).thenReturn(new ArrayList<>());
-        scheduleService.getByDates(date, date);
-        verify(scheduleDAO).getByDates(date, date);
+        when(scheduleDAO.getByDates(date, dateTo)).thenReturn(new ArrayList<>());
+        scheduleService.getByDates(date, dateTo);
+        verify(scheduleDAO).getByDates(date, dateTo);
     }
 
     @Test
