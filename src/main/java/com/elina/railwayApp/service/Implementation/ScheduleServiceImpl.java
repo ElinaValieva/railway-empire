@@ -237,6 +237,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
 
         List<Schedule> schedules = getByDates(dateDeparture, dateArrival);
+
+
         Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
         for (Schedule schedule :
                 schedules) {
@@ -267,16 +269,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<TransferScheduleDTO> transferScheduleDTOS = new ArrayList<>();
         for (Schedule schedule :
                 schedules) {
-            List<Schedule> transferSchedule = new ArrayList<>();
             if (!schedule.getStationArrival().equals(stationArrival)) {
-                transferSchedule = mapStationForTransfer.get(schedule.getStationArrival())
-                        .stream()
-                        .filter(x -> x.getStationArrival().equals(stationArrival)
-                                && schedule.getDateArrival().before(x.getDateDeparture()) &&
-                                Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
-                        .collect(Collectors.toList());
+                List<Schedule> transferSchedule = mapStationForTransfer.get(schedule.getStationArrival());
+                if (transferSchedule != null) {
+                    transferSchedule.stream()
+                            .filter(x -> x.getStationArrival().equals(stationArrival)
+                                    && schedule.getDateArrival().before(x.getDateDeparture()) &&
+                                    Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
+                            .collect(Collectors.toList());
 
-                if (!transferSchedule.isEmpty())
                     transferSchedule.stream().forEach(transfer -> {
                         TransferScheduleDTO transferScheduleDTO = new TransferScheduleDTO();
                         transferScheduleDTO.setStationDepartureName(schedule.getStationDeparture().getName());
@@ -293,6 +294,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                         transferScheduleDTO.setPrice(distanceService.calculateTransferTripPrice(schedule, transfer));
                         transferScheduleDTOS.add(transferScheduleDTO);
                     });
+                }
             }
         }
         return transferScheduleDTOS;

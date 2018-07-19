@@ -70,8 +70,8 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
-                        "where dateDeparture between :dateDeparture and :dateArrival " +
-                        "order by dateDeparture desc")
+                        "where dateDeparture between :dateDeparture and :dateArrival and dateArrival between :dateDeparture and :dateArrival " +
+                        "order by id desc ")
                 .setParameter("dateDeparture", dateDeparture)
                 .setParameter("dateArrival", dateArrival)
                 .getResultList();
