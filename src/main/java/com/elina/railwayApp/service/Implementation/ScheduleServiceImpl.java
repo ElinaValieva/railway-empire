@@ -170,6 +170,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
+    public List<ScheduleDTO> getAllForToday() {
+        List<Schedule> schedules = scheduleDAO.getByDateAll();
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     public Schedule getById(Long id) {
         return scheduleDAO.getById(id);
     }
@@ -181,7 +190,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) throws ParseException, BusinessLogicException {
+    public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) throws BusinessLogicException {
         dateArrival = Utils.getNextDay(dateArrival);
         if (dateArrival.before(dateDeparture))
             throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());

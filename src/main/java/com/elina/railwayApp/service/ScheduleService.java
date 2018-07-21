@@ -26,6 +26,8 @@ public interface ScheduleService {
 
     List<ScheduleDTO> getAll();
 
+    List<ScheduleDTO> getAllForToday();
+
     Schedule getById(Long id);
 
     List<Schedule> getByDate(Date dateDeparture);

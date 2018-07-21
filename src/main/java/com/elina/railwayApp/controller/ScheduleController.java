@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,12 @@ public class ScheduleController {
     @GetMapping(URLs.GET_SCHEDULES)
     public ResponseEntity<?> getSchedules() {
         List<ScheduleDTO> schedules = scheduleService.getAll();
+        return ResponseEntity.ok(schedules);
+    }
+
+    @GetMapping(URLs.GET_SCHEDULE_TODAY)
+    public ResponseEntity<?> getSchedulesForToday() {
+        List<ScheduleDTO> schedules = scheduleService.getAllForToday();
         return ResponseEntity.ok(schedules);
     }
 

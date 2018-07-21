@@ -17,6 +17,8 @@ public interface ScheduleDAO {
 
     List<Schedule> getAll();
 
+    List<Schedule> getByDateAll();
+
     Schedule getById(Long id);
 
     List<Schedule> getByDate(Date date);

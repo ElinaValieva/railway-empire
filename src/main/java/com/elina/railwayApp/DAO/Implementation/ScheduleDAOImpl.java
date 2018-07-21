@@ -42,6 +42,17 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .list();
     }
 
+    @Override
+    public List<Schedule> getByDateAll() {
+        Date today = new Date();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " +
+                        "where date(dateDeparture) = date(:today) " +
+                        "order by dateDeparture desc")
+                .setParameter("today", today)
+                .getResultList();
+    }
+
 
     @Override
     public Schedule getById(Long id) {

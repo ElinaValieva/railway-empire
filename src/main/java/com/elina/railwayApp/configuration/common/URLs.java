@@ -67,6 +67,9 @@ public final class URLs {
     public final static String GET_SEATS_INFO_OF_DIRECT_TRIP = "/seat/{id}";
     public final static String BOOK_TICKET_OF_DIRECT_TRIP = "/ticket";
     public final static String GET_TICKETS = "/ticket/all/{id}";
+    public final static String GET_SCHEDULE_TODAY = "/today";
+    public final static String GET_SCHEDULES_FOR_BOARD = "/schedule/today";
+    public final static String STATIONS_FOR_BOARD = "/station/auto/stations";
 
     /**
      * SEAT
@@ -85,7 +88,7 @@ public final class URLs {
      * FOR AUTOCOMPLETE
      */
     public final static String STATIONS_AUTOCOMPLETE = "/auto/stations";
-    public final static String TRAINS_AUTOCOMPLETE = "auto/trains";
+    public final static String TRAINS_AUTOCOMPLETE = "/auto/trains";
 
 
 }
