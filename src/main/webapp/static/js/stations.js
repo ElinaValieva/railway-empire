@@ -19,7 +19,7 @@ var deleteStation = function (name) {
 };
 
 var getCoordinates = function (city) {
-    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=$" + city + "&key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes";
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=$" + city;
     $.getJSON(url, function (data) {
         if (data.results.length) {
             var location = data.results[0];
