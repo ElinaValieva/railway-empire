@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Elina
-  Date: 25.06.2018
-  Time: 16:17
+  Date: 21.07.2018
+  Time: 17:28
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,16 +12,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>RAILWAY EMPIRE: PROFILE USER</title>
+    <title>RAILWAY EMPIRE</title>
     <sec:csrfMetaTags/>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/profile.css">
     <link rel="stylesheet" href="/static/css/railway.css">
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
-    <script src="/static/js/plugins/jquery-3.3.1.js"></script>
+    <script src="/static/js/plugins/vue.js"></script>
+    <script src="/static/js/plugins/axios.js"></script>
     <script src="/static/js/plugins/sweetalert2.js"></script>
-    <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/profile.js"></script>
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_USER')">
@@ -46,7 +45,7 @@
         </nav>
         <a class="btn btn-outline-warning" href="/logout">Sign out</a>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" id="app">
         <div class="background"></div>
         <div class="rocks_1"></div>
         <div class="rocks_2"></div>
@@ -56,28 +55,34 @@
         <div class="lights"></div>
         <div class="moon"></div>
         <div class="login-page">
-            <form class="form" action="/home/update" method="post">
-                <input name="firstName" id="firstName" type="text" placeholder="firstName"
-                       required/>
-                <input name="lastName" id="lastName" type="text" placeholder="lastName"
-                       required/>
-                <input name="login" id="login" type="email" placeholder="login" required/>
-                <input name="birthDay" id="birthday" type="date" placeholder="birthday"/>
+            <form class="form">
+                <input name="firstName" v-model="firstName" id="firstName" type="text" placeholder="firstName"
+                       required pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"/>
+
+                <input name="lastName" id="lastName" type="text" placeholder="lastName" v-model="lastName"
+                       required pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"/>
+
+                <input name="login" id="login" type="email" v-model="login" placeholder="login" required/>
+
+                <input name="birthDay" id="birthday" type="date" v-model="birthDay" placeholder="birthday"/>
+
                 <div class="row align-items-center">
                     <div class="col">
-                        <input type="radio" id="radioMale" name="sex" value="male"/>
+                        <input type="radio" id="radioMale" name="sex" value="male" v-model="sex"/>
                         <label>male</label>
                     </div>
                     <div class="col">
                         <input type="radio" id="radioFemale" name="sex"
-                               value="female"/>
+                               value="female" v-model="sex"/>
                         <label>female</label>
                     </div>
                 </div>
-                <button id="editProfile">edit</button>
+                <button id="editProfile" @click="editForm">edit</button>
             </form>
         </div>
     </div>
 </sec:authorize>
 </body>
+<script src="/static/js/vue/profile.js">
+</script>
 </html>

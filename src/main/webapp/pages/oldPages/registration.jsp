@@ -20,7 +20,7 @@
     <script src="/static/js/plugins/jquery-3.3.1.js"></script>
     <script src="/static/js/plugins/sweetalert2.js"></script>
     <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/registration.js"></script>
+    <script src="/static/js/jquery/registration.js"></script>
 </head>
 <body>
 <div class="wrapper">

@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         if (!birthDay.before(new Date()))
             throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
 
-        if (findByEmail(userDTO.getLogin()) != null)
+        if (findByEmail(userDTO.getLogin()) != null && !findByEmail(userDTO.getLogin()).getLogin().equals(user.getLogin()))
             throw new BusinessLogicException(ErrorCode.WRONG_LOGIN.getMessage());
 
         user.setFirstName(userDTO.getFirstName());
@@ -127,5 +127,4 @@ public class UserServiceImpl implements UserService {
         mailService.sendMimeMessage(message);
         add(user);
     }
-
 }

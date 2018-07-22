@@ -111,11 +111,11 @@
                         </div>
                     </div>
                     <div><input type="text" placeholder="train" id="trainItemsRailway" autocomplete="off"
-                                list="trainsList"/></div>
+                                list="trainsList" required minlength="4" maxlength="6"/></div>
                     <div class="row">
                         <div class="col">
                             <input type="number" placeholder="count carriage" class="form-control"
-                                   id="cntCarriageItemsRailway">
+                                   id="cntCarriageItemsRailway" required min="5" max="25">
                         </div>
                         <div class="col">
                             <input type="number" class="form-control" id="cntSeatsItemsRailway" value="30" disabled>
