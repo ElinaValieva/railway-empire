@@ -10,19 +10,21 @@ import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public interface ScheduleService {
 
-    void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
+    void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException, IOException, TimeoutException;
 
-    void delete(Long id) throws BusinessLogicException;
+    void delete(Long id) throws BusinessLogicException, IOException, TimeoutException;
 
-    void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException;
+    void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException, IOException, TimeoutException;
 
     List<ScheduleDTO> getAll();
 

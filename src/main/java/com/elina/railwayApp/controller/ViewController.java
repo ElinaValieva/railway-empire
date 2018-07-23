@@ -38,12 +38,6 @@ public class ViewController {
         return Views.PROFILE;
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @RequestMapping(value = URLs.SCHEDULE_CREATE)
-    public String createSchedule() {
-        return Views.CREATE_SCHEDULE;
-    }
-
     @RequestMapping(value = URLs.SCHEDULE)
     public String test() {
         return Views.HEADER_SCHEDULE;

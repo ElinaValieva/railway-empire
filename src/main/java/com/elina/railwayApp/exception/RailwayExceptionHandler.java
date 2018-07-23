@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.concurrent.TimeoutException;
 
 @ControllerAdvice
 @Log4j
@@ -53,5 +54,11 @@ public class RailwayExceptionHandler {
     public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.USER_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(TimeoutException.class)
+    public ResponseEntity<?> handleTimeOutException(TimeoutException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.badRequest().body(new ErrorDTO(ErrorCode.TIME_OUT.getMessage()));
     }
 }

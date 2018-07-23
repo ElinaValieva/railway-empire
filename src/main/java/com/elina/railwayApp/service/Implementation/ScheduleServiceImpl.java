@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 @Log4j
@@ -49,6 +51,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private AuditService auditService;
 
+    @Autowired
+    private ProducerService producerService;
+
 
     private static final int MIN_DELTA_TRANSFER = 15;
     private static final int MAX_DELTA_TRANSFER = 360;
@@ -60,7 +65,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
+    public void add(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException, IOException, TimeoutException {
         Train train = trainService.getByName(scheduleDTO.getTrainName());
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
@@ -100,22 +105,24 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getStationArrival().setStatus(status);
         scheduleDAO.add(schedule);
         auditService.createScheduleAuditInfo(schedule);
+        producerService.produceMsg("add schedule");
         log.info("SCHEDULE WAS CREATED!");
     }
 
     @Override
     @Transactional
-    public void delete(Long id) throws BusinessLogicException {
+    public void delete(Long id) throws BusinessLogicException, IOException, TimeoutException {
         Schedule schedule = getById(id);
         if (!ticketService.getBySchedules(schedule).isEmpty())
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
         auditService.deleteScheduleAuditInfo(schedule);
+        producerService.produceMsg("delete schedule");
     }
 
     @Override
     @Transactional
-    public void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException {
+    public void update(ScheduleDTO scheduleDTO) throws BusinessLogicException, ParseException, IOException, TimeoutException {
         Schedule schedule = getById(scheduleDTO.getId());
         Schedule scheduleOld = schedule;
         if (!ticketService.getBySchedules(schedule).isEmpty())
@@ -157,6 +164,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleDAO.update(schedule);
         auditService.updateScheduleAuditInfo(scheduleOld, schedule);
+        producerService.produceMsg("update schedule");
     }
 
     @Override
@@ -516,7 +524,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .map(x -> {
-                    Integer price = null;
+                    Integer price = 0;
                     try {
                         price = distanceService.calculateDirectTripPrice(x);
                     } catch (ParseException e) {

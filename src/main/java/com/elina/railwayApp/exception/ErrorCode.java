@@ -28,7 +28,8 @@ public enum ErrorCode {
     FILE_EXCEPTION(20, "File not found."),
     WRONG_BIRTHDAY(21, "Wrong birthday date. Try to change it."),
     USER_NOT_FOUND(22, "Wrong login or pass. Try again."),
-    WRONG_LOGIN(23, "This login already used. Try again");
+    WRONG_LOGIN(23, "This login already used. Try again"),
+    TIME_OUT(24, "Time out..");
 
     private int code;
     private String reason;

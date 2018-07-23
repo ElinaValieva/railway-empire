@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping(value = URLs.SCHEDULE)
@@ -69,8 +69,9 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(URLs.CREATE_SCHEDULE)
-    public void createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
+    public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException, IOException, TimeoutException {
         scheduleService.add(scheduleDTO);
+        return ResponseEntity.ok(scheduleDTO);
     }
 
     /**
@@ -178,7 +179,7 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_SCHEDULE)
-    public void deleteSchedule(@PathVariable Long id) throws BusinessLogicException {
+    public void deleteSchedule(@PathVariable Long id) throws BusinessLogicException, IOException, TimeoutException {
         scheduleService.delete(id);
     }
 
@@ -199,7 +200,7 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(URLs.UPDATE_SCHEDULE)
-    public void updateSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
+    public void updateSchedule(@RequestBody ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException, IOException, TimeoutException {
         scheduleService.update(scheduleDTO);
     }
 
