@@ -22,7 +22,7 @@ $(function () {
             stationShow: function () {
                 $('#stationId').prop('hidden', false);
                 $('#trainId').prop('hidden', true);
-                $('#schedule').prop('hidden', true);
+                $('#scheduleId').prop('hidden', true);
             },
             scheduleShow: function () {
                 $('#stationId').prop('hidden', true);
