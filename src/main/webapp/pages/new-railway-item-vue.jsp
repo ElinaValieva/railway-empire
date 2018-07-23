@@ -79,21 +79,27 @@
                 </div>
                 <br>
                 <form class="login-form" id="newItemForm" v-if="show!=''">
-
+                    <datalist id="stationsList">
+                        <auto-stations></auto-stations>
+                    </datalist>
+                    <datalist id="trainsList">
+                        <auto-trains></auto-trains>
+                    </datalist>
 
                     <div v-if="show == 'station'">
-                        <form @submit.prevent>
+                        <form>
                             <input type="text" placeholder="station name"
                                    pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"
                                    required v-model="stationName"/>
                             <div class="row">
                                 <div class="col">
                                     <input type="text" placeholder="latitude [empty]" id="coordinatesX"
-
+                                           pattern="\d+(\.\d{2, 8})?"
                                            v-model="latitude"/>
                                 </div>
                                 <div class="col">
                                     <input type="text" placeholder="longitude [empty]" id="coordinatesY"
+                                           pattern="\d+(\.\d{2, 8})?"
                                            v-model="longitude"/>
                                 </div>
                             </div>
@@ -104,37 +110,39 @@
                     </div>
 
                     <div v-if="show == 'schedule'">
-                        <datalist id="stationsList">
-                            <auto-stations></auto-stations>
-                        </datalist>
-                        <datalist id="trainsList">
-                            <auto-trains></auto-trains>
-                        </datalist>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" placeholder="station departure"
-                                       autocomplete="off" list="stationsList" v-model="stationDeparture"/>
+                        <form @submit.prevent="addScheduleBtn">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" placeholder="station departure"
+                                           autocomplete="off" list="stationsList" v-model="stationDeparture"
+                                           required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
+                                           title="Name must contain only letters"/>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="station arrival"
+                                           autocomplete="off" list="stationsList" v-model="stationArrival"
+                                           required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
+                                           title="Name must contain only letters"/>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="train"
+                                           autocomplete="off" list="trainsList" v-model="trainSchedule"
+                                           required pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
+                                           title="Name must contain letter then number"/>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" placeholder="station arrival"
-                                       autocomplete="off" list="stationsList" v-model="stationArrival"/>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
+                                           class="form-control" v-model="dateDeparture" required/>
+                                </div>
+                                <div class="col">
+                                    <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
+                                           class="form-control" v-model="dateArrival"/>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" placeholder="train"
-                                       autocomplete="off" list="trainsList" v-model="trainSchedule"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                                       class="form-control" v-model="dateDeparture"/>
-                            </div>
-                            <div class="col">
-                                <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                                       class="form-control" v-model="dateArrival"/>
-                            </div>
-                        </div>
-                        <button id="addItem2" @click="addScheduleBtn">ADD ITEM</button>
+                            <button>ADD ITEM</button>
+                        </form>
                     </div>
 
                     <div v-if="show == 'train'">
@@ -178,7 +186,7 @@
                 trainSchedule: '',
                 dateDeparture: '',
                 dateArrival: '',
-                cntCarriage: 0,
+                cntCarriage: 5,
                 cntSeats: 30,
                 train: ''
             }
@@ -186,20 +194,22 @@
         methods: {
             addStationBtn: function () {
                 event.preventDefault();
-                if (this.latitude == '' || this.longitude == '') {
-                    this.getCoordinates(this.stationName)
-                }
-                else this.addStation(this.latitude, this.longitude);
+                if (this.stationName
+                    && /^[0-9]+$/.test(this.longitude) && /^[0-9]+$/.test(this.latitude)
+                    && !/^[0-9]+$/.test(this.stationName)) {
+                    if (!this.latitude || !this.longitude) {
+                        this.getCoordinates(this.stationName)
+                    }
+                    else this.addStation(this.latitude, this.longitude);
+                } else swal({title: 'Oops..', text: 'Wrong values..', type: 'error'});
             },
-            addScheduleBtn: function (event) {
-                event.preventDefault();
+            addScheduleBtn() {
                 this.addSchedule();
             },
             addTrainBtn() {
                 this.addTrain();
             },
             getCoordinates: function (city) {
-                event.preventDefault();
                 var url = "https://maps.googleapis.com/maps/api/geocode/json?address=$" + city;
                 var cntx = this;
                 axios
@@ -248,7 +258,6 @@
                 });
             },
             addSchedule: function () {
-                // event.preventDefault();
                 axios
                     .post('/schedule/add', {
                         stationDepartureName: this.stationDeparture,
