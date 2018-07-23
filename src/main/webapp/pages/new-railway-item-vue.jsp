@@ -80,8 +80,9 @@
                 <br>
                 <form class="login-form" id="newItemForm" v-if="show!=''">
 
+
                     <div v-if="show == 'station'">
-                        <form>
+                        <form @submit.prevent>
                             <input type="text" placeholder="station name"
                                    pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"
                                    required v-model="stationName"/>
@@ -96,7 +97,7 @@
                                            v-model="longitude"/>
                                 </div>
                             </div>
-                            <button id="addItemTrain" type="submit" @click="addStationBtn">
+                            <button @click="addStationBtn">
                                 ADD ITEM
                             </button>
                         </form>
@@ -137,20 +138,25 @@
                     </div>
 
                     <div v-if="show == 'train'">
-                        <div><input type="text" placeholder="train" v-model="train" autocomplete="off"
-                                    list="trainsList" required minlength="4" maxlength="6"/></div>
-                        <div class="row">
-                            <div class="col">
-                                <input type="number" placeholder="count carriage" class="form-control"
-                                       v-model="cntCarriage" required min="5" max="25">
+                        <form @submit.prevent="addTrainBtn">
+                            <div><input type="text" placeholder="train" v-model="train" autocomplete="off"
+                                        list="trainsList"
+                                        pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
+                                        title="Name must contain letter then number"
+                                        required minlength="4" maxlength="6"/></div>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="number" placeholder="count carriage" class="form-control"
+                                           v-model="cntCarriage"
+                                           required min="5" max="25">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" v-model="cntSeats" value="30" disabled>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="number" class="form-control" v-model="cntSeats" value="30" disabled>
-                            </div>
-                        </div>
-                        <button id="addItem3" @click="addTrainBtn">ADD ITEM</button>
+                            <button>ADD ITEM</button>
+                        </form>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -178,7 +184,7 @@
             }
         },
         methods: {
-            addStationBtn: function (event) {
+            addStationBtn: function () {
                 event.preventDefault();
                 if (this.latitude == '' || this.longitude == '') {
                     this.getCoordinates(this.stationName)
@@ -189,11 +195,11 @@
                 event.preventDefault();
                 this.addSchedule();
             },
-            addTrainBtn: function (event) {
-                event.preventDefault();
+            addTrainBtn() {
                 this.addTrain();
             },
             getCoordinates: function (city) {
+                event.preventDefault();
                 var url = "https://maps.googleapis.com/maps/api/geocode/json?address=$" + city;
                 var cntx = this;
                 axios
@@ -242,6 +248,7 @@
                 });
             },
             addSchedule: function () {
+                // event.preventDefault();
                 axios
                     .post('/schedule/add', {
                         stationDepartureName: this.stationDeparture,
