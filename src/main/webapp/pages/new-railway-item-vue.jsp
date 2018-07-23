@@ -61,24 +61,24 @@
                     <div class="col">
                         <button id="addStationBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
                                 src="/static/images/railroad.png"
-                                @click="show = 'station'">
+                                @click="stationShow">
                         </button>
                     </div>
                     <div class="col">
                         <button id="addScheduleBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
                                 src="/static/images/calendar.png"
-                                @click="show = 'schedule'">
+                                @click="scheduleShow">
                         </button>
                     </div>
                     <div class="col">
                         <button id="addTrainBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
                                 src="/static/images/subway.png"
-                                @click="show = 'train'">
+                                @click="trainShow">
                         </button>
                     </div>
                 </div>
                 <br>
-                <form class="login-form" id="newItemForm" v-if="show!=''">
+                <form class="login-form" id="stationId" hidden>
                     <datalist id="stationsList">
                         <auto-stations></auto-stations>
                     </datalist>
@@ -86,85 +86,80 @@
                         <auto-trains></auto-trains>
                     </datalist>
 
-                    <div v-if="show == 'station'">
-                        <form>
-                            <input type="text" placeholder="station name"
-                                   pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"
-                                   required v-model="stationName"/>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" placeholder="latitude [empty]" id="coordinatesX"
-                                           pattern="\d+(\.\d{2, 8})?"
-                                           v-model="latitude"/>
-                                </div>
-                                <div class="col">
-                                    <input type="text" placeholder="longitude [empty]" id="coordinatesY"
-                                           pattern="\d+(\.\d{2, 8})?"
-                                           v-model="longitude"/>
-                                </div>
+                    <form>
+                        <input type="text" placeholder="station name"
+                               pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"
+                               required v-model="stationName"/>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" placeholder="latitude [empty]" id="coordinatesX"
+                                       pattern="\d+(\.\d{2, 8})?"
+                                       v-model="latitude"/>
                             </div>
-                            <button @click="addStationBtn">
-                                ADD ITEM
-                            </button>
-                        </form>
-                    </div>
+                            <div class="col">
+                                <input type="text" placeholder="longitude [empty]" id="coordinatesY"
+                                       pattern="\d+(\.\d{2, 8})?"
+                                       v-model="longitude"/>
+                            </div>
+                        </div>
+                        <button @click="addStationBtn">
+                            ADD ITEM
+                        </button>
+                    </form>
 
-                    <div v-if="show == 'schedule'">
-                        <form @submit.prevent="addScheduleBtn">
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" placeholder="station departure"
-                                           autocomplete="off" list="stationsList" v-model="stationDeparture"
-                                           required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
-                                           title="Name must contain only letters"/>
-                                </div>
-                                <div class="col">
-                                    <input type="text" placeholder="station arrival"
-                                           autocomplete="off" list="stationsList" v-model="stationArrival"
-                                           required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
-                                           title="Name must contain only letters"/>
-                                </div>
-                                <div class="col">
-                                    <input type="text" placeholder="train"
-                                           autocomplete="off" list="trainsList" v-model="trainSchedule"
-                                           required pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
-                                           title="Name must contain letter then number"/>
-                                </div>
+                    <form @submit.prevent="addScheduleBtn" id="scheduleId" hidden>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" placeholder="station departure"
+                                       autocomplete="off" list="stationsList" v-model="stationDeparture"
+                                       required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
+                                       title="Name must contain only letters"/>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                                           class="form-control" v-model="dateDeparture" required/>
-                                </div>
-                                <div class="col">
-                                    <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
-                                           class="form-control" v-model="dateArrival"/>
-                                </div>
+                            <div class="col">
+                                <input type="text" placeholder="station arrival"
+                                       autocomplete="off" list="stationsList" v-model="stationArrival"
+                                       required pattern="[A-Za-zА-Яа-яЁё]{3,15}"
+                                       title="Name must contain only letters"/>
                             </div>
-                            <button>ADD ITEM</button>
-                        </form>
-                    </div>
+                            <div class="col">
+                                <input type="text" placeholder="train"
+                                       autocomplete="off" list="trainsList" v-model="trainSchedule"
+                                       required pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
+                                       title="Name must contain letter then number"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
+                                       class="form-control" v-model="dateDeparture" required/>
+                            </div>
+                            <div class="col">
+                                <input type="datetime-local" value="2018-00-00T00:00:00" step="1"
+                                       class="form-control" v-model="dateArrival"/>
+                            </div>
+                        </div>
+                        <button>ADD ITEM</button>
+                    </form>
 
-                    <div v-if="show == 'train'">
-                        <form @submit.prevent="addTrainBtn">
-                            <div><input type="text" placeholder="train" v-model="train" autocomplete="off"
-                                        list="trainsList"
-                                        pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
-                                        title="Name must contain letter then number"
-                                        required minlength="4" maxlength="6"/></div>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="number" placeholder="count carriage" class="form-control"
-                                           v-model="cntCarriage"
-                                           required min="5" max="25">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" v-model="cntSeats" value="30" disabled>
-                                </div>
+                    <form @submit.prevent="addTrainBtn" id="trainId" hidden>
+                        <div><input type="text" placeholder="train" v-model="train" autocomplete="off"
+                                    list="trainsList"
+                                    pattern="[A-Za-zА-Яа-яЁё]{1}[0-9]{3,5}"
+                                    title="Name must contain letter then number"
+                                    required minlength="4" maxlength="6"/></div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" placeholder="count carriage" class="form-control"
+                                       v-model="cntCarriage"
+                                       required min="5" max="25">
                             </div>
-                            <button>ADD ITEM</button>
-                        </form>
-                    </div>
+                            <div class="col">
+                                <input type="number" class="form-control" v-model="cntSeats" value="30"
+                                       disabled>
+                            </div>
+                        </div>
+                        <button>ADD ITEM</button>
+                    </form>
                 </form>
             </div>
         </div>
@@ -172,138 +167,6 @@
 </sec:authorize>
 </body>
 <script src="/static/js/vue/components.js"></script>
-<script>
-    new Vue({
-        el: '#app-1',
-        data() {
-            return {
-                show: '',
-                stationName: '',
-                latitude: '',
-                longitude: '',
-                stationDeparture: '',
-                stationArrival: '',
-                trainSchedule: '',
-                dateDeparture: '',
-                dateArrival: '',
-                cntCarriage: 5,
-                cntSeats: 30,
-                train: ''
-            }
-        },
-        methods: {
-            addStationBtn: function () {
-                event.preventDefault();
-                if (this.stationName
-                    && /^[0-9]+$/.test(this.longitude) && /^[0-9]+$/.test(this.latitude)
-                    && !/^[0-9]+$/.test(this.stationName)) {
-                    if (!this.latitude || !this.longitude) {
-                        this.getCoordinates(this.stationName)
-                    }
-                    else this.addStation(this.latitude, this.longitude);
-                } else swal({title: 'Oops..', text: 'Wrong values..', type: 'error'});
-            },
-            addScheduleBtn() {
-                this.addSchedule();
-            },
-            addTrainBtn() {
-                this.addTrain();
-            },
-            getCoordinates: function (city) {
-                var url = "https://maps.googleapis.com/maps/api/geocode/json?address=$" + city;
-                var cntx = this;
-                axios
-                    .get(url)
-                    .then(response => {
-                        var location = JSON.stringify(response.data.results[0].geometry.location);
-                        var longitude = location.lng;
-                        var latitude = location.lat;
-                        cntx.addStation(latitude, longitude);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        swal({
-                            title: 'Oops..', text: "Wrong station name, can't find anything", type: 'error'
-                        });
-                    });
-            },
-            addStation: function (latitude, longitude) {
-                swal({
-                    title: this.stationName, text: 'latitude = ' + latitude + ', longitude = ' + longitude,
-                    type: 'info',
-                    showCancelButton: true, cancelButtonText: 'Wrong parameters ...', confirmButtonText: "It's OK!"
-                }).then((result) => {
-                    if (result.value) {
-                        axios
-                            .post('/station/add', {
-                                name: this.stationName,
-                                latitude: latitude,
-                                longitude: longitude
-                            })
-                            .then(response => {
-                                console.log(JSON.stringify(response));
-                                swal({
-                                    title: 'Congratulations!', text: 'You add new station!', type: 'success'
-                                });
-                            })
-                            .catch(error => {
-                                console.log(JSON.stringify(error));
-                                swal({
-                                    title: 'Oops..',
-                                    text: error.response.data.message.split('[MESSAGE]:')[1],
-                                    type: 'error'
-                                });
-                            });
-                    }
-                });
-            },
-            addSchedule: function () {
-                axios
-                    .post('/schedule/add', {
-                        stationDepartureName: this.stationDeparture,
-                        stationArrivalName: this.stationArrival,
-                        trainName: this.trainSchedule,
-                        dateDeparture: this.dateDeparture.replace("T", " ") + ":00",
-                        dateArrival: this.dateArrival != "" ? this.dateArrival.replace("T", " ") + ":00" : ''
-                    })
-                    .then(response => {
-                        console.log(JSON.stringify(response));
-                        swal({
-                            title: 'Congratulations!', text: 'You add new schedule!', type: 'success'
-                        });
-                    })
-                    .catch(error => {
-                        console.log(JSON.stringify(error));
-                        swal({
-                            title: 'Oops..',
-                            text: error.response.data.message.split('[MESSAGE]:')[1],
-                            type: 'error'
-                        });
-                    });
-            },
-            addTrain: function () {
-                axios
-                    .post('/train/add', {
-                        trainName: this.train,
-                        cntCarriage: this.cntCarriage,
-                        cntSeats: this.cntSeats
-                    })
-                    .then(response => {
-                        console.log(JSON.stringify(response));
-                        swal({
-                            title: 'Congratulations!', text: 'You add new train!', type: 'success'
-                        });
-                    })
-                    .catch(error => {
-                        console.log(JSON.stringify(error));
-                        swal({
-                            title: 'Oops..',
-                            text: error.response.data.message.split('[MESSAGE]:')[1],
-                            type: 'error'
-                        });
-                    });
-            },
-        }
-    });
-</script>
+<script src="/static/js/plugins/jquery-3.3.1.js"></script>
+<script src="/static/js/vue/new-item.js"></script>
 </html>
