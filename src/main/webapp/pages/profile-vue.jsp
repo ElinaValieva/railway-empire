@@ -12,15 +12,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>RAILWAY EMPIRE</title>
-    <sec:csrfMetaTags/>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/profile.css">
-    <link rel="stylesheet" href="/static/css/railway.css">
-    <link rel="stylesheet" href="/static/css/sweetalert2.css">
-    <script src="/static/js/plugins/vue.js"></script>
-    <script src="/static/js/plugins/axios.js"></script>
-    <script src="/static/js/plugins/sweetalert2.js"></script>
+    <jsp:include page="header.jsp"/>
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_USER')">
@@ -82,59 +74,8 @@
         </div>
     </div>
 </sec:authorize>
+<jsp:include page="footer.jsp"/>
 </body>
-<script>
-    new Vue({
-        el: '#app',
-        data() {
-            return {
-                firstName: '',
-                lastName: '',
-                login: '',
-                birthDay: '',
-                sex: ''
-            }
-        },
-        mounted() {
-            axios.get('/home/profile/get')
-                .then(response => {
-                    this.firstName = response.data.firstName;
-                    this.lastName = response.data.lastName;
-                    this.login = response.data.login;
-                    this.birthDay = response.data.birthDay;
-                    this.sex = response.data.sex
-                }).catch(error => {
-                console.log(JSON.stringify(error));
-                swal({
-                    title: 'Oops..', text: error.response.data.message.split('[MESSAGE]:')[1], type: 'error',
-                });
-            })
-        },
-        methods: {
-            editForm() {
-                axios.put('/home/update', {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    login: this.login,
-                    birthDay: this.birthDay,
-                    sex: this.sex
-                }).then(response => {
-                    console.log(JSON.stringify(response));
-                    swal({
-                        title: 'Congratulations!',
-                        text: 'You have been edit profile successfully!',
-                        type: 'success'
-                    });
-                }).catch(error => {
-                    console.log(JSON.stringify(error));
-                    swal({
-                        title: 'Oops..',
-                        text: error.response.data.message.split('[MESSAGE]:')[1],
-                        type: 'error'
-                    });
-                })
-            }
-        }
-    });
+<script src="/static/js/vue/profile.js">
 </script>
 </html>

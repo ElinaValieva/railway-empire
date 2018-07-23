@@ -11,16 +11,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <sec:csrfMetaTags/>
-    <title>RAILWAY EMPIRE</title>
-    <link rel="stylesheet" href="/static/css/login.css">
-    <link rel="stylesheet" href="/static/css/railway.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/sweetalert2.css">
-    <script src="/static/js/plugins/sweetalert2.js"></script>
-    <script src="/static/js/plugins/vue.js"></script>
-    <script src="/static/js/plugins/axios.js"></script>
+    <jsp:include page="header.jsp"/>
 </head>
 <body>
 <div id="app">
@@ -52,7 +43,8 @@
         </div>
     </div>
 </div>
+<jsp:include page="footer.jsp"/>
+</body>
 <script type="module" src="/static/js/vue/registration.js">
 </script>
-</body>
 </html>

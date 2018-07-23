@@ -12,16 +12,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>RAILWAY EMPIRE: NEW</title>
-    <sec:csrfMetaTags/>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/railway.css">
-    <link rel="stylesheet" href="/static/css/itemsRailway.css">
-    <link rel="stylesheet" href="/static/css/clean-blog.min.css">
-    <link rel="stylesheet" href="/static/css/sweetalert2.css">
-    <script src="/static/js/plugins/vue.js"></script>
-    <script src="/static/js/plugins/axios.js"></script>
-    <script src="/static/js/plugins/sweetalert2.js"></script>
+    <jsp:include page="header.jsp"/>
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_MANAGER')">
@@ -166,7 +157,7 @@
     </div>
 </sec:authorize>
 </body>
-<script src="/static/js/vue/components.js"></script>
+<jsp:include page="footer.jsp"/>
 <script src="/static/js/plugins/jquery-3.3.1.js"></script>
 <script src="/static/js/vue/new-item.js"></script>
 </html>
