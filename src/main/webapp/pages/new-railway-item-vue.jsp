@@ -81,32 +81,33 @@
                 <form class="login-form" id="newItemForm" v-if="show!=''">
 
                     <div v-if="show == 'station'">
-                        <input type="text" placeholder="station name" id="stationNameItemsRailway"
-                               v-model="stationName" required
-                               pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"/>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" placeholder="latitude [empty]" id="coordinatesX"
-                                       v-model="latitude"/>
+                        <form>
+                            <input type="text" placeholder="station name"
+                                   pattern="[A-Za-zА-Яа-яЁё]{3,15}" title="Name must contain only letters"
+                                   required v-model="stationName"/>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" placeholder="latitude [empty]" id="coordinatesX"
+
+                                           v-model="latitude"/>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="longitude [empty]" id="coordinatesY"
+                                           v-model="longitude"/>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" placeholder="longitude [empty]" id="coordinatesY"
-                                       v-model="longitude"/>
-                            </div>
-                        </div>
-                        <button id="addItemTrain" @click="addStationBtn">ADD ITEM</button>
+                            <button id="addItemTrain" type="submit" @click="addStationBtn">
+                                ADD ITEM
+                            </button>
+                        </form>
                     </div>
 
                     <div v-if="show == 'schedule'">
                         <datalist id="stationsList">
-                            <option v-for="value in stations">
-                                {{value}}
-                            </option>
+                            <auto-stations></auto-stations>
                         </datalist>
                         <datalist id="trainsList">
-                            <option v-for="train in trains">
-                                {{train}}
-                            </option>
+                            <auto-trains></auto-trains>
                         </datalist>
                         <div class="row">
                             <div class="col">
@@ -156,6 +157,7 @@
     </div>
 </sec:authorize>
 </body>
+<script src="/static/js/vue/components.js"></script>
 <script>
     new Vue({
         el: '#app-1',
@@ -172,22 +174,8 @@
                 dateArrival: '',
                 cntCarriage: 0,
                 cntSeats: 30,
-                train: '',
-                trains: [],
-                stations: []
+                train: ''
             }
-        },
-        mounted() {
-            axios
-                .get('/train/auto/trains')
-                .then(response => {
-                    this.trains = response.data;
-                });
-            axios
-                .get('/station/auto/stations')
-                .then(response => {
-                    this.stations = response.data;
-                })
         },
         methods: {
             addStationBtn: function (event) {
