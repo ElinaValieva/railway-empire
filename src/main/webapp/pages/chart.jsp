@@ -22,7 +22,7 @@
     <script src="/static/js/plugins/sweetalert2.js"></script>
     <script src="/static/js/plugins/Chart.js"></script>
     <script src="/static/js/ajaxRequest.js"></script>
-    <script src="/static/js/chartShowing.js"></script>
+    <script src="/static/js/chart.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png')">
 <sec:authorize access="hasRole('ROLE_ADMIN')">

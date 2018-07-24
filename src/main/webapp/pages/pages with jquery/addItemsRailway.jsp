@@ -25,7 +25,7 @@
     <script src="/static/js/searchingSchedule.js"></script>
     <script src="/static/js/trains.js"></script>
     <script src="/static/js/stations.js"></script>
-    <script src="/static/js/addItemsRailway.js"></script>
+    <script src="/static/js/jquery/addItemsRailway.js"></script>
 
 </head>
 <body>

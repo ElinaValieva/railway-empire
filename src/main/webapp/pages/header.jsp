@@ -7,11 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-    <title>RAILWAY EMPIRE</title>
-    <sec:csrfMetaTags/>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/railway.css">
-    <link rel="stylesheet" href="/static/css/itemsRailway.css">
-    <link rel="stylesheet" href="/static/css/clean-blog.min.css">
-    <link rel="stylesheet" href="/static/css/sweetalert2.css">
+<title>RAILWAY EMPIRE</title>
+<sec:csrfMetaTags/>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/railway.css">
+<link rel="stylesheet" href="/static/css/itemsRailway.css">
+<link rel="stylesheet" href="/static/css/clean-blog.min.css">
+<link rel="stylesheet" href="/static/css/sweetalert2.css">
 </html>

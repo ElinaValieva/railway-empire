@@ -86,7 +86,7 @@ public class StationController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.REESTABLISH_STATION)
-    public void reestablishTrain(@PathVariable String name) {
+    public void reestablishStation(@PathVariable String name) {
         stationService.reestablish(name);
     }
 

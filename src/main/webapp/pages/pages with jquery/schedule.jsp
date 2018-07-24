@@ -17,7 +17,7 @@
     <link href="/static/css/style.css" rel="stylesheet" type="text/css">
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/plugins/jquery-3.3.1.js"></script>
-    <script src="/static/js/schedule.js"></script>
+    <script src="/static/js/jquery/schedule.js"></script>
 </head>
 <body class="bg-light pointer">
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
