@@ -25,6 +25,7 @@
     <script src="/static/js/trains.js"></script>
     <script src="/static/js/stations.js"></script>
     <script src="/static/js/map.js"></script>
+    <script src="/static/js/plugins/randomColor.js"></script>
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_MANAGER')">
