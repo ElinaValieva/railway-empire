@@ -23,6 +23,10 @@ public class ViewInitializer extends AbstractAnnotationConfigDispatcherServletIn
         return new String[]{"/"};
     }
 
+    /**
+     * for config encoding for get request should add attribute in tomcat/conf/server.xml <Connector ... URIEncoding="UTF-8"></Connector>
+     * @return
+     */
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
