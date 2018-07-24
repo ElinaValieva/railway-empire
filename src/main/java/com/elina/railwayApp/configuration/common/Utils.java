@@ -8,13 +8,16 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 @Log4j
 public class Utils {
+
     public static String encodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
@@ -47,13 +50,6 @@ public class Utils {
         return format.parse(date);
     }
 
-    public static Date parseToDateTimeNewFormat(String date) throws ParseException {
-        SimpleDateFormat formatOld = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        Date date1 = formatOld.parse(date);
-        SimpleDateFormat format = new SimpleDateFormat("d MMMM H:m:s", Locale.getDefault());
-        return format.parse(format.format(date1));
-    }
-
     public static String getHelloContext() throws IOException {
         File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.html");
         return new String(Files.readAllBytes(file.toPath()));
@@ -64,20 +60,11 @@ public class Utils {
         return new String(Files.readAllBytes(file.toPath()));
     }
 
-    public static String getDelay(String dateDeparture, String dateArrival) throws ParseException {
-        Date dateDepartureForDelay = parseToDate(dateDeparture);
-        Date dateArrivalForDelay = parseToDate(dateArrival);
-        Long delay = dateArrivalForDelay.getTime() - dateDepartureForDelay.getTime();
-        String result = "";
-        int min = (int) (delay / (1000 * 60));
-        int hour = (int) (delay / (1000 * 60 * 60));
-        int days = (int) (delay / (1000 * 60 * 60 * 24));
-        if (hour != 0)
-            result = hour + " hours " + min + " min" + result;
-        if (days != 0)
-            result = days + " day " + result;
-        log.info("IMPORTANT " + result);
-        return result;
+    public static Date getTodayDateTime() throws ParseException {
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+        return parseToDateTime(df.format(date));
     }
 
     public static boolean checkCurrentDay(Date date) {

@@ -1,12 +1,14 @@
 package com.elina.railwayApp.DAO.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
+import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -40,17 +42,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .createQuery("from Schedule " +
                         "order by dateDeparture desc ")
                 .list();
-    }
-
-    @Override
-    public List<Schedule> getByDateAll() {
-        Date today = new Date();
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Schedule " +
-                        "where date(dateDeparture) = date(:today) " +
-                        "order by dateDeparture desc")
-                .setParameter("today", today)
-                .getResultList();
     }
 
 
@@ -190,18 +181,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public List<Schedule> getWorkingStation(Station station, Date date) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Schedule where " +
-                        "(stationDeparture = :station or stationArrival = :station)" +
-                        "and date(dateArrival) > :date " +
-                        "order by dateDeparture desc ")
-                .setParameter("station", station)
-                .setParameter("date", date)
-                .getResultList();
-    }
-
-    @Override
     public List<Schedule> getByStationsAndDatesAndTrains(Schedule schedule) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where " +
@@ -228,5 +207,14 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .getResultList();
     }
 
-
+    @Override
+    public List<Schedule> getRealTimeSchedules() throws ParseException {
+        Date date = Utils.getTodayDateTime();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " +
+                        "where :date between dateDeparture and dateArrival " +
+                        "order by dateDeparture desc ")
+                .setParameter("date", date)
+                .getResultList();
+    }
 }

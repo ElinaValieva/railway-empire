@@ -3,6 +3,7 @@ package com.elina.railwayApp.DAO;
 import com.elina.railwayApp.model.*;
 import org.springframework.stereotype.Repository;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,6 @@ public interface ScheduleDAO {
     void delete(Schedule schedule);
 
     List<Schedule> getAll();
-
-    List<Schedule> getByDateAll();
 
     Schedule getById(Long id);
 
@@ -37,9 +36,9 @@ public interface ScheduleDAO {
 
     List<Schedule> getByStationArrivalAndDate(Schedule schedule);
 
-    List<Schedule> getWorkingStation(Station station, Date date);
-
     List<Schedule> getByStationsAndDatesAndTrains(Schedule schedule);
 
     List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo);
+
+    List<Schedule> getRealTimeSchedules() throws ParseException;
 }

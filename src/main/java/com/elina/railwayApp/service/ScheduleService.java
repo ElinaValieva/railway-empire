@@ -1,12 +1,11 @@
 package com.elina.railwayApp.service;
 
 import com.elina.railwayApp.DTO.ScheduleDTO;
-import com.elina.railwayApp.DTO.SeatDTO;
+import com.elina.railwayApp.DTO.ScheduleMapDTO;
 import com.elina.railwayApp.DTO.SeatsDTO;
 import com.elina.railwayApp.DTO.TransferScheduleDTO;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Schedule;
-import com.elina.railwayApp.model.Seat;
 import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -28,7 +26,7 @@ public interface ScheduleService {
 
     List<ScheduleDTO> getAll();
 
-    List<ScheduleDTO> getAllForToday();
+    List<ScheduleDTO> getAllForToday() throws ParseException;
 
     Schedule getById(Long id);
 
@@ -46,8 +44,6 @@ public interface ScheduleService {
 
     List<TransferScheduleDTO> getTransferSchedules(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
-    boolean checkWorkingStation(Station station, Date date);
-
     List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
     List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
@@ -56,11 +52,11 @@ public interface ScheduleService {
 
     List<ScheduleDTO> getDirectSchedulesFromDTOByDates(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException;
 
-    List<SeatDTO> getFreeSeats(Schedule schedule);
-
     SeatsDTO getSeats(Long id) throws BusinessLogicException;
 
     List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo);
+
+    List<ScheduleMapDTO> getByRealTimeSchedules() throws ParseException;
 
 }
 

@@ -48,7 +48,7 @@ public class ScheduleController {
     }
 
     @GetMapping(URLs.GET_SCHEDULE_TODAY)
-    public ResponseEntity<?> getSchedulesForToday() {
+    public ResponseEntity<?> getSchedulesForToday() throws ParseException {
         List<ScheduleDTO> schedules = scheduleService.getAllForToday();
         return ResponseEntity.ok(schedules);
     }
@@ -215,5 +215,17 @@ public class ScheduleController {
     public ResponseEntity<?> getTickets(@PathVariable Long id) {
         List<TicketInfoDTO> tickets = ticketService.getByScheduleId(id);
         return ResponseEntity.ok(tickets);
+    }
+
+    /**
+     * get all schedules that used in real time
+     *
+     * @return
+     */
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @GetMapping(URLs.SCHEDULE_FOR_REAL_TIME)
+    public ResponseEntity<?> getScheduleForRealTime() throws ParseException {
+        List<ScheduleMapDTO> schedules = scheduleService.getByRealTimeSchedules();
+        return ResponseEntity.ok(schedules);
     }
 }

@@ -2,10 +2,7 @@ package com.elina.railwayApp.service.Implementation;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.DAO.StatusDAO;
-import com.elina.railwayApp.DTO.ScheduleDTO;
-import com.elina.railwayApp.DTO.SeatDTO;
-import com.elina.railwayApp.DTO.SeatsDTO;
-import com.elina.railwayApp.DTO.TransferScheduleDTO;
+import com.elina.railwayApp.DTO.*;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.exception.ErrorCode;
@@ -178,8 +175,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<ScheduleDTO> getAllForToday() {
-        List<Schedule> schedules = scheduleDAO.getByDateAll();
+    public List<ScheduleDTO> getAllForToday() throws ParseException {
+        List<Schedule> schedules = scheduleDAO.getRealTimeSchedules();
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
@@ -315,12 +312,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         }
         return transferScheduleDTOS;
-    }
-
-    @Override
-    @Transactional
-    public boolean checkWorkingStation(Station station, Date date) {
-        return scheduleDAO.getWorkingStation(station, date).isEmpty();
     }
 
     /**
@@ -462,39 +453,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         return mapping(schedules);
     }
 
-    /**
-     * get free seats in train
-     *
-     * @param schedule
-     * @return
-     */
-    @Override
-    @Transactional
-    public List<SeatDTO> getFreeSeats(Schedule schedule) {
-        Train train = schedule.getTrain();
-        Set<Seat> allSeats = train.getSeats();
-        List<Seat> bookingSeatsBySchedule = ticketService.getBookingSeatsBySchedule(schedule);
-        List<SeatDTO> freeSeats = new ArrayList<>();
-        if (!bookingSeatsBySchedule.isEmpty())
-            for (Seat bookingSeat :
-                    bookingSeatsBySchedule) {
-                allSeats.stream().filter(seat -> !seat.equals(bookingSeat)).forEach(seat -> {
-                    SeatDTO seatDTO = new SeatDTO();
-                    seatDTO.setCarriage(seat.getCarriage());
-                    seatDTO.setSeat(seat.getSeat());
-                    freeSeats.add(seatDTO);
-                });
-            }
-        else
-            allSeats.stream().forEach(seat -> {
-                SeatDTO seatDTO = new SeatDTO();
-                seatDTO.setCarriage(seat.getCarriage());
-                seatDTO.setSeat(seat.getSeat());
-                freeSeats.add(seatDTO);
-            });
-        return freeSeats;
-    }
-
     @Override
     @Transactional
     public SeatsDTO getSeats(Long id) throws BusinessLogicException {
@@ -518,6 +476,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo) {
         return scheduleDAO.getByStationArrivalAndDates(station, dateFrom, dateTo);
+    }
+
+    @Override
+    @Transactional
+    public List<ScheduleMapDTO> getByRealTimeSchedules() throws ParseException {
+        List<Schedule> schedules = scheduleDAO.getRealTimeSchedules();
+        return schedules
+                .stream()
+                .map(x -> modelMapper.map(x, ScheduleMapDTO.class))
+                .collect(Collectors.toList());
     }
 
     public List<ScheduleDTO> mapping(List<Schedule> schedules) {
