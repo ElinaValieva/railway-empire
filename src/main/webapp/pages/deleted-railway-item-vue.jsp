@@ -50,32 +50,32 @@ background-size: cover">
         <br>
         <div class="row text-center">
             <div class="col-4">
-                <button id="addStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
-                    <img
-                            src="/static/images/railroad.png"></button>
+                <button @click="addStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
+                    <img src="/static/images/railroad.png">
+                </button>
             </div>
             <div class="col-4">
-                <button id="addTrainBtn"
-                        class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
-                        src="/static/images/subway.png"></button>
+                <button @click="addTrainBtn" class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
+                    <img src="/static/images/subway.png">
+                </button>
             </div>
             <div class="col-4">
-                <button id="auditBtn"
-                        class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
-                        src="/static/images/graph-analysis.png"></button>
+                <button @click="auditBtn" class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
+                    <img src="/static/images/graph-analysis.png">
+                </button>
             </div>
         </div>
         <br>
-        <table class="table table-striped table-dark text-center" id="stationTable">
+        <table class="table table-striped table-dark text-center" id="stationTable" hidden>
             <thead class="font-weight-bold">
-            <tr v-if="stations!=[]">
+            <tr>
                 <th class="text-center">Station name</th>
                 <th class="text-center">Latitude</th>
                 <th class="text-center">Longitude</th>
                 <th></th>
             </tr>
             </thead>
-            <tbody class="text-center text-warning" id="stationTableId">
+            <tbody class="text-center text-warning">
             <tr v-for="station in stations">
                 <td>{{station.name}}</td>
                 <td>{{station.latitude}}</td>
@@ -89,7 +89,7 @@ background-size: cover">
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="trainTable">
+        <table class="table table-striped table-dark" id="trainTable" hidden>
             <thead class="font-weight-bold">
             <tr>
                 <th class="text-center">Train</th>
@@ -98,7 +98,7 @@ background-size: cover">
                 <th></th>
             </tr>
             </thead>
-            <tbody class="text-center text-warning" id="trainTableId">
+            <tbody class="text-center text-warning">
             <tr v-for="train in trains">
                 <td>{{train.trainName}}</td>
                 <td>{{train.cntCarriage}}</td>
@@ -112,7 +112,7 @@ background-size: cover">
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="auditTable">
+        <table class="table table-striped table-dark" id="auditTable" hidden>
             <thead class="font-weight-bold">
             <tr v-if="audits!=[]">
                 <th class="text-center">Changed date</th>
@@ -122,7 +122,7 @@ background-size: cover">
                 <th></th>
             </tr>
             </thead>
-            <tbody class="text-center text-warning" id="auditTableId">
+            <tbody class="text-center text-warning">
             <tr v-for="audit in audits">
                 <td>{{audit.date}}</td>
                 <td>{{audit.userLogin}}</td>
@@ -139,6 +139,7 @@ background-size: cover">
 </sec:authorize>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
+<script src="/static/js/plugins/jquery-3.3.1.js"></script>
 <script>
     new Vue({
         el: '#app-deleted',
@@ -192,6 +193,21 @@ background-size: cover">
                 });
         },
         methods: {
+            addStationBtn: function () {
+                $('#stationTable').prop('hidden', false);
+                $('#trainTable').prop('hidden', true);
+                $('#auditTable').prop('hidden', true);
+            },
+            addTrainBtn: function () {
+                $('#stationTable').prop('hidden', true);
+                $('#trainTable').prop('hidden', false);
+                $('#auditTable').prop('hidden', true);
+            },
+            auditBtn: function () {
+                $('#stationTable').prop('hidden', true);
+                $('#trainTable').prop('hidden', true);
+                $('#auditTable').prop('hidden', false);
+            },
             reestablishTrain: function (trainName) {
                 axios
                     .get("/train/reestablish/" + trainName)
@@ -237,12 +253,10 @@ background-size: cover">
                 swal({
                     title: 'AUDIT HISTORY',
                     html:
-                    "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + "' disabled>" +
-                    "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLastName + "' disabled>" +
+                    "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + audit[0].userLastName + "' disabled>" +
                     "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
                     "<input id='swal-input3' class='swal2-input' value='" + (audit[0].oldValue == null ? '-' : audit[0].oldValue) + "' disabled>" +
-                    "<input id='swal-input3' class='swal2-input' value='" + audit[0].newValue + "' disabled>",
-
+                    "<textarea id='swal-input3' class='swal2-input' disabled style='height: 100px'>" + audit[0].newValue + "</textarea>",
                     icon: "info",
                 });
             }
