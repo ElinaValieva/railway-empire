@@ -154,6 +154,8 @@ function init() {
     }
 
     var speedFactor = 70; // 10x faster animated drive
+    var points = [];
+    var markersStart = [];
 
     function setAnimatedRoute(origin, destination, map, callback) {
         var autoDriveSteps = new Array();
@@ -219,16 +221,16 @@ function init() {
         return new google.maps.LatLng(a.lat() + (b.lat() - a.lat()) * ratio, a.lng() + (b.lng() - a.lng()) * ratio);
     }
 
-    var setStations = function (points) {
+    var setStations = function () {
         for (var i = 0; i < points.length; i++) {
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(points[i].start_point.latitude, points[i].start_point.longitude),
+                position: new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude),
                 map: map,
                 optimized: false,
                 icon: imageStations
             });
             marker = new google.maps.Marker({
-                position: new google.maps.LatLng(points[i].end_point.latitude, points[i].end_point.longitude),
+                position: new google.maps.LatLng(points[i].stationArrivalLatitude, points[i].stationArrivalLongitude),
                 map: map,
                 optimized: false,
                 icon: imageStations
@@ -237,9 +239,23 @@ function init() {
         }
     };
 
+    var getSchedulesInRealTime = function () {
+        points = getRequest("/schedule/real");
+        alert(JSON.stringify(points));
+        for (var i = 0; i < points.length; i++) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude),
+                map: map,
+                optimized: false,
+                icon: imageTrains
+            });
+            markersStart.push(marker);
+        }
+    };
+
     function startRouteAnimation(i, points, markers) {
-        var start_point = new google.maps.LatLng(points[i].start_point.latitude, points[i].start_point.longitude);
-        var end_point = new google.maps.LatLng(points[i].end_point.latitude, points[i].end_point.longitude);
+        var start_point = new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude);
+        var end_point = new google.maps.LatLng(points[i].stationArrivalLatitude, points[i].stationArrivalLongitude);
         var marker = markers[i];
         setAnimatedRoute(start_point, end_point, map, function (err, result) {
                 var autoDriveSteps = result;
@@ -272,49 +288,12 @@ function init() {
 
     $('#addAllBtn').click(function (event) {
         event.preventDefault();
+        getSchedulesInRealTime();
         clearMarkers(markersStations);
         clearMarkers(markersTrains);
-        var points = [
-            {start_point: {latitude: 60, longitude: 40}, end_point: {latitude: 50, longitude: 30}},
-            {start_point: {latitude: 50, longitude: 40}, end_point: {latitude: 40, longitude: 30}},
-            {start_point: {latitude: 55, longitude: 41}, end_point: {latitude: 50, longitude: 35}},
-            {start_point: {latitude: 35, longitude: 45}, end_point: {latitude: 50, longitude: 30}}
-        ];
-        var markers = [];
-        /*
-        TODO INITALIZE MARKERS AND POINT
-         */
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(60, 40),
-            map: map,
-            optimized: false,
-            icon: imageTrains
-        });
-        markers.push(marker);
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(50, 40),
-            map: map,
-            optimized: false,
-            icon: imageTrains
-        });
-        markers.push(marker);
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(20, 40),
-            map: map,
-            optimized: false,
-            icon: imageTrains
-        });
-        markers.push(marker);
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(30, 40),
-            map: map,
-            optimized: false,
-            icon: imageTrains
-        });
-        markers.push(marker);
-        setStations(points);
+        setStations();
         for (var i = 0; i < points.length; i++) {
-            startRouteAnimation(i, points, markers);
+            startRouteAnimation(i, points, markersStart);
         }
     });
 };
