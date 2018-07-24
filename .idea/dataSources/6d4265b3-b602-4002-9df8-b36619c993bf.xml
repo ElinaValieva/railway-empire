@@ -1105,249 +1105,253 @@
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
     <table id="277" parent="5" name="audit"/>
-    <table id="278" parent="5" name="feedback"/>
-    <table id="279" parent="5" name="role"/>
-    <table id="280" parent="5" name="schedule"/>
-    <table id="281" parent="5" name="seat"/>
-    <table id="282" parent="5" name="station"/>
-    <table id="283" parent="5" name="status"/>
-    <table id="284" parent="5" name="ticket"/>
-    <table id="285" parent="5" name="train"/>
-    <table id="286" parent="5" name="user"/>
-    <table id="287" parent="5" name="user_role"/>
-    <column id="288" parent="277" name="id">
+    <table id="278" parent="5" name="role"/>
+    <table id="279" parent="5" name="schedule"/>
+    <table id="280" parent="5" name="seat"/>
+    <table id="281" parent="5" name="station"/>
+    <table id="282" parent="5" name="status"/>
+    <table id="283" parent="5" name="ticket"/>
+    <table id="284" parent="5" name="train"/>
+    <table id="285" parent="5" name="user"/>
+    <table id="286" parent="5" name="user_role"/>
+    <column id="287" parent="277" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="277" name="user_id">
+    <column id="288" parent="277" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="277" name="operations">
+    <column id="289" parent="277" name="operations">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="277" name="date">
+    <column id="290" parent="277" name="date">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="292" parent="277" name="oldValue">
+    <column id="291" parent="277" name="oldValue">
       <Position>5</Position>
       <DataType>varchar(200)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="293" parent="277" name="newValue">
+    <column id="292" parent="277" name="newValue">
       <Position>6</Position>
       <DataType>varchar(200)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="294" parent="277" name="audit_id_uindex">
+    <index id="293" parent="277" name="audit_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="295" parent="277" name="audit_user_id_fk">
+    <index id="294" parent="277" name="audit_user_id_fk">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="296" parent="277" name="PRIMARY">
+    <key id="295" parent="277" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="297" parent="277" name="audit_id_uindex">
+    <key id="296" parent="277" name="audit_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>audit_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="298" parent="277" name="audit_user_id_fk">
+    <foreign-key id="297" parent="277" name="audit_user_id_fk">
       <ColNames>user_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="299" parent="278" name="id">
+    <column id="298" parent="278" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="278" name="ticket_id">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="301" parent="278" name="text">
-      <Position>3</Position>
-      <DataType>varchar(1000)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="302" parent="278" name="date">
-      <Position>4</Position>
-      <DataType>timestamp|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="303" parent="278" name="feedback_id_uindex">
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="304" parent="278" name="feedback_ticket_id_fk">
-      <ColNames>ticket_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="305" parent="278" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="306" parent="278" name="feedback_id_uindex">
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>feedback_id_uindex</UnderlyingIndexName>
-    </key>
-    <foreign-key id="307" parent="278" name="feedback_ticket_id_fk">
-      <ColNames>ticket_id</ColNames>
-      <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>ticket</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="308" parent="279" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="309" parent="279" name="type">
+    <column id="299" parent="278" name="type">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="310" parent="279" name="role_id_uindex">
+    <index id="300" parent="278" name="role_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="311" parent="279" name="PRIMARY">
+    <key id="301" parent="278" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="312" parent="279" name="role_id_uindex">
+    <key id="302" parent="278" name="role_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>role_id_uindex</UnderlyingIndexName>
     </key>
-    <column id="313" parent="280" name="id">
+    <column id="303" parent="279" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="280" name="date_departure">
+    <column id="304" parent="279" name="date_departure">
       <Position>2</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="280" name="date_arrival">
+    <column id="305" parent="279" name="date_arrival">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="280" name="stationDeparture_id">
+    <column id="306" parent="279" name="stationDeparture_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="280" name="stationArrival_id">
+    <column id="307" parent="279" name="stationArrival_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="318" parent="280" name="train_id">
+    <column id="308" parent="279" name="train_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="319" parent="280" name="schedule_id_uindex">
+    <index id="309" parent="279" name="schedule_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="320" parent="280" name="schedule_station_id_fk">
+    <index id="310" parent="279" name="schedule_station_id_fk">
       <ColNames>stationDeparture_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="321" parent="280" name="schedule_station_id_fk_2">
+    <index id="311" parent="279" name="schedule_station_id_fk_2">
       <ColNames>stationArrival_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="322" parent="280" name="schedule_train_id_fk">
+    <index id="312" parent="279" name="schedule_train_id_fk">
       <ColNames>train_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="323" parent="280" name="PRIMARY">
+    <key id="313" parent="279" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="324" parent="280" name="schedule_id_uindex">
+    <key id="314" parent="279" name="schedule_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>schedule_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="325" parent="280" name="schedule_station_id_fk">
+    <foreign-key id="315" parent="279" name="schedule_station_id_fk">
       <ColNames>stationDeparture_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>station</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="326" parent="280" name="schedule_station_id_fk_2">
+    <foreign-key id="316" parent="279" name="schedule_station_id_fk_2">
       <ColNames>stationArrival_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>station</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="327" parent="280" name="schedule_train_id_fk">
+    <foreign-key id="317" parent="279" name="schedule_train_id_fk">
       <ColNames>train_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>train</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="328" parent="281" name="id">
+    <column id="318" parent="280" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="281" name="carriage">
+    <column id="319" parent="280" name="carriage">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="281" name="seat">
+    <column id="320" parent="280" name="seat">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="281" name="train_id">
+    <column id="321" parent="280" name="train_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="332" parent="281" name="seat_id_uindex">
+    <index id="322" parent="280" name="seat_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="333" parent="281" name="seat_train_id_fk">
+    <index id="323" parent="280" name="seat_train_id_fk">
       <ColNames>train_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="324" parent="280" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="325" parent="280" name="seat_id_uindex">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>seat_id_uindex</UnderlyingIndexName>
+    </key>
+    <foreign-key id="326" parent="280" name="seat_train_id_fk">
+      <ColNames>train_id</ColNames>
+      <RefSchemaName>railwaydb</RefSchemaName>
+      <RefTableName>train</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="327" parent="281" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="328" parent="281" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="329" parent="281" name="latitude">
+      <Position>3</Position>
+      <DataType>double|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="330" parent="281" name="longitude">
+      <Position>4</Position>
+      <DataType>double|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="331" parent="281" name="status_id">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="332" parent="281" name="station_id_uindex">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="333" parent="281" name="station_status_id_fk">
+      <ColNames>status_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="334" parent="281" name="PRIMARY">
@@ -1355,14 +1359,14 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="335" parent="281" name="seat_id_uindex">
+    <key id="335" parent="281" name="station_id_uindex">
       <ColNames>id</ColNames>
-      <UnderlyingIndexName>seat_id_uindex</UnderlyingIndexName>
+      <UnderlyingIndexName>station_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="336" parent="281" name="seat_train_id_fk">
-      <ColNames>train_id</ColNames>
+    <foreign-key id="336" parent="281" name="station_status_id_fk">
+      <ColNames>status_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>train</RefTableName>
+      <RefTableName>status</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="337" parent="282" name="id">
@@ -1372,121 +1376,123 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="338" parent="282" name="name">
+    <column id="338" parent="282" name="statusName">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="339" parent="282" name="latitude">
-      <Position>3</Position>
-      <DataType>double|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="340" parent="282" name="longitude">
-      <Position>4</Position>
-      <DataType>double|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="341" parent="282" name="status_id">
-      <Position>5</Position>
-      <DataType>int(11)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="342" parent="282" name="station_id_uindex">
+    <index id="339" parent="282" name="status_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="343" parent="282" name="station_status_id_fk">
-      <ColNames>status_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="344" parent="282" name="PRIMARY">
+    <key id="340" parent="282" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="345" parent="282" name="station_id_uindex">
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>station_id_uindex</UnderlyingIndexName>
-    </key>
-    <foreign-key id="346" parent="282" name="station_status_id_fk">
-      <ColNames>status_id</ColNames>
-      <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>status</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="347" parent="283" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="348" parent="283" name="statusName">
-      <Position>2</Position>
-      <DataType>varchar(100)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="349" parent="283" name="status_id_uindex">
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="350" parent="283" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="351" parent="283" name="status_id_uindex">
+    <key id="341" parent="282" name="status_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>status_id_uindex</UnderlyingIndexName>
     </key>
-    <column id="352" parent="284" name="id">
+    <column id="342" parent="283" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="284" name="schedule_id">
+    <column id="343" parent="283" name="schedule_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="284" name="user_id">
+    <column id="344" parent="283" name="user_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="284" name="seat_id">
+    <column id="345" parent="283" name="seat_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="284" name="price">
+    <column id="346" parent="283" name="price">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="357" parent="284" name="ticket_id_uindex">
+    <index id="347" parent="283" name="ticket_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="358" parent="284" name="ticket_schedule_id_fk">
+    <index id="348" parent="283" name="ticket_schedule_id_fk">
       <ColNames>schedule_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="359" parent="284" name="ticket_user_id_fk">
+    <index id="349" parent="283" name="ticket_user_id_fk">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="360" parent="284" name="ticket_seat_id_fk">
+    <index id="350" parent="283" name="ticket_seat_id_fk">
       <ColNames>seat_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="351" parent="283" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="352" parent="283" name="ticket_id_uindex">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>ticket_id_uindex</UnderlyingIndexName>
+    </key>
+    <foreign-key id="353" parent="283" name="ticket_schedule_id_fk">
+      <ColNames>schedule_id</ColNames>
+      <RefSchemaName>railwaydb</RefSchemaName>
+      <RefTableName>schedule</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="354" parent="283" name="ticket_user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>railwaydb</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="355" parent="283" name="ticket_seat_id_fk">
+      <ColNames>seat_id</ColNames>
+      <RefSchemaName>railwaydb</RefSchemaName>
+      <RefTableName>seat</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="356" parent="284" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="357" parent="284" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="358" parent="284" name="status_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="359" parent="284" name="train_id_uindex">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="360" parent="284" name="train_status_id_fk">
+      <ColNames>status_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="361" parent="284" name="PRIMARY">
@@ -1494,149 +1500,96 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="362" parent="284" name="ticket_id_uindex">
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>ticket_id_uindex</UnderlyingIndexName>
-    </key>
-    <foreign-key id="363" parent="284" name="ticket_schedule_id_fk">
-      <ColNames>schedule_id</ColNames>
-      <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>schedule</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="364" parent="284" name="ticket_user_id_fk">
-      <ColNames>user_id</ColNames>
-      <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>user</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="365" parent="284" name="ticket_seat_id_fk">
-      <ColNames>seat_id</ColNames>
-      <RefSchemaName>railwaydb</RefSchemaName>
-      <RefTableName>seat</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="366" parent="285" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="367" parent="285" name="name">
-      <Position>2</Position>
-      <DataType>varchar(100)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="368" parent="285" name="status_id">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="369" parent="285" name="train_id_uindex">
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="370" parent="285" name="train_status_id_fk">
-      <ColNames>status_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="371" parent="285" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="372" parent="285" name="train_id_uindex">
+    <key id="362" parent="284" name="train_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>train_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="373" parent="285" name="train_status_id_fk">
+    <foreign-key id="363" parent="284" name="train_status_id_fk">
       <ColNames>status_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>status</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="374" parent="286" name="id">
+    <column id="364" parent="285" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="375" parent="286" name="firstName">
+    <column id="365" parent="285" name="firstName">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="376" parent="286" name="lastName">
+    <column id="366" parent="285" name="lastName">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="377" parent="286" name="login">
+    <column id="367" parent="285" name="login">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="378" parent="286" name="password">
+    <column id="368" parent="285" name="password">
       <Position>5</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="379" parent="286" name="birthDay">
+    <column id="369" parent="285" name="birthDay">
       <Position>6</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="380" parent="286" name="sex">
+    <column id="370" parent="285" name="sex">
       <Position>7</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="381" parent="286" name="user_id_uindex">
+    <index id="371" parent="285" name="user_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="382" parent="286" name="PRIMARY">
+    <key id="372" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="383" parent="286" name="user_id_uindex">
+    <key id="373" parent="285" name="user_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>user_id_uindex</UnderlyingIndexName>
     </key>
-    <column id="384" parent="287" name="user_id">
+    <column id="374" parent="286" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="287" name="role_id">
+    <column id="375" parent="286" name="role_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="386" parent="287" name="user_role_user_id_fk">
+    <index id="376" parent="286" name="user_role_user_id_fk">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="387" parent="287" name="user_role_role_id_fk">
+    <index id="377" parent="286" name="user_role_role_id_fk">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="388" parent="287" name="user_role_user_id_fk">
+    <foreign-key id="378" parent="286" name="user_role_user_id_fk">
       <ColNames>user_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="389" parent="287" name="user_role_role_id_fk">
+    <foreign-key id="379" parent="286" name="user_role_role_id_fk">
       <ColNames>role_id</ColNames>
       <RefSchemaName>railwaydb</RefSchemaName>
       <RefTableName>role</RefTableName>
