@@ -22,7 +22,7 @@
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/trains.js"></script>
     <script src="/static/js/stations.js"></script>
-    <script src="/static/js/deletedItemsRailway.js"></script>
+    <script src="/static/js/jquery/deletedItemsRailway.js"></script>
 </head>
 <body style="background: url('/static/images/bg.png') no-repeat center fixed;
 -webkit-background-size: cover;
