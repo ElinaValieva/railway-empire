@@ -73,15 +73,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO findUserByForm(UserDTO userDTO) throws BusinessLogicException {
-        User user = userDAO.findUserByForm(userDTO.getLogin(), Utils.encodePassword(userDTO.getPassword()));
-        if (user == null)
-            throw new BusinessLogicException(ErrorCode.USER_NOT_FOUND.getMessage());
-        return modelMapper.map(user, UserDTO.class);
-    }
-
-    @Override
-    @Transactional
     public void update(User user) {
         userDAO.update(user);
     }

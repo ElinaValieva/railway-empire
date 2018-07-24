@@ -23,8 +23,6 @@ public interface UserService {
 
     User findByEmail(String login);
 
-    UserDTO findUserByForm(UserDTO userDTO) throws BusinessLogicException;
-
     void update(User user);
 
     void updateProfile(UserDTO userDTO, User user) throws ParseException, BusinessLogicException;
