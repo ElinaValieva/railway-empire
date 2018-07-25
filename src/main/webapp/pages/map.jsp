@@ -59,14 +59,9 @@
                 <label class="text-warning text-center">Check stations</label>
             </div>
             <div class="col">
-                <button id="addTrainBtn" class="btn btn-circle btn-xl btn-warning border-light"><img
-                        src="/static/images/subway.png"></button>
-                <label class="text-warning text-center">Check trains</label>
-            </div>
-            <div class="col">
                 <button id="addAllBtn" class="btn btn-circle btn-xl btn-warning border-light"><img
                         src="/static/images/icons8-train-track-26.png"></button>
-                <label class="text-warning text-center">Check stations and trains</label>
+                <label class="text-warning text-center">Check train</label>
             </div>
         </div>
     </div>

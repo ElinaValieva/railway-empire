@@ -65,8 +65,6 @@ function init() {
 
     var stations = getStation();
 
-    var trains = getTrains();
-
     var imageStations = 'https://cdn1.savepice.ru/uploads/2018/7/10/374e8b5646e48833667c0f536d3ff9ec-full.png';
     var imageTrains = 'https://cdn1.savepice.ru/uploads/2018/7/10/76c211e683c3332eedff10c20316f1aa-full.png';
 
@@ -119,25 +117,6 @@ function init() {
         });
     }
 
-    function addMarkerWithTimeoutForTrain(position, timeout) {
-        window.setTimeout(function () {
-            var marker = new google.maps.Marker({
-                position: {lat: position.latitude, lng: position.longitude},
-                map: map,
-                icon: imageTrains,
-                title: position.name,
-                animation: google.maps.Animation.DROP
-            }, timeout);
-            marker.addListener('click', function () {
-                swalWithBootstrapButtons({
-                    title: position.name + ' in ' + position.stationName,
-                    text: 'Last schedule was ' + 'from ' + position.dateDeparture + ' to ' + position.dateArrival,
-                    type: 'info',
-                });
-            });
-            markersTrains.push(marker);
-        });
-    }
 
     function updateMarkersForStation() {
         clearMarkers(markersStations);
@@ -275,15 +254,6 @@ function init() {
             }
         );
     };
-
-    $('#addTrainBtn').click(function (event) {
-        event.preventDefault();
-        clearMarkers(markersStations);
-        clearMarkers(markersTrains);
-        for (var i = 0; i < trains.length; i++) {
-            addMarkerWithTimeoutForTrain(trains[i], i * 200);
-        }
-    });
 
     $('#addAllBtn').click(function (event) {
         event.preventDefault();
