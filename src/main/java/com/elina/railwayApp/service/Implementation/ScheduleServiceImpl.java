@@ -497,6 +497,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                         scheduleMapDTO.setDurationInSeconds(0l);
                     }
                     scheduleMapDTO.setSpeed(distanceService.getSpeed(x));
+                    scheduleMapDTO.setStationDepartureName(x.getStationDeparture().getName());
+                    scheduleMapDTO.setStationArrivalName(x.getStationArrival().getName());
                     scheduleMapDTO.setStationArrivalLatitude(x.getStationArrival().getLatitude());
                     scheduleMapDTO.setStationArrivalLongitude(x.getStationArrival().getLongitude());
                     scheduleMapDTO.setStationDepartureLatitude(x.getStationDeparture().getLatitude());

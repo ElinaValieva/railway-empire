@@ -70,7 +70,9 @@ function init() {
 
     var markersStations = [];
 
-    var markersTrains = [];
+    var points = [];
+
+    var markersStart = [];
 
     const swalWithBootstrapButtons = swal.mixin({
         confirmButtonClass: 'btn btn-success',
@@ -80,7 +82,6 @@ function init() {
 
     $('#addStationBtn').click(function () {
         clearMarkers(markersStations);
-        clearMarkers(markersTrains);
         for (var i = 0; i < stations.length; i++) {
             addMarkerWithTimeoutForStation(stations[i], i * 200);
         }
@@ -131,9 +132,6 @@ function init() {
             markers[i].setMap(null);
         }
     }
-
-    var points = [];
-    var markersStart = [];
 
     function setAnimatedRoute(origin, destination, map, speedFactor, callback) {
         var autoDriveSteps = new Array();
@@ -210,20 +208,21 @@ function init() {
                 position: new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude),
                 map: map,
                 optimized: false,
-                icon: imageStations
+                icon: imageStations,
+                title: points[i].stationDepartureName
             });
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(points[i].stationArrivalLatitude, points[i].stationArrivalLongitude),
                 map: map,
                 optimized: false,
-                icon: imageStations
+                icon: imageStations,
+                title: points[i].stationArrivalName
             });
         }
     };
 
     var getSchedulesInRealTime = function () {
         points = getRequest("/schedule/real");
-        alert(JSON.stringify(points));
     };
 
     function startRouteAnimation(i, points, markers, time, speed) {
@@ -236,6 +235,7 @@ function init() {
                     map: map,
                     optimized: false,
                     icon: imageTrains,
+                    title: points[i].trainName
                 });
 
                 var autoDriveTimer = setInterval(async function () {
