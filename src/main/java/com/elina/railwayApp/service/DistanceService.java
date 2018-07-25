@@ -138,14 +138,14 @@ public class DistanceService {
         Date dateDeparture = schedule.getDateDeparture();
         Date dateArrival = schedule.getDateArrival();
         Double distance = distance(pointDeparture, pointArrival);
-        Double time = Long.valueOf(dateArrival.getTime() - dateDeparture.getTime()).doubleValue();
+        Double time = Long.valueOf((dateArrival.getTime() - dateDeparture.getTime()) / 1000 / 60).doubleValue();
         return distance / time;
     }
 
     /**
      * time in trip in real time
      *
-     * @return time in seconds
+     * @return time in min
      */
     public Long getTimeInTripRealTime(Schedule schedule) throws ParseException {
         Date date = schedule.getDateDeparture();

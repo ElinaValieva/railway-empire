@@ -292,7 +292,7 @@ function init() {
         clearMarkers(markersTrains);
         setStations();
         for (var i = 0; i < points.length; i++) {
-            startRouteAnimation(i, points, markersStart, points[i].durationInSeconds, 0.5);
+            startRouteAnimation(i, points, markersStart, points[i].durationInSeconds, points[i].speed);
         }
     });
 };
