@@ -19,4 +19,8 @@ public class ScheduleMapDTO implements Serializable {
 
     private Double stationArrivalLongitude;
 
+    private Double durationInSeconds;
+
+    private Double speed;
+
 }

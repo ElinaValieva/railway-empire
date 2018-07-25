@@ -153,12 +153,13 @@ function init() {
         }
     }
 
-    var speedFactor = 70; // 10x faster animated drive
+    var speedFactor = 2000; // 10x faster animated drive
     var points = [];
     var markersStart = [];
 
     function setAnimatedRoute(origin, destination, map, callback) {
         var autoDriveSteps = new Array();
+        var timingSteps = new Array();
         var directionsService = new google.maps.DirectionsService;
         var directionsRenderer = new google.maps.DirectionsRenderer({
             map: map
@@ -169,8 +170,16 @@ function init() {
                 origin: origin,
                 destination: destination,
                 travelMode: google.maps.TravelMode.DRIVING
+                /**
+                 * did't use, because sometimes couldn't got normal receive response of request
+                 */
+                /* travelMode: google.maps.TravelMode.TRANSIT,
+                transitOptions: {
+                    modes: [google.maps.TransitMode.TRAIN]
+                }*/
             },
             function (response, status) {
+                alert(JSON.stringify(response));
                 if (status == google.maps.DirectionsStatus.OK) {
                     // display the route
 
@@ -184,7 +193,6 @@ function init() {
 
                     });
                     directionsRenderer.setDirections(response);
-
                     // calculate positions for the animation steps
                     // the result is an array of LatLng, stored in autoDriveSteps
                     var remainingSeconds = 0;
@@ -195,16 +203,14 @@ function init() {
                         while (nextStopSeconds <= stepSeconds) {
                             var nextStopLatLng = getPointBetween(step.start_location, step.end_location, nextStopSeconds / stepSeconds);
                             autoDriveSteps.push(nextStopLatLng);
+                            timingSteps.push(nextStopLatLng);
                             nextStopSeconds += speedFactor;
                         }
-                        remainingSeconds = stepSeconds + speedFactor - nextStopSeconds;
                     });
-                    if (remainingSeconds > 0) {
-                        autoDriveSteps.push(leg.end_location);
-                    }
-                    callback(null, autoDriveSteps);
+                    autoDriveSteps.push(leg.end_location);
+                    callback(null, autoDriveSteps, timingSteps);
                 } else {
-                    callback(status, null);
+                    callback(status, null, null);
                     window.alert('Directions request failed due to ' + status);
                 }
             });
@@ -235,30 +241,26 @@ function init() {
                 optimized: false,
                 icon: imageStations
             });
-
         }
     };
 
     var getSchedulesInRealTime = function () {
         points = getRequest("/schedule/real");
-        alert(JSON.stringify(points));
-        for (var i = 0; i < points.length; i++) {
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude),
-                map: map,
-                optimized: false,
-                icon: imageTrains
-            });
-            markersStart.push(marker);
-        }
     };
 
-    function startRouteAnimation(i, points, markers) {
+    function startRouteAnimation(i, points, markers, time) {
         var start_point = new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude);
         var end_point = new google.maps.LatLng(points[i].stationArrivalLatitude, points[i].stationArrivalLongitude);
-        var marker = markers[i];
-        setAnimatedRoute(start_point, end_point, map, function (err, result) {
+        setAnimatedRoute(start_point, end_point, map, function (err, result, timing) {
                 var autoDriveSteps = result;
+                alert(JSON.stringify(timing));
+                var marker = new google.maps.Marker({
+                    position: timing[time],
+                    map: map,
+                    optimized: false,
+                    icon: imageTrains,
+                    title: '1'
+                });
 
                 var autoDriveTimer = setInterval(async function () {
                         // stop the timer if the route is finished
@@ -266,7 +268,7 @@ function init() {
                             clearInterval(autoDriveTimer);
                         } else {
                             // move marker to the next position (always the first in the array)
-                            marker.setPosition(autoDriveSteps[0]);
+                            marker.setPosition(autoDriveSteps[time]);
                             // remove the processed position
                             autoDriveSteps.shift();
                         }
@@ -293,7 +295,7 @@ function init() {
         clearMarkers(markersTrains);
         setStations();
         for (var i = 0; i < points.length; i++) {
-            startRouteAnimation(i, points, markersStart);
+            startRouteAnimation(i, points, markersStart, 6);
         }
     });
 };
