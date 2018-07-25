@@ -164,7 +164,7 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
-    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException {
+    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userService.findByEmail(userName);

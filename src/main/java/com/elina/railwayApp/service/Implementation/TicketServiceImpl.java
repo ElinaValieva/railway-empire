@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +54,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException {
+    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
 
         if (schedule == null || user == null)

@@ -34,8 +34,8 @@ public class DistanceService {
         Date dateDeparture = Utils.parseToDateTime(scheduleDTO.getDateDeparture());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
-        if (!dateDeparture.before(new Date())) {
-            Date date = new Date();
+        if (!dateDeparture.before(Utils.getTodayDateTime())) {
+            Date date = Utils.getTodayDateTime();
             Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
             Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
             Double distance = distance(pointDeparture, pointArrival);
@@ -47,9 +47,9 @@ public class DistanceService {
         } else return 0;
     }
 
-    public Integer calculateDirectTripPrice(Schedule schedule) {
+    public Integer calculateDirectTripPrice(Schedule schedule) throws ParseException {
         if (!schedule.getDateDeparture().before(new Date())) {
-            Date date = new Date();
+            Date date = Utils.getTodayDateTime();
             Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(),
                     schedule.getStationDeparture().getLongitude());
             Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(),
@@ -63,13 +63,13 @@ public class DistanceService {
         } else return 0;
     }
 
-    public Integer calculateTransferTripPrice(Schedule scheduleDeparture, Schedule scheduleArrival) {
+    public Integer calculateTransferTripPrice(Schedule scheduleDeparture, Schedule scheduleArrival) throws ParseException {
         Date dateDeparture = scheduleDeparture.getDateDeparture();
         Station stationDeparture = scheduleDeparture.getStationDeparture();
         Station stationIntermediate = scheduleDeparture.getStationArrival();
         Station stationArrival = scheduleArrival.getStationArrival();
-        if (!dateDeparture.before(new Date())) {
-            Date date = new Date();
+        if (!dateDeparture.before(Utils.getTodayDateTime())) {
+            Date date = Utils.getTodayDateTime();
             Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
             Point2D pointIntermediateDeparture = new Point2D.Double(stationIntermediate.getLatitude(), stationIntermediate.getLongitude());
             Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
@@ -91,8 +91,8 @@ public class DistanceService {
      * @param stationDeparture
      * @return
      */
-    public Date calculateDateArrival(Date dateDeparture, Station stationDeparture, Station stationArrival) {
-        Date newDate = new Date();
+    public Date calculateDateArrival(Date dateDeparture, Station stationDeparture, Station stationArrival) throws ParseException {
+        Date newDate = Utils.getTodayDateTime();
         Point2D pointDeparture = new Point2D.Double(stationDeparture.getLatitude(), stationDeparture.getLongitude());
         Point2D pointArrival = new Point2D.Double(stationArrival.getLatitude(), stationArrival.getLongitude());
         Double distance = distance(pointDeparture, pointArrival);
@@ -124,5 +124,32 @@ public class DistanceService {
         Double dist = Math.atan2(y, x) * EARTH_RADIUS;
 
         return dist;
+    }
+
+    /**
+     * if manager set his own schedule with fix date departure/arrival speed will be another (not 70 km/hour)
+     * * @return speed in km/s
+     */
+    public Double getSpeed(Schedule schedule) {
+        Point2D pointDeparture = new Point2D.Double(schedule.getStationDeparture().getLatitude(),
+                schedule.getStationDeparture().getLongitude());
+        Point2D pointArrival = new Point2D.Double(schedule.getStationArrival().getLatitude(),
+                schedule.getStationArrival().getLongitude());
+        Date dateDeparture = schedule.getDateDeparture();
+        Date dateArrival = schedule.getDateArrival();
+        Double distance = distance(pointDeparture, pointArrival);
+        Double time = Long.valueOf(dateArrival.getTime() - dateDeparture.getTime()).doubleValue();
+        return distance / time;
+    }
+
+    /**
+     * time in trip in real time
+     *
+     * @return time in seconds
+     */
+    public Long getTimeInTripRealTime(Schedule schedule) throws ParseException {
+        Date date = schedule.getDateDeparture();
+        Date today = Utils.getTodayDateTime();
+        return (today.getTime() - date.getTime()) / 1000;
     }
 }

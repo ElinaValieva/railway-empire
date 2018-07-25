@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface TicketService {
 
     void add(Ticket ticket);
 
-    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException;
+    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException;
 
     void delete(Ticket ticket);
 

@@ -305,7 +305,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                         transferScheduleDTO.setTrainArrivalName(transfer.getTrain().getName());
                         transferScheduleDTO.setIdScheduleDeparture(schedule.getId());
                         transferScheduleDTO.setIdScheduleArrival(transfer.getId());
-                        transferScheduleDTO.setPrice(distanceService.calculateTransferTripPrice(schedule, transfer));
+                        try {
+                            transferScheduleDTO.setPrice(distanceService.calculateTransferTripPrice(schedule, transfer));
+                        } catch (ParseException e) {
+                            transferScheduleDTO.setPrice(0);
+                        }
                         transferScheduleDTOS.add(transferScheduleDTO);
                     });
                 }
@@ -363,7 +367,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleDTO> getDirectSchedulesFromDTOByStations(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Station stationDepartureForDirectSchedule = stationService.getByName(scheduleDTO.getStationDepartureName());
         Station stationArrivalForDirectSchedule = stationService.getByName(scheduleDTO.getStationArrivalName());
-        List<Schedule> schedules = new ArrayList<>();
+        List<Schedule> schedules;
 
         if (stationArrivalForDirectSchedule == null || stationDepartureForDirectSchedule == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
@@ -402,7 +406,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByTrain(ScheduleDTO scheduleDTO) throws ParseException, BusinessLogicException {
         Train train = trainService.getByName(scheduleDTO.getTrainName());
-        List<Schedule> schedules = new ArrayList<>();
+        List<Schedule> schedules;
         if (train == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
@@ -484,7 +488,21 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<Schedule> schedules = scheduleDAO.getRealTimeSchedules();
         return schedules
                 .stream()
-                .map(x -> modelMapper.map(x, ScheduleMapDTO.class))
+                .map(x -> {
+                    ScheduleMapDTO scheduleMapDTO = new ScheduleMapDTO();
+                    scheduleMapDTO.setTrainName(x.getTrain().getName());
+                    try {
+                        scheduleMapDTO.setDurationInSeconds(distanceService.getTimeInTripRealTime(x));
+                    } catch (ParseException e) {
+                        scheduleMapDTO.setDurationInSeconds(0l);
+                    }
+                    scheduleMapDTO.setSpeed(distanceService.getSpeed(x));
+                    scheduleMapDTO.setStationArrivalLatitude(x.getStationArrival().getLatitude());
+                    scheduleMapDTO.setStationArrivalLongitude(x.getStationArrival().getLongitude());
+                    scheduleMapDTO.setStationDepartureLatitude(x.getStationDeparture().getLatitude());
+                    scheduleMapDTO.setStationDepartureLongitude(x.getStationDeparture().getLongitude());
+                    return scheduleMapDTO;
+                })
                 .collect(Collectors.toList());
     }
 

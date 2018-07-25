@@ -153,11 +153,10 @@ function init() {
         }
     }
 
-    var speedFactor = 2000; // 10x faster animated drive
     var points = [];
     var markersStart = [];
 
-    function setAnimatedRoute(origin, destination, map, callback) {
+    function setAnimatedRoute(origin, destination, map, speedFactor, callback) {
         var autoDriveSteps = new Array();
         var timingSteps = new Array();
         var directionsService = new google.maps.DirectionsService;
@@ -179,7 +178,6 @@ function init() {
                 }*/
             },
             function (response, status) {
-                alert(JSON.stringify(response));
                 if (status == google.maps.DirectionsStatus.OK) {
                     // display the route
 
@@ -246,20 +244,19 @@ function init() {
 
     var getSchedulesInRealTime = function () {
         points = getRequest("/schedule/real");
+        alert(JSON.stringify(points));
     };
 
-    function startRouteAnimation(i, points, markers, time) {
+    function startRouteAnimation(i, points, markers, time, speed) {
         var start_point = new google.maps.LatLng(points[i].stationDepartureLatitude, points[i].stationDepartureLongitude);
         var end_point = new google.maps.LatLng(points[i].stationArrivalLatitude, points[i].stationArrivalLongitude);
-        setAnimatedRoute(start_point, end_point, map, function (err, result, timing) {
+        setAnimatedRoute(start_point, end_point, map, speed, function (err, result, timing) {
                 var autoDriveSteps = result;
-                alert(JSON.stringify(timing));
                 var marker = new google.maps.Marker({
                     position: timing[time],
                     map: map,
                     optimized: false,
                     icon: imageTrains,
-                    title: '1'
                 });
 
                 var autoDriveTimer = setInterval(async function () {
@@ -295,7 +292,7 @@ function init() {
         clearMarkers(markersTrains);
         setStations();
         for (var i = 0; i < points.length; i++) {
-            startRouteAnimation(i, points, markersStart, 6);
+            startRouteAnimation(i, points, markersStart, points[i].durationInSeconds, 0.5);
         }
     });
 };
