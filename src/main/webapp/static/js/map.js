@@ -259,7 +259,6 @@ function init() {
         event.preventDefault();
         getSchedulesInRealTime();
         clearMarkers(markersStations);
-        clearMarkers(markersTrains);
         setStations();
         for (var i = 0; i < points.length; i++) {
             startRouteAnimation(i, points, markersStart, points[i].durationInSeconds, points[i].speed);
