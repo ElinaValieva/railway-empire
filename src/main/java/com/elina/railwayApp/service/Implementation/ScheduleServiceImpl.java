@@ -49,7 +49,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private AuditService auditService;
 
     @Autowired
-    private ProducerService producerService;
+    private MessageQueueService messageQueueService;
 
 
     private static final int MIN_DELTA_TRANSFER = 15;
@@ -102,7 +102,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getStationArrival().setStatus(status);
         scheduleDAO.add(schedule);
         auditService.createScheduleAuditInfo(schedule);
-        producerService.produceMsg("add schedule");
+        messageQueueService.produceMsg("add schedule");
         log.info("SCHEDULE WAS CREATED!");
     }
 
@@ -114,7 +114,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
         auditService.deleteScheduleAuditInfo(schedule);
-        producerService.produceMsg("delete schedule");
+        messageQueueService.produceMsg("delete schedule");
     }
 
     @Override
@@ -161,7 +161,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleDAO.update(schedule);
         auditService.updateScheduleAuditInfo(scheduleOld, schedule);
-        producerService.produceMsg("update schedule");
+        messageQueueService.produceMsg("update schedule");
     }
 
     @Override

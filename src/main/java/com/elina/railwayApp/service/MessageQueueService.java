@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 @Service
 @Log4j
-public class ProducerService {
+public class MessageQueueService {
 
     private static final String EXCHANGE_NAME = "messages";
 
