@@ -21,8 +21,8 @@ public class MessageQueueService {
 
         Connection connection = connectionFactory.newConnection();
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
-        channel.basicPublish(EXCHANGE_NAME, "", null, msg.getBytes());
+        channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
+        channel.basicPublish("", EXCHANGE_NAME, null, msg.getBytes("UTF-8"));
         log.info(" [x] Sent '" + msg + "'");
 
         channel.close();
