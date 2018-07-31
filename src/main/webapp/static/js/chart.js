@@ -9,6 +9,10 @@ $(function () {
     $('#dateTo').val("2018-07-29");
     $('#chartStationBtn').click(function (event) {
         event.preventDefault();
+        $('#dateTo').prop('hidden', false);
+        $('#dateFrom').prop('hidden', false);
+        $('#labelFrom').prop('hidden', false);
+        $('#labelTo').prop('hidden', false);
         dateFrom = $('#dateFrom').val();
         dateTo = $('#dateTo').val();
         var urlSearching = "/chart/popularStations/dateFrom/" + dateFrom + "/dateTo/" + dateTo;
@@ -17,12 +21,16 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartBar("station",  'POPULAR STATIONS from ' + dateFrom + " to " + dateTo);
+        chartBar("station", 'POPULAR STATIONS from ' + dateFrom + " to " + dateTo);
 
     });
 
     $('#chartStatisticAgesBtn').click(function (event) {
         event.preventDefault();
+        $('#dateTo').prop('hidden', true);
+        $('#dateFrom').prop('hidden', true);
+        $('#labelFrom').prop('hidden', true);
+        $('#labelTo').prop('hidden', true);
         var urlSearching = "/chart/popularUsersAges";
         var ages = getRequest(urlSearching);
         var cnt18 = ages.filter(x => x < 18).length;
@@ -33,25 +41,32 @@ $(function () {
         values = [cnt18, cnt25, cnt35, cnt45];
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor());
-        chartPie("age","AGGREGATION BY AGE");
+        chartPie("age", "AGGREGATION BY AGE");
     });
 
     $('#chartTicketCntBtn').click(function (event) {
         event.preventDefault();
-        $('#dateTo').prop('disabled', true);
-        dateFrom = $('#dateFrom').val();
-        var urlSearching = "/chart/cntTickets/" + dateFrom;
+        $('#dateTo').prop('hidden', true);
+        $('#dateFrom').prop('hidden', true);
+        $('#labelFrom').prop('hidden', true);
+        $('#labelTo').prop('hidden', true);
+        var urlSearching = "/chart/cntTickets";
         var chart = getRequest(urlSearching);
+        var dateFrom = new Date();
         labels = chart.labels;
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartLine("ticket cnt",  'BOOKING TICKETS COUNT on ' + dateFrom);
+        chartLine("ticket cnt", 'BOOKING TICKETS COUNT on ' + dateFrom);
         $('#dateTo').prop('disabled', false);
     });
 
     $('#chartProfitBtn').click(function (event) {
         event.preventDefault();
+        $('#dateTo').prop('hidden', false);
+        $('#dateFrom').prop('hidden', false);
+        $('#labelFrom').prop('hidden', false);
+        $('#labelTo').prop('hidden', false);
         dateFrom = $('#dateFrom').val();
         dateTo = $('#dateTo').val();
         var urlSearching = "/chart/profit/dateFrom/" + dateFrom + "/dateTo/" + dateTo;
@@ -60,7 +75,7 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartBar("profit",  'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
+        chartBar("profit", 'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
     });
 
     var chartPie = function (label, text) {
@@ -87,7 +102,7 @@ $(function () {
         });
     };
 
-    var chartLine = function(label, text){
+    var chartLine = function (label, text) {
         $('#pie-chart').prop('hidden', true);
         $('#bar-chart').prop('hidden', true);
         $('#line-chart').prop('hidden', false);

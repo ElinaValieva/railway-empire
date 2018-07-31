@@ -79,11 +79,11 @@ background-size: cover">
         <br>
         <div class="row">
             <div class="col">
-                <h4 class="text-warning font-weight-bold">DATE FROM</h4><input type="date" id="dateFrom"
+                <h4 class="text-warning font-weight-bold" id="labelFrom">DATE FROM</h4><input type="date" id="dateFrom"
                                                                                class="form-control">
             </div>
             <div class="col">
-                <h4 class="text-warning font-weight-bold">DATE TO</h4><input type="date" id="dateTo"
+                <h4 class="text-warning font-weight-bold" id="labelTo">DATE TO</h4><input type="date" id="dateTo"
                                                                              class="form-control">
             </div>
         </div>

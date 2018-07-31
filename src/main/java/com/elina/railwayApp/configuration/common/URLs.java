@@ -23,7 +23,7 @@ public final class URLs {
     public final static String CHART = "/chart";
     public final static String GET_POPULAR_STATIONS = "/popularStations/dateFrom/{dateFrom}/dateTo/{dateTo}";
     public final static String GET_STATISTICS_PASSENGERS = "/popularUsersAges";
-    public final static String GET_CNT_TICKETS = "/cntTickets/{date}";
+    public final static String GET_CNT_TICKETS = "/cntTickets";
     public final static String GET_PROFIT_FROM_TICKETS = "/profit/dateFrom/{dateFrom}/dateTo/{dateTo}";
 
 

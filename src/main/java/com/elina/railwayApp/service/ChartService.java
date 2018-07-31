@@ -86,14 +86,11 @@ public class ChartService {
     /**
      * get count booked tickets by date
      *
-     * @param dateFrom
      * @return
      */
 
-    public ChartDTO chartCntTicketsForDay(String dateFrom) throws ParseException, BusinessLogicException {
-        if (dateFrom == null)
-            throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
-        Date date = Utils.parseToDate(dateFrom);
+    public ChartDTO chartCntTicketsForDay() throws ParseException {
+        Date date = Utils.getTodayDateTime();
         List<Ticket> tickets = ticketService.getByDate(date);
         List<Station> stations = stationService.getAllStations();
         List<String> stationName = new ArrayList<>();
@@ -102,7 +99,6 @@ public class ChartService {
             Integer cnt = Long.valueOf(tickets.stream().filter(ticket -> ticket.getSchedule().getStationDeparture().equals(station)).count()).intValue();
             stationName.add(station.getName());
             cntTickets.add(cnt);
-
         });
 
         ChartDTO chartDTO = new ChartDTO();

@@ -39,8 +39,8 @@ public class ChartController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.GET_CNT_TICKETS)
-    public ResponseEntity<?> getCntTickets(@PathVariable String date) throws ParseException, BusinessLogicException {
-        ChartDTO chartDTO = chartService.chartCntTicketsForDay(date);
+    public ResponseEntity<?> getCntTickets() throws ParseException {
+        ChartDTO chartDTO = chartService.chartCntTicketsForDay();
         return ResponseEntity.ok(chartDTO);
     }
 
