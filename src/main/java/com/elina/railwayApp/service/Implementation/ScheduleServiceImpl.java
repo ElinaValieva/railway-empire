@@ -102,7 +102,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getStationArrival().setStatus(status);
         scheduleDAO.add(schedule);
         auditService.createScheduleAuditInfo(schedule);
-        messageQueueService.produceMsg("add schedule");
+        messageQueueService.produceMsg("create:" + schedule.getId());
         log.info("SCHEDULE WAS CREATED!");
     }
 
@@ -114,7 +114,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
         auditService.deleteScheduleAuditInfo(schedule);
-        messageQueueService.produceMsg("delete schedule");
+        messageQueueService.produceMsg("delete:" + schedule.getId());
     }
 
     @Override
@@ -161,7 +161,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleDAO.update(schedule);
         auditService.updateScheduleAuditInfo(scheduleOld, schedule);
-        messageQueueService.produceMsg("update schedule");
+        messageQueueService.produceMsg("update:" + schedule.getId());
     }
 
     @Override
