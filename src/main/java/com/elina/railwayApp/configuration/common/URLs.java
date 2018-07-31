@@ -70,6 +70,8 @@ public final class URLs {
     public final static String GET_SCHEDULE_TODAY = "/today";
     public final static String GET_SCHEDULES_FOR_BOARD = "/schedule/today";
     public final static String STATIONS_FOR_BOARD = "/station/auto/stations";
+    public final static String GET_BY_ID = "/schedule/{id}";
+
 
     /**
      * SEAT

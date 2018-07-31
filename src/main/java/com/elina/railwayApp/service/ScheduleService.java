@@ -58,5 +58,6 @@ public interface ScheduleService {
 
     List<ScheduleMapDTO> getByRealTimeSchedules() throws ParseException;
 
+    ScheduleDTO getByIdScheduleDTO(Long id);
 }
 

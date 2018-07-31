@@ -228,4 +228,10 @@ public class ScheduleController {
         List<ScheduleMapDTO> schedules = scheduleService.getByRealTimeSchedules();
         return ResponseEntity.ok(schedules);
     }
+
+    @GetMapping(URLs.GET_BY_ID)
+    public ResponseEntity<?> getScheduleById(@PathVariable Long id) {
+        ScheduleDTO schedule = scheduleService.getByIdScheduleDTO(id);
+        return ResponseEntity.ok(schedule);
+    }
 }

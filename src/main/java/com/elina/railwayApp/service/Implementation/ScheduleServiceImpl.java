@@ -508,6 +508,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ScheduleDTO getByIdScheduleDTO(Long id) {
+        return modelMapper.map(getById(id), ScheduleDTO.class);
+    }
+
     public List<ScheduleDTO> mapping(List<Schedule> schedules) {
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))

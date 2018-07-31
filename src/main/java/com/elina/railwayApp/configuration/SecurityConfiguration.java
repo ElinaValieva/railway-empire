@@ -52,7 +52,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(URLs.REGISTRATION, URLs.LOGIN, "/static/**", "/", URLs.GET_SCHEDULES_FOR_BOARD, URLs.STATIONS_FOR_BOARD).permitAll()
+                .antMatchers(URLs.REGISTRATION,
+                        URLs.LOGIN,
+                        "/static/**", "/",
+                        URLs.GET_SCHEDULES_FOR_BOARD,
+                        URLs.STATIONS_FOR_BOARD,
+                        URLs.GET_BY_ID)
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage(URLs.LOGIN).defaultSuccessUrl(URLs.WELCOME).failureUrl("/login?error=true")
