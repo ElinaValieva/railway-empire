@@ -26,7 +26,11 @@
     <script src="/static/js/stations.js"></script>
     <script src="/static/js/editItemsRailway.js"></script>
 </head>
-<body style="background: url('/static/images/bg.png')">
+<body style="background: url('/static/images/bg.png') no-repeat center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover">
 <sec:authorize access="hasRole('ROLE_MANAGER')">
     <div class="d-flex align-items-center p-3 bg-dark box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
