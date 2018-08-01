@@ -12,7 +12,7 @@ public class UtilsTest {
 
     @Test
     public void checkCurrentDay() throws ParseException {
-        Date date = Utils.parseToDate("2018-07-06 17:30:00");
+        Date date = Utils.parseToDateTime("2018-08-01 14:00:00");
         assertTrue(Utils.checkCurrentDay(date));
     }
 
@@ -21,7 +21,7 @@ public class UtilsTest {
         Date date = Utils.parseToDateTime("2018-07-09 22:30:00");
         assertFalse(Utils.checkForCurrentDayForBookingTicket(date));
 
-        date = Utils.parseToDateTime("2022-08-01 22:00:00");
+        date = Utils.parseToDateTime("2018-08-01 16:30:00");
         assertTrue(Utils.checkForCurrentDayForBookingTicket(date));
     }
 }

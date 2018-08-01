@@ -131,7 +131,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public boolean checkScheduleForAvailability(Schedule schedule) {
+    public boolean checkScheduleForAvailability(Schedule schedule) throws ParseException {
         Date date = schedule.getDateDeparture();
         return Utils.checkForCurrentDayForBookingTicket(date);
     }

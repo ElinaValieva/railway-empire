@@ -37,7 +37,7 @@ public interface TicketService {
 
     boolean checkSeatUntilBooking(Seat seat, Schedule schedule);
 
-    boolean checkScheduleForAvailability(Schedule schedule);
+    boolean checkScheduleForAvailability(Schedule schedule) throws ParseException;
 
     List<Ticket> getBySchedules(Schedule schedule);
 

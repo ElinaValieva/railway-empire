@@ -1,6 +1,7 @@
 package com.elina.railwayApp.configuration.common;
 
 import lombok.extern.log4j.Log4j;
+import org.joda.time.DateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ResourceUtils;
@@ -12,7 +13,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 @Log4j
@@ -40,6 +40,7 @@ public class Utils {
         newDate.setTime(date.getTime() + (long) 1000 * 24 * 60 * 60);
         return newDate;
     }
+
     public static Date parseToDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);
@@ -68,7 +69,8 @@ public class Utils {
     }
 
     public static boolean checkCurrentDay(Date date) {
-        return date.before(new Date());
+        DateTime dateTime = new DateTime(date.getTime());
+        return dateTime.isBeforeNow();
     }
 
     public static boolean checkForCurrentDayForBookingTicket(Date date) {
