@@ -144,16 +144,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setDateDeparture(dateDeparture);
         schedule.setDateArrival(dateArrival);
 
-        if (!ticketService.getBySchedules(schedule).isEmpty())
-            throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
-
         if (stationDeparture.equals(stationArrival))
             throw new BusinessLogicException(ErrorCode.SAME_STATIONS.getMessage());
 
         if (!dateDeparture.before(dateArrival))
             throw new BusinessLogicException(ErrorCode.WRONG_DATES.getMessage());
 
-        if (!getByDateAndTrainToCheckIntersection(schedule).isEmpty())
+        if (getByDateAndTrainToCheckIntersection(schedule).size() > 1)
             throw new BusinessLogicException(ErrorCode.INTERSECTION_SCHEDULES.getMessage());
 
         if (Utils.checkCurrentDay(dateDeparture))
