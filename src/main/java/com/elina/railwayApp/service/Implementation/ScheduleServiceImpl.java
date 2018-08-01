@@ -102,7 +102,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getStationArrival().setStatus(status);
         scheduleDAO.add(schedule);
         auditService.createScheduleAuditInfo(schedule);
-        messageQueueService.produceMsg("create:" + schedule.getId());
+        messageQueueService.produceMsg("create id=" + schedule.getId());
         log.info("SCHEDULE WAS CREATED!");
     }
 
@@ -114,7 +114,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new BusinessLogicException(ErrorCode.SCHEDULE_IS_AVAILABLE.getMessage());
         scheduleDAO.delete(schedule);
         auditService.deleteScheduleAuditInfo(schedule);
-        messageQueueService.produceMsg("delete:" + schedule.getId());
+        messageQueueService.produceMsg("delete id=" + schedule.getId());
     }
 
     @Override
@@ -161,7 +161,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleDAO.update(schedule);
         auditService.updateScheduleAuditInfo(scheduleOld, schedule);
-        messageQueueService.produceMsg("update:" + schedule.getId());
+        messageQueueService.produceMsg("update id=" + schedule.getId());
     }
 
     @Override
@@ -195,6 +195,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    @Transactional
     public List<Schedule> getByDates(Date dateDeparture, Date dateArrival) throws BusinessLogicException {
         dateArrival = Utils.getNextDay(dateArrival);
         if (dateArrival.before(dateDeparture))
@@ -509,6 +510,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    @Transactional
     public ScheduleDTO getByIdScheduleDTO(Long id) {
         return modelMapper.map(getById(id), ScheduleDTO.class);
     }

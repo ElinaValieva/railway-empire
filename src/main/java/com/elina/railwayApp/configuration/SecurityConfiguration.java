@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/static/**", "/",
                         URLs.GET_SCHEDULES_FOR_BOARD,
                         URLs.STATIONS_FOR_BOARD,
-                        URLs.GET_BY_ID)
+                        URLs.GET_BY_ID_FOR_BOARD)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
