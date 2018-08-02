@@ -41,4 +41,6 @@ public interface ScheduleDAO {
     List<Schedule> getByStationArrivalAndDates(Station station, Date dateFrom, Date dateTo);
 
     List<Schedule> getRealTimeSchedules() throws ParseException;
+
+    List<Schedule> getForToday() throws ParseException;
 }

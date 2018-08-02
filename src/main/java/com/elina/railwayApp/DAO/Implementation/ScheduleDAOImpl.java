@@ -217,4 +217,15 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 .setParameter("date", date)
                 .getResultList();
     }
+
+    @Override
+    public List<Schedule> getForToday() throws ParseException {
+        Date date = Utils.getTodayDateTime();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " +
+                        "where date(dateDeparture) = date(:date) " +
+                        "order by dateDeparture asc ")
+                .setParameter("date", date)
+                .getResultList();
+    }
 }

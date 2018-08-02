@@ -173,7 +173,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<ScheduleDTO> getAllForToday() throws ParseException {
-        List<Schedule> schedules = scheduleDAO.getRealTimeSchedules();
+        List<Schedule> schedules = scheduleDAO.getForToday();
         return schedules.stream()
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
