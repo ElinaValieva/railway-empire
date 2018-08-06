@@ -47,6 +47,7 @@ public class ScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(URLs.GET_SCHEDULE_TODAY)
     public ResponseEntity<?> getSchedulesForToday() throws ParseException {
         List<ScheduleDTO> schedules = scheduleService.getAllForToday();

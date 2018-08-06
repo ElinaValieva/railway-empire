@@ -46,6 +46,7 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @CrossOrigin(origins = URLs.URL_FRONT_END)
     @PostMapping(URLs.REGISTRATION)
     public void registration(@RequestBody UserDTO userDTO) throws BusinessLogicException, MessagingException, IOException {
         userService.registration(userDTO);

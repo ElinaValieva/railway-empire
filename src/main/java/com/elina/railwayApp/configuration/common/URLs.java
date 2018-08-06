@@ -93,6 +93,7 @@ public final class URLs {
     public final static String STATIONS_AUTOCOMPLETE = "/auto/stations";
     public final static String TRAINS_AUTOCOMPLETE = "/auto/trains";
 
+    public final static String URL_FRONT_END = "http://localhost:4300";
 
 }
 
