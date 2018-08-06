@@ -117,13 +117,12 @@ public class DistanceService {
         Double longitudeA = RADIANS * pointA.getY();
         Double longitudeB = RADIANS * pointB.getY();
 
-        // вычисления длины большого круга
+        // calculating length of big round
         Double y = Math.sqrt(Math.pow(Math.cos(latitudeB) * Math.sin(longitudeB - longitudeA), 2)
                 + Math.pow(Math.cos(latitudeA) * Math.sin(latitudeB) - Math.sin(latitudeA) * Math.cos(latitudeB) * Math.cos(longitudeB - longitudeA), 2));
         Double x = Math.sin(latitudeA) * Math.sin(latitudeB) + Math.cos(latitudeA) * Math.cos(latitudeB) * Math.cos(longitudeB - longitudeA);
-        Double dist = Math.atan2(y, x) * EARTH_RADIUS;
 
-        return dist;
+        return Math.atan2(y, x) * EARTH_RADIUS;
     }
 
     /**

@@ -49,7 +49,7 @@ public class ChartService {
         List<Station> stations = stationService.getAllStations();
         List<Integer> cntVisits = new ArrayList<>();
         List<String> stationsName = new ArrayList<>();
-        stations.stream().forEach(station -> {
+        stations.forEach(station -> {
             Integer cnt = scheduleService.getByStationArrivalAndDates(station, dateDeparture, dateArrival).size();
             cntVisits.add(cnt);
             stationsName.add(station.getName());
@@ -95,7 +95,7 @@ public class ChartService {
         List<Station> stations = stationService.getAllStations();
         List<String> stationName = new ArrayList<>();
         List<Integer> cntTickets = new ArrayList<>();
-        stations.stream().forEach(station -> {
+        stations.forEach(station -> {
             Integer cnt = Long.valueOf(tickets.stream().filter(ticket -> ticket.getSchedule().getStationDeparture().equals(station)).count()).intValue();
             stationName.add(station.getName());
             cntTickets.add(cnt);
@@ -111,8 +111,8 @@ public class ChartService {
     /**
      * return profit from booking tickets by days
      *
-     * @param dateFrom
-     * @param dateTo
+     * @param dateFrom - sdfs
+     * @param dateTo   - sfgrff
      * @return
      * @throws BusinessLogicException
      * @throws ParseException
@@ -122,11 +122,11 @@ public class ChartService {
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
         Date dateDeparture = Utils.parseToDate(dateFrom);
         Date dateArrival = Utils.parseToDate(dateTo);
-        List<Integer> profits = new ArrayList();
+        ArrayList profits = new ArrayList();
         List<String> dates = new ArrayList<>();
         for (Date date = dateDeparture; date.before(dateArrival); date = Utils.getNextDay(date)) {
             Integer profit = ticketService.getByDate(date)
-                    .stream().mapToInt(ticket -> ticket.getPrice()).sum();
+                    .stream().mapToInt(Ticket::getPrice).sum();
             profits.add(profit);
             dates.add(date.toString());
         }

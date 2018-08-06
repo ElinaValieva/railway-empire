@@ -1,6 +1,7 @@
 package com.elina.railwayApp.model;
 
 import com.elina.railwayApp.configuration.common.Tables;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = Tables.STATION_TABLE)
 public class Station {
@@ -31,19 +33,4 @@ public class Station {
     @OneToOne
     @NotNull
     private Status status;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Station)) return false;
-        Station station = (Station) o;
-        return Objects.equals(getId(), station.getId()) &&
-                Objects.equals(getName(), station.getName());
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(getId(), getName());
-    }
 }
