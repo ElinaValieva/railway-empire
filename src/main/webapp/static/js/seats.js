@@ -1,5 +1,4 @@
 /**
- * @author Valieva Elina
  *
  * return seats view with booking functions
  */

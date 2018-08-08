@@ -1,5 +1,4 @@
 /**
- * @author Valieva Elina
  *
  * STATIONS:
  * getStation - get stations

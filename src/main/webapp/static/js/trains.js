@@ -1,5 +1,4 @@
 /**
- * @author Valieva Elina
  *
  * TRAIN:
  * addTrain - create train with ajax request
