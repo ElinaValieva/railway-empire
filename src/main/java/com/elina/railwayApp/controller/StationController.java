@@ -25,7 +25,7 @@ public class StationController {
     /**
      * GET ALL STATIONS
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @GetMapping(URLs.GET_STATIONS)
     public ResponseEntity<?> getStations() {
         List<StationDTO> stationDTOList = stationService.getAll();
@@ -38,7 +38,7 @@ public class StationController {
      * @param stationDTO
      */
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PostMapping(URLs.CREATE_STATION)
     public void addStation(@RequestBody StationDTO stationDTO) throws BusinessLogicException {
         stationService.add(stationDTO);
@@ -49,7 +49,7 @@ public class StationController {
      *
      * @param name
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_STATION)
     public void removeStation(@PathVariable String name) throws BusinessLogicException {
         stationService.delete(name);
@@ -61,7 +61,7 @@ public class StationController {
      *
      * @param stationDTO
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PutMapping(URLs.UPDATE_STATION)
     public void updateStation(@RequestBody StationDTO stationDTO) throws BusinessLogicException {
         stationService.update(stationDTO);

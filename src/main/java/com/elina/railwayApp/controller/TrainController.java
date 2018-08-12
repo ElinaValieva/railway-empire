@@ -26,7 +26,7 @@ public class TrainController {
     /**
      * GET ALL TRAINS
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @GetMapping(URLs.GET_TRAINS)
     public ResponseEntity<?> getTrains() {
         List<TrainInfoDTO> trains = trainService.getLastPositionTrain();
@@ -36,7 +36,7 @@ public class TrainController {
     /**
      * GET ALL TRAINS
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @GetMapping(URLs.GET_ALL_TRAINS)
     public ResponseEntity<?> getAllTrains() {
         List<TrainDTO> trains = trainService.getAll();
@@ -48,7 +48,7 @@ public class TrainController {
      *
      * @param trainDTO
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PostMapping(URLs.CREATE_TRAIN)
     public void createTrain(@RequestBody TrainDTO trainDTO) throws BusinessLogicException {
         trainService.add(trainDTO);
@@ -59,7 +59,7 @@ public class TrainController {
      *
      * @param name
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @DeleteMapping(URLs.DELETE_TRAIN)
     public void removeTrain(@PathVariable String name) throws BusinessLogicException {
         trainService.delete(name);
@@ -71,7 +71,7 @@ public class TrainController {
      * @param trainDTO
      * @throws BusinessLogicException
      */
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PutMapping(URLs.UPDATE_TRAIN)
     public void updateTrain(@RequestBody TrainDTO trainDTO) throws BusinessLogicException {
         trainService.update(trainDTO);

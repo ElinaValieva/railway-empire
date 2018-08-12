@@ -7,7 +7,10 @@ import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
-import com.elina.railwayApp.service.*;
+import com.elina.railwayApp.service.AuditService;
+import com.elina.railwayApp.service.TicketBuilderPDF;
+import com.elina.railwayApp.service.TicketService;
+import com.elina.railwayApp.service.UserService;
 import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
@@ -100,6 +103,12 @@ public class UserController {
         response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(inputStream, response.getOutputStream());
+    }
+
+    @GetMapping("/auth")
+    public ResponseEntity<?> authInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(authentication);
     }
 }
 

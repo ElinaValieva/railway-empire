@@ -17,12 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = URLs.CHART)
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ChartController {
 
     @Autowired
     private ChartService chartService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.GET_POPULAR_STATIONS)
     public ResponseEntity<?> getPopularStations(@PathVariable String dateFrom,
                                                 @PathVariable String dateTo) throws ParseException, BusinessLogicException {
@@ -30,21 +30,18 @@ public class ChartController {
         return ResponseEntity.ok(chartDTO);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.GET_STATISTICS_PASSENGERS)
     public ResponseEntity<?> getAgesStatistics() throws ParseException {
         List<Integer> ages = chartService.chartForUsersAge();
         return ResponseEntity.ok(ages);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.GET_CNT_TICKETS)
     public ResponseEntity<?> getCntTickets() throws ParseException {
         ChartDTO chartDTO = chartService.chartCntTicketsForDay();
         return ResponseEntity.ok(chartDTO);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(URLs.GET_PROFIT_FROM_TICKETS)
     public ResponseEntity<?> getProfitFromBooking(@PathVariable String dateFrom,
                                                   @PathVariable String dateTo) throws ParseException, BusinessLogicException {
