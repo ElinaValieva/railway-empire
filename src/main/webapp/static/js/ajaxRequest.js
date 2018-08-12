@@ -14,6 +14,7 @@ var getRequest = function (urlSearching) {
         url: urlSearching,
         async: false
     }).done(function (response) {
+        console.log(JSON.stringify(response));
         dataResponse = response;
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
@@ -39,7 +40,8 @@ var postRequest = function (data, urlSearching, successMessage) {
         method: "POST",
         url: urlSearching,
         data: JSON.stringify(data),
-    }).done(function () {
+    }).done(function (response) {
+        console.log(JSON.stringify(response));
         swal("Good job!", successMessage, "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
@@ -63,7 +65,8 @@ var putRequest = function (data, urlSearching, successMessage) {
         method: "PUT",
         url: urlSearching,
         data: JSON.stringify(data),
-    }).done(function () {
+    }).done(function (response) {
+        console.log(JSON.stringify(response));
         swal("Good job!", successMessage, "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
@@ -87,7 +90,8 @@ var deleteRequest = function (urlSearching, successMessage) {
         method: "DELETE",
         url: urlSearching,
         async: false
-    }).done(function () {
+    }).done(function (response) {
+        console.log(JSON.stringify(response));
         swal("Good job!", successMessage, "success");
     }).fail(function (qXHR, textStatus, errorThrown) {
         var messageError = JSON.parse(qXHR.responseText)['message'].split('[MESSAGE]:')[1];
