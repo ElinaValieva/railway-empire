@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <script src="/static/js/plugins/jquery-3.3.1.js"></script>
     <script src="/static/js/plugins/sweetalert2.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATEXUR5RvQRRCiG2wirYPe9IGtlWUCHYY"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDlLcHvt_VzI-31mvgHNtD_nyyTE9Qa5E"></script>
     <script src="/static/js/ajaxRequest.js"></script>
     <script src="/static/js/trains.js"></script>
     <script src="/static/js/stations.js"></script>
