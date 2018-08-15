@@ -55,15 +55,8 @@ public class UserServiceTest {
 
     @Test
     public void findByEmail() {
-        when(userDAO.findUserByEmail(user)).thenReturn(new User());
-        userService.findByEmail(user);
-        verify(userDAO).findUserByEmail(user);
-    }
-
-    @Test
-    public void findByEmail1() {
         when(userDAO.findUserByEmail("login@mail.ru")).thenReturn(new User());
-        userService.findByEmail("login@mail.ru");
+        userService.findUserByEmail("login@mail.ru");
         verify(userDAO).findUserByEmail("login@mail.ru");
     }
 
