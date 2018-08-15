@@ -43,7 +43,7 @@ public interface TicketService {
 
     List<TicketInfoDTO> getByScheduleId(Long id);
 
-    List<TicketInfoDTO> getByUser(User user);
+    List<TicketInfoDTO> getAuthenticatedUserTicket();
 
     List<Ticket> getByDate(Date date);
 

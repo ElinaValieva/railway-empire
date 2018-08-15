@@ -27,4 +27,6 @@ public interface StationService {
     Station getById(Long id);
 
     Station getByName(String name);
+
+    List<String> getStationsName();
 }

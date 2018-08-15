@@ -45,6 +45,12 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private DistanceService distanceService;
 
+    @Autowired
+    private SecureService secureService;
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
     @Transactional
@@ -154,7 +160,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public List<TicketInfoDTO> getByUser(User user) {
+    public List<TicketInfoDTO> getAuthenticatedUserTicket() {
+        String userName = secureService.getAuthentication().getName();
+        User user = userService.findUserByEmail(userName);
         List<Ticket> tickets = ticketDAO.getByUser(user);
         return tickets.stream()
                 .map(x -> modelMapper.map(x, TicketInfoDTO.class))
@@ -168,6 +176,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public List<Ticket> getByDates(Date dateFrom, Date dateTo) {
         return ticketDAO.getByDates(dateFrom, dateTo);
     }

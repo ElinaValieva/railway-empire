@@ -30,4 +30,6 @@ public interface TrainService {
     List<TrainInfoDTO> getLastPositionTrain();
 
     List<TrainDTO> getAllDeletedTrains();
+
+    List<String> getTrainsName();
 }

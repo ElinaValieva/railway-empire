@@ -10,10 +10,13 @@ import com.elina.railwayApp.model.Role;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.MailService;
 import com.elina.railwayApp.service.RoleService;
+import com.elina.railwayApp.service.SecureService;
 import com.elina.railwayApp.service.UserService;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -39,6 +42,9 @@ public class UserServiceImpl implements UserService {
     private MailService mailService;
 
     @Autowired
+    private SecureService secureService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -61,14 +67,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User findByEmail(User user) {
-        return userDAO.findUserByEmail(user);
+    public UserDTO findAuthenticatedUserDTO() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userDAO.findUserByEmail(userName);
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
     @Transactional
-    public User findByEmail(String login) {
+    public User findAuthenticatedUser() {
+        String login = secureService.getAuthentication().getName();
         return userDAO.findUserByEmail(login);
+    }
+
+    @Override
+    @Transactional
+    public User findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
     }
 
     @Override
@@ -79,13 +95,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateProfile(UserDTO userDTO, User user) throws ParseException, BusinessLogicException {
+    public void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException {
+        User user = findAuthenticatedUser();
         Date birthDay = Utils.parseToDate(userDTO.getBirthDay());
 
         if (!birthDay.before(new Date()))
             throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
 
-        if (findByEmail(userDTO.getLogin()) != null && !findByEmail(userDTO.getLogin()).getLogin().equals(user.getLogin()))
+        if (findUserByEmail(userDTO.getLogin()) != null && !findUserByEmail(userDTO.getLogin()).getLogin().equals(user.getLogin()))
             throw new BusinessLogicException(ErrorCode.WRONG_LOGIN.getMessage());
 
         user.setFirstName(userDTO.getFirstName());
@@ -102,7 +119,7 @@ public class UserServiceImpl implements UserService {
         if (userDTO == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
-        if (findByEmail(userDTO.getLogin()) != null)
+        if (findUserByEmail(userDTO.getLogin()) != null)
             throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
 
         Role role = roleService.getRole();

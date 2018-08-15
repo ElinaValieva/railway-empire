@@ -4,6 +4,7 @@ import com.elina.railwayApp.DAO.AuditDAO;
 import com.elina.railwayApp.DTO.AuditDTO;
 import com.elina.railwayApp.model.*;
 import com.elina.railwayApp.service.AuditService;
+import com.elina.railwayApp.service.SecureService;
 import com.elina.railwayApp.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class AuditServiceImpl implements AuditService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private SecureService secureService;
 
     @Override
     @Transactional
@@ -173,9 +177,8 @@ public class AuditServiceImpl implements AuditService {
     }
 
     public User getAuthorisedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
+        String userName = secureService.getAuthentication().getName();
+        User user = userService.findUserByEmail(userName);
         return user;
     }
 }

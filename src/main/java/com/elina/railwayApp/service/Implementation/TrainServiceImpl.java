@@ -165,6 +165,15 @@ public class TrainServiceImpl implements TrainService {
         return trainDTOList;
     }
 
+    @Override
+    @Transactional
+    public List<String> getTrainsName() {
+        return getAllTrains()
+                .stream()
+                .map(x -> x.getName())
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Schedule findLastScheduleForTrain(Train train) {
         return trainDAO.getLastSchedule(train);

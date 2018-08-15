@@ -122,4 +122,13 @@ public class StationServiceImpl implements StationService {
     public Station getByName(String name) {
         return stationDAO.findByName(name);
     }
+
+    @Override
+    @Transactional
+    public List<String> getStationsName() {
+        return getAllStations()
+                .stream()
+                .map(x -> x.getName())
+                .collect(Collectors.toList());
+    }
 }

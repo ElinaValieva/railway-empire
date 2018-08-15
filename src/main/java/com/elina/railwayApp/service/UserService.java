@@ -19,13 +19,15 @@ public interface UserService {
 
     List<User> getUsers();
 
-    User findByEmail(User user);
+    UserDTO findAuthenticatedUserDTO();
 
-    User findByEmail(String login);
+    User findAuthenticatedUser();
+
+    User findUserByEmail(String email);
 
     void update(User user);
 
-    void updateProfile(UserDTO userDTO, User user) throws ParseException, BusinessLogicException;
+    void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException;
 
     void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException;
 }
