@@ -16,6 +16,7 @@ public final class URLs {
     public final static String GET_USERS_TICKETS = "/userMap/show";
     public final static String AUDIT = "/audit";
     public final static String DOWNLOAD = "/download/{id}";
+    public final static String AUTH = "/auth";
 
     /**
      * CHART
