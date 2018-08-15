@@ -7,16 +7,14 @@ import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
-import com.elina.railwayApp.service.AuditService;
-import com.elina.railwayApp.service.TicketBuilderPDF;
-import com.elina.railwayApp.service.TicketService;
-import com.elina.railwayApp.service.UserService;
+import com.elina.railwayApp.service.*;
 import com.itextpdf.text.DocumentException;
 import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.FileCopyUtils;
@@ -47,7 +45,8 @@ public class UserController {
     private TicketBuilderPDF ticketBuilderPDF;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private SecureService secureService;
+
 
     @PostMapping(URLs.REGISTRATION)
     public void registration(@RequestBody UserDTO userDTO) throws BusinessLogicException, MessagingException, IOException {
@@ -57,10 +56,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(URLs.GET_PROFILE)
     public ResponseEntity<?> getProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        UserDTO userDTO = userService.findAuthenticatedUserDTO();
         return ResponseEntity.ok(userDTO);
     }
 
@@ -68,19 +64,13 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(URLs.UPDATE_PROFILE)
     public void updateUser(@RequestBody UserDTO userDTO) throws ParseException, BusinessLogicException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
-        userService.updateProfile(userDTO, user);
+        userService.updateProfile(userDTO);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(URLs.GET_USERS_TICKETS)
     public ResponseEntity<?> showTrips() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
-        List<TicketInfoDTO> tickets = ticketService.getByUser(user);
+        List<TicketInfoDTO> tickets = ticketService.getAuthenticatedUserTicket();
         return ResponseEntity.ok(tickets);
     }
 
@@ -105,10 +95,10 @@ public class UserController {
         FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 
-    @GetMapping("/auth")
-    public ResponseEntity<?> authInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(authentication);
+    @PostMapping(URLs.AUTH)
+    public ResponseEntity<?> authInfo(@RequestBody UserDTO userDTO) {
+        UsernamePasswordAuthenticationToken authenticationToken = secureService.authenticate(userDTO);
+        return ResponseEntity.ok(authenticationToken.getAuthorities());
     }
 }
 

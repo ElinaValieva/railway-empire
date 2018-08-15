@@ -167,7 +167,7 @@ public class ScheduleController {
     public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User user = userService.findByEmail(userName);
+        User user = userService.findUserByEmail(userName);
         ticketService.add(ticketDTO, user);
     }
 

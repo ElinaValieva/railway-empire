@@ -2,11 +2,10 @@ package com.elina.railwayApp.controller;
 
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.configuration.common.Views;
+import com.elina.railwayApp.service.SecureService;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j
 @Controller
 public class ViewController {
+
+    @Autowired
+    private SecureService secureService;
 
     @RequestMapping(value = URLs.WELCOME)
     public String home() {
@@ -93,9 +95,7 @@ public class ViewController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = URLs.LOGOUT)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null)
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        secureService.logOut(request, response);
         return Views.LOGIN;
     }
 }

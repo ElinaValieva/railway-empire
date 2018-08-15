@@ -105,10 +105,7 @@ public class TrainController {
      */
     @GetMapping(URLs.TRAINS_AUTOCOMPLETE)
     public ResponseEntity<?> getTrainsAuto() {
-        List<String> trains = trainService.getAllTrains()
-                .stream()
-                .map(x -> x.getName())
-                .collect(Collectors.toList());
+        List<String> trains = trainService.getTrainsName();
         return ResponseEntity.ok(trains);
     }
 }

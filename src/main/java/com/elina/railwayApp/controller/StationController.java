@@ -95,10 +95,7 @@ public class StationController {
      */
     @GetMapping(URLs.STATIONS_AUTOCOMPLETE)
     public ResponseEntity<?> getStationsAuto() {
-        List<String> stations = stationService.getAllStations()
-                .stream()
-                .map(x -> x.getName())
-                .collect(Collectors.toList());
+        List<String> stations = stationService.getStationsName();
         return ResponseEntity.ok(stations);
     }
 }
