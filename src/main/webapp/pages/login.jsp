@@ -34,7 +34,7 @@
     <div class="moon"></div>
     <div class="login-page">
         <form class="form" action="/login" method="post">
-            <input name="username" id="userNameUser" type="email" placeholder="login" required/>
+            <input name="login" id="userNameUser" type="email" placeholder="login" required/>
             <input name="password" id="passwordUser" type="password" placeholder="password" required/>
             <button id="loginUser">Sign in</button>
             <p class="message">Not registered? <a href="/registration">Create an account</a></p>
