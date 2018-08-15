@@ -50,21 +50,20 @@
             <div class="form">
                 <div class="row">
                     <div class="col">
-                        <button id="addStationBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
-                                src="/static/images/railroad.png"
+                        <button id="addStationBtn" class="btn btn-circle btn-xl btn-outline-warning"
                                 @click="stationShow">
+                            <img src="/static/images/railroad.png">
                         </button>
                     </div>
                     <div class="col">
-                        <button id="addScheduleBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
-                                src="/static/images/calendar.png"
+                        <button id="addScheduleBtn" class="btn btn-circle btn-xl btn-outline-warning"
                                 @click="scheduleShow">
+                            <img src="/static/images/calendar.png">
                         </button>
                     </div>
                     <div class="col">
-                        <button id="addTrainBtn" class="btn btn-circle btn-xl btn-outline-warning"><img
-                                src="/static/images/subway.png"
-                                @click="trainShow">
+                        <button id="addTrainBtn" class="btn btn-circle btn-xl btn-outline-warning" @click="trainShow">
+                            <img src="/static/images/subway.png">
                         </button>
                     </div>
                 </div>
