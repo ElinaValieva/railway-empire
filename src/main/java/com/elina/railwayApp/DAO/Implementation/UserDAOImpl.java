@@ -48,23 +48,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findUserByForm(String login, String password) {
-        return (User) sessionFactory.getCurrentSession()
-                .createQuery("FROM User where login = :login and password = :password")
-                .setParameter("login", login)
-                .setParameter("password", password)
-                .uniqueResult();
-    }
-
-    @Override
-    public User findUserByEmail(User user) {
-        return (User) sessionFactory.getCurrentSession()
-                .createQuery("FROM User u where login = :login")
-                .setParameter("login", user.getLogin())
-                .uniqueResult();
-    }
-
-    @Override
     public User findUserByEmail(String login) {
         return (User) sessionFactory.getCurrentSession()
                 .createQuery("FROM User u where login = :login")

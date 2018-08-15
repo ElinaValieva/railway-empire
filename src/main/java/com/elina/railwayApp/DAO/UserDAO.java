@@ -18,10 +18,6 @@ public interface UserDAO {
 
     void updateProfile(User user);
 
-    User findUserByForm(String login, String password);
-
-    User findUserByEmail(User user);
-
     User findUserByEmail(String login);
 
 
