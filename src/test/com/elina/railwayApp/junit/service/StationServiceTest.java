@@ -50,9 +50,9 @@ public class StationServiceTest {
 
     @Test
     public void getById() {
-        when(stationDAO.findById(27L)).thenReturn(new Station());
+        when(stationDAO.getById(27L)).thenReturn(new Station());
         stationService.getById(27L);
-        verify(stationDAO).findById(27L);
+        verify(stationDAO).getById(27L);
     }
 
     @Test

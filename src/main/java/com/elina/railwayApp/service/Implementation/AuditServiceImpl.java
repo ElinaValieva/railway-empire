@@ -171,7 +171,8 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public List<AuditDTO> getAuditsInfo() {
-        return auditDAO.getAll().stream()
+        List<Audit> audits = auditDAO.getAll();
+        return audits.stream()
                 .map(x -> modelMapper.map(x, AuditDTO.class))
                 .collect(Collectors.toList());
     }

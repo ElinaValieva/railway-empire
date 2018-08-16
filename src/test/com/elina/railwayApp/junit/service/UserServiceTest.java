@@ -43,7 +43,7 @@ public class UserServiceTest {
     @Test
     public void remove() {
         userService.remove(user);
-        userDAO.remove(user);
+        userDAO.delete(user);
     }
 
     @Test

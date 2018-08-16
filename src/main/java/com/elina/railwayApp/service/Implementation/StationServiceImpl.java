@@ -114,7 +114,7 @@ public class StationServiceImpl implements StationService {
     @Override
     @Transactional
     public Station getById(Long id) {
-        return stationDAO.findById(id);
+        return (Station) stationDAO.getById(id);
     }
 
     @Override

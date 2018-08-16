@@ -109,7 +109,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public Ticket getById(Long id) {
-        return ticketDAO.getById(id);
+        return (Ticket) ticketDAO.getById(id);
     }
 
     @Override

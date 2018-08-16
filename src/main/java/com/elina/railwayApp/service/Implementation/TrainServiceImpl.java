@@ -117,7 +117,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     @Transactional
     public Train getById(Long id) {
-        return trainDAO.getById(id);
+        return (Train) trainDAO.getById(id);
     }
 
     @Override

@@ -182,7 +182,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public Schedule getById(Long id) {
-        return scheduleDAO.getById(id);
+        return (Schedule) scheduleDAO.getById(id);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class SeatServiceImpl implements SeatService {
     @Override
     @Transactional
     public Seat getById(Long id) {
-        return seatDAO.getById(id);
+        return (Seat) seatDAO.getById(id);
     }
 
     @Override
