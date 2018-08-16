@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <br>
-                <form class="login-form" id="stationId" hidden>
+                <form class="login-form" id="stationId">
                     <datalist id="stationsList">
                         <auto-stations></auto-stations>
                     </datalist>

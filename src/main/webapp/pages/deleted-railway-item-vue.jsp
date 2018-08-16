@@ -66,8 +66,8 @@ background-size: cover">
             </div>
         </div>
         <br>
-        <table class="table table-striped table-dark text-center" id="stationTable" hidden>
-            <thead class="font-weight-bold">
+        <table class="table table-striped text-center" id="stationTable" hidden style="background: rgba(0,0,0,0.6);">
+            <thead class="font-weight-bold text-warning">
             <tr>
                 <th class="text-center">Station name</th>
                 <th class="text-center">Latitude</th>
@@ -89,8 +89,8 @@ background-size: cover">
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="trainTable" hidden>
-            <thead class="font-weight-bold">
+        <table class="table table-striped" id="trainTable" hidden style="background: rgba(0,0,0,0.6);">
+            <thead class="font-weight-bold text-warning">
             <tr>
                 <th class="text-center">Train</th>
                 <th class="text-center">Count carriages</th>
@@ -112,8 +112,8 @@ background-size: cover">
             </tbody>
         </table>
 
-        <table class="table table-striped table-dark" id="auditTable" hidden>
-            <thead class="font-weight-bold">
+        <table class="table" id="auditTable" hidden style="background: rgba(0,0,0,0.6);">
+            <thead class="font-weight-bold text-warning">
             <tr v-if="audits!=[]">
                 <th class="text-center">Changed date</th>
                 <th class="text-center">Changed by</th>

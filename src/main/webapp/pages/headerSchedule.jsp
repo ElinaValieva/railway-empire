@@ -26,7 +26,11 @@
     <script src="/static/js/autocomplete.js"></script>
     <script src="/static/js/searchingSchedule.js"></script>
 </head>
-<body class="bg-dark pointer">
+<body style="background: url('/static/images/bg.png') no-repeat center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover">
 <div class="d-flex  align-items-center p-3 bg-dark  box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal text-warning">RAILWAY EMPIRE</h5>
     <nav class="my-2 my-md-0 mr-md-3">
@@ -268,11 +272,11 @@
     </a>
 </div>
 <div id="containerForSearching" style="display: none">
-    <table class="table table-hover table-dark">
+    <table class="table table-hover" style="background: rgba(0,0,0,0.6);">
         <tbody class="text-warning text-center" id="containerForSearchingDirect">
         </tbody>
     </table>
-    <table class="table table-hover table-dark">
+    <table class="table table-hover" style="background: rgba(0,0,0,0.6);">
         <tbody class="text-warning text-center" id="containerForSearchingTransfer">
         </tbody>
     </table>

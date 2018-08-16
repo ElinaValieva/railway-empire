@@ -56,19 +56,20 @@ background-size: cover">
         <div class="row text-center">
             <div class="col-3">
                 <button id="chartStationBtn" class="btn btn-circle btn-xl bg-warning btn-warning form-control">
-                    <img
-                            src="/static/images/railroad.png"></button>
+                    <img src="/static/images/railroad.png">
+                </button>
             </div>
             <div class="col-3">
                 <button id="chartStatisticAgesBtn"
                         class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control">
-                    <img
-                            src="/static/images/circular-line-with-word-age-in-the-center.png"></button>
+                    <img src="/static/images/circular-line-with-word-age-in-the-center.png">
+                </button>
             </div>
             <div class="col-3">
                 <button id="chartTicketCntBtn"
                         class="btn  btn-circle btn-xl bg-warning btn-outline-warning form-control"><img
-                        src="/static/images/price.png"></button>
+                        src="/static/images/price.png">
+                </button>
             </div>
             <div class="col-3">
                 <button id="chartProfitBtn"
@@ -80,11 +81,11 @@ background-size: cover">
         <div class="row">
             <div class="col">
                 <h4 class="text-warning font-weight-bold" id="labelFrom">DATE FROM</h4><input type="date" id="dateFrom"
-                                                                               class="form-control">
+                                                                                              class="form-control">
             </div>
             <div class="col">
                 <h4 class="text-warning font-weight-bold" id="labelTo">DATE TO</h4><input type="date" id="dateTo"
-                                                                             class="form-control">
+                                                                                          class="form-control">
             </div>
         </div>
         <br>

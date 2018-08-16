@@ -3,6 +3,7 @@ $(function () {
     var labels = [];
     var data = [];
     var colors = [];
+    var values = [];
     var dateFrom, dateTo;
 
     $('#dateFrom').val("2018-06-29");
