@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StatusDAOImpl implements StatusDAO {
+public class StatusDAOImpl<E extends Status> extends GenericDAOImpl<E> implements StatusDAO<E> {
 
     @Autowired
     private SessionFactory sessionFactory;

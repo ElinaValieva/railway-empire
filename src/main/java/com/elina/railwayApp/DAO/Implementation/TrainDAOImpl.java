@@ -11,43 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class TrainDAOImpl implements TrainDAO {
+public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements TrainDAO<E> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public void add(Train train) {
-        sessionFactory.getCurrentSession()
-                .save(train);
-    }
-
-    @Override
-    public void update(Train train) {
-        sessionFactory.getCurrentSession()
-                .update(train);
-    }
-
-    @Override
-    public void delete(Train train) {
-        sessionFactory.getCurrentSession()
-                .delete(train);
-    }
-
-    @Override
-    public List<Train> getAll() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Train")
-                .getResultList();
-    }
-
-    @Override
-    public Train getById(Long id) {
-        return (Train) sessionFactory.getCurrentSession()
-                .createQuery("from Train where id = :id")
-                .setParameter("id", id)
-                .uniqueResult();
-    }
 
     @Override
     public Train getByName(String name) {

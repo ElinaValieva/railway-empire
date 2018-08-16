@@ -10,29 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class AuditDAOImpl implements AuditDAO {
+public class AuditDAOImpl<E extends Audit> extends GenericDAOImpl<E> implements AuditDAO<E> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public void add(Audit audit) {
-        sessionFactory.getCurrentSession()
-                .save(audit);
-    }
-
-    @Override
-    public void delete(Audit audit) {
-        sessionFactory.getCurrentSession()
-                .delete(audit);
-    }
-
-    @Override
-    public List<Audit> getAll() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Audit order by date desc ")
-                .getResultList();
-    }
 
     @Override
     public List<Audit> getByDate(Date date) {

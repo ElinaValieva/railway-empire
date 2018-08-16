@@ -9,30 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl<E extends User> extends GenericDAOImpl<E> implements UserDAO<E> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public List<User> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from User").getResultList();
-    }
-
-    @Override
-    public void add(User user) {
-        sessionFactory.getCurrentSession().save(user);
-    }
-
-    @Override
-    public void remove(User user) {
-        sessionFactory.getCurrentSession().delete(user);
-    }
-
-    @Override
-    public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);
-    }
 
     @Override
     public void updateProfile(User user) {

@@ -7,13 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface AuditDAO {
-
-    void add(Audit audit);
-
-    void delete(Audit audit);
-
-    List<Audit> getAll();
+public interface AuditDAO<E extends Audit> extends GenericDAO<E> {
 
     List<Audit> getByDate(Date date);
 }

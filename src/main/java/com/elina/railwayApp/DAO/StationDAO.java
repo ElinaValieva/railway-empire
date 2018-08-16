@@ -6,15 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StationDAO {
-
-    Station findById(Long id);
-
-    void add(Station station);
-
-    void update(Station station);
-
-    List<Station> getAll();
+public interface StationDAO<E extends Station> extends GenericDAO<E> {
 
     Station findByName(String name);
 }

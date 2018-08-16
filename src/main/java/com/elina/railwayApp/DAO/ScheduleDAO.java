@@ -1,6 +1,7 @@
 package com.elina.railwayApp.DAO;
 
-import com.elina.railwayApp.model.*;
+import com.elina.railwayApp.model.Schedule;
+import com.elina.railwayApp.model.Station;
 import org.springframework.stereotype.Repository;
 
 import java.text.ParseException;
@@ -8,17 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface ScheduleDAO {
-
-    void add(Schedule schedule);
-
-    void update(Schedule schedule);
-
-    void delete(Schedule schedule);
-
-    List<Schedule> getAll();
-
-    Schedule getById(Long id);
+public interface ScheduleDAO<E extends Schedule> extends GenericDAO<E> {
 
     List<Schedule> getByDate(Date date);
 

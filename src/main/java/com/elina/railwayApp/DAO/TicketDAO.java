@@ -10,17 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface TicketDAO {
-
-    void add(Ticket ticket);
-
-    void update(Ticket ticket);
-
-    void delete(Ticket ticket);
-
-    List<Ticket> getAll();
-
-    Ticket getById(Long id);
+public interface TicketDAO<E extends Ticket> extends GenericDAO<E> {
 
     List<Ticket> getBySchedule(Schedule schedule);
 

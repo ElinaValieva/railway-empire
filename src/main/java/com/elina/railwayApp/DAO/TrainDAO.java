@@ -7,17 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TrainDAO {
-
-    void add(Train train);
-
-    void update(Train train);
-
-    void delete(Train train);
-
-    List<Train> getAll();
-
-    Train getById(Long id);
+public interface TrainDAO<E extends Train> extends GenericDAO<E> {
 
     Train getByName(String name);
 

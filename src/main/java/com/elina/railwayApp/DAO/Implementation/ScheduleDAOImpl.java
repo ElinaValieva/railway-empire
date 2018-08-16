@@ -13,46 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class ScheduleDAOImpl implements ScheduleDAO {
+public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> implements ScheduleDAO<E> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public void add(Schedule schedule) {
-        sessionFactory.getCurrentSession()
-                .save(schedule);
-    }
-
-    @Override
-    public void update(Schedule schedule) {
-        sessionFactory.getCurrentSession()
-                .update(schedule);
-    }
-
-    @Override
-    public void delete(Schedule schedule) {
-        sessionFactory.getCurrentSession()
-                .delete(schedule);
-    }
-
-    @Override
-    public List<Schedule> getAll() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Schedule " +
-                        "order by dateDeparture desc ")
-                .list();
-    }
-
-
-    @Override
-    public Schedule getById(Long id) {
-        return (Schedule) sessionFactory.getCurrentSession()
-                .createQuery("from Schedule " +
-                        "where id = :id")
-                .setParameter("id", id)
-                .uniqueResult();
-    }
 
     /**
      * @param date

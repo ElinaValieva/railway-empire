@@ -6,15 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserDAO {
-
-    List<User> getAll();
-
-    void add(User user);
-
-    void remove(User user);
-
-    void update(User user);
+public interface UserDAO<E extends User> extends GenericDAO<E> {
 
     void updateProfile(User user);
 
