@@ -25,8 +25,6 @@ public class HibernateConfiguration {
     private static final String MODEL_PACKAGE = "com.elina.railwayApp.model";
     private static final String JDBC_DRIVER_CLASS_NAME_PROPERTY = "jdbc.driverClassName";
     private static final String JDBC_URL_PROPERTY = "jdbc.url";
-    private static final String JDBC_USERNAME_PROPERTY = "jdbc.username";
-    private static final String JDBC_PASSWORD_PROPERTY = "jdbc.password";
     private static final String HIBERNATE_DIALECT_PROPERTY = "hibernate.dialect";
     private static final String HIBERNATE_SHOW_SQL_PROPERTY = "hibernate.show_sql";
     private static final String HIBERNATE_FORMAT_SQL_PROPERTY = "hibernate.format_sql";
@@ -51,8 +49,8 @@ public class HibernateConfiguration {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty(JDBC_DRIVER_CLASS_NAME_PROPERTY));
         dataSource.setUrl(environment.getRequiredProperty(JDBC_URL_PROPERTY));
-        dataSource.setUsername(environment.getRequiredProperty(JDBC_USERNAME_PROPERTY));
-        dataSource.setPassword(environment.getRequiredProperty(JDBC_PASSWORD_PROPERTY));
+        dataSource.setUsername(System.getenv("DB.Username"));
+        dataSource.setPassword(System.getenv("DB.Password"));
         return dataSource;
     }
 
