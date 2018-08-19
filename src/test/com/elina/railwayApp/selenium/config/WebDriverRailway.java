@@ -6,11 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class WebDriverRailway extends ChromeDriver {
 
-    private Integer SPEED;
-
-    public WebDriverRailway(Integer SPEED) {
-        this.SPEED = SPEED;
-    }
+    private final static Integer SPEED = 500;
 
     @Override
     public WebElement findElement(By by) {
