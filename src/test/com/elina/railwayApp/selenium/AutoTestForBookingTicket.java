@@ -17,7 +17,7 @@ public class AutoTestForBookingTicket {
     @Before
     public void createDriver() {
         System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
-        driver = new WebDriverRailway(500);
+        driver = new WebDriverRailway();
         driver.get(SeleniumConfig.LOGIN_URL);
     }
 
@@ -27,11 +27,12 @@ public class AutoTestForBookingTicket {
      * 3. Book ticket
      * 4. Look all trips on map
      * 5. Look all tickets
+     * 6. LogOut
      *
      * @throws InterruptedException
      */
     @Test
-    public void automaticTest() throws InterruptedException {
+    public void automaticTest() {
         WebDriverWait webDriverWait = new WebDriverWait(driver, SeleniumConfig.TIME_OUT);
         // ---- Log as USER
         webDriverWait.until(ExpectedConditions
