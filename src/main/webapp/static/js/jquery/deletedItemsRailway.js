@@ -110,8 +110,8 @@ $(function () {
             html:
                 "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + "' disabled>" +
                 "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLastName + "' disabled>" +
-                "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
-                "<input id='swal-input3' class='swal2-input' value='" + audit[0].oldValue == null ? '-' : audit[0].oldValue + "' disabled>" +
+                "<input id='swal-input3' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
+                "<input id='swal-input4' class='swal2-input' value='" + audit[0].oldValue == null ? '-' : audit[0].oldValue + "' disabled>" +
                     "<input id='swal-input3' class='swal2-input' value='" + audit[0].newValue + "' disabled>",
 
             icon: "info",

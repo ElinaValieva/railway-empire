@@ -90,7 +90,11 @@ $(function () {
 
     $('.' + settings.seatCss).click(function () {
         if ($(this).hasClass(settings.selectedSeatCss)) {
-            alert('This seat is already reserved');
+            swal({
+                title: 'Oops..',
+                text: 'This seat is already reserved',
+                type: 'warning'
+            });
         }
         else {
             $('.' + settings.seatCss).removeClass(settings.selectingSeatCss);

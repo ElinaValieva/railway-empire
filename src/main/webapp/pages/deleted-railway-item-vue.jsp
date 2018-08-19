@@ -256,7 +256,7 @@ background-size: cover">
                     "<input id='swal-input1' class='swal2-input' value='" + audit[0].userFirstName + audit[0].userLastName + "' disabled>" +
                     "<input id='swal-input2' class='swal2-input' value='" + audit[0].userLogin + "' disabled>" +
                     "<input id='swal-input3' class='swal2-input' value='" + (audit[0].oldValue == null ? '-' : audit[0].oldValue) + "' disabled>" +
-                    "<textarea id='swal-input3' class='swal2-input' disabled style='height: 100px'>" + audit[0].newValue + "</textarea>",
+                    "<textarea id='swal-input4' class='swal2-input' disabled style='height: 100px'>" + audit[0].newValue + "</textarea>",
                     icon: "info",
                 });
             }

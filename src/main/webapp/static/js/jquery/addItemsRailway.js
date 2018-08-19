@@ -11,8 +11,8 @@ $(function () {
         for (var i = 0; i < stations.length; i++)
             $('#stationsList').append("<option value='" + stations[i] + "'>");
 
-        for (var i = 0; i < trains.length; i++)
-            $('#trainsList').append("<option value='" + trains[i] + "'>");
+        for (var j = 0; j < trains.length; j++)
+            $('#trainsList').append("<option value='" + trains[j] + "'>");
     };
 
     autocomplete();

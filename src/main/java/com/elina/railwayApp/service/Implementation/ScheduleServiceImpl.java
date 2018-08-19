@@ -100,6 +100,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         Status status = statusDAO.getByName("WORKED");
         schedule.getStationDeparture().setStatus(status);
         schedule.getStationArrival().setStatus(status);
+        schedule.getTrain().setStatus(status);
+
         scheduleDAO.add(schedule);
         auditService.createScheduleAuditInfo(schedule);
         messageQueueService.produceMsg("create id=" + schedule.getId());
@@ -327,7 +329,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<ScheduleDTO> getDirectSchedulesFromDTOByStationsAndDatesAndTrain(ScheduleDTO scheduleDTO) throws
             ParseException, BusinessLogicException {
-        List<Schedule> schedules = new ArrayList<>();
+        List<Schedule> schedules;
         Schedule schedule = new Schedule();
         Train train = trainService.getByName(scheduleDTO.getTrainName());
         Station stationDeparture = stationService.getByName(scheduleDTO.getStationDepartureName());
@@ -520,6 +522,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                     try {
                         price = distanceService.calculateDirectTripPrice(x);
                     } catch (ParseException e) {
+                        log.error(e.getMessage());
                         e.printStackTrace();
                     }
                     x.setPrice(price);
