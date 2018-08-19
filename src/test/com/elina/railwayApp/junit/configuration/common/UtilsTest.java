@@ -22,6 +22,15 @@ public class UtilsTest {
         assertFalse(Utils.checkForCurrentDayForBookingTicket(date));
 
         date = Utils.parseToDateTime("2018-08-01 16:30:00");
-        assertTrue(Utils.checkForCurrentDayForBookingTicket(date));
+        assertFalse(Utils.checkForCurrentDayForBookingTicket(date));
+    }
+
+    @Test
+    public void checkTransfer() throws ParseException {
+        Date dateDeparture = Utils.parseToDate("2018-08-01");
+        Date dateArrival = Utils.parseToDate("2018-08-06");
+        int deltaMin = 15;
+        int deltaMax = 60;
+        assertFalse(Utils.checkTransfer(dateDeparture, dateArrival, deltaMin, deltaMax));
     }
 }

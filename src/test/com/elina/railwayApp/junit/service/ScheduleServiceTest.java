@@ -3,6 +3,7 @@ package com.elina.railwayApp.junit.service;
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.configuration.common.Utils;
 import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Train;
@@ -14,9 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,7 +27,7 @@ public class ScheduleServiceTest {
 
     private Schedule schedule;
     private Station station;
-    private Date date, dateTo;
+    private Date date;
 
     @Mock
     private ScheduleDAO scheduleDAO;
@@ -36,8 +37,7 @@ public class ScheduleServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        date = new Date();
-        dateTo = Utils.getNextDay(new Date());
+        date = Utils.parseToDate("2018-07-23");
         schedule = new Schedule();
         schedule.setId(31L);
 
@@ -71,13 +71,6 @@ public class ScheduleServiceTest {
         when(scheduleDAO.getByDate(date)).thenReturn(new ArrayList<>());
         scheduleService.getByDate(date);
         verify(scheduleDAO).getByDate(date);
-    }
-
-    @Test
-    public void getByDates() throws ParseException, BusinessLogicException {
-        when(scheduleDAO.getByDates(date, dateTo)).thenReturn(new ArrayList<>());
-        scheduleService.getByDates(date, dateTo);
-        verify(scheduleDAO).getByDates(date, dateTo);
     }
 
     @Test
