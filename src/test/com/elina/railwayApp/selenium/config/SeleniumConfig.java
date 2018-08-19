@@ -1,4 +1,4 @@
-package com.elina.railwayApp.selenium;
+package com.elina.railwayApp.selenium.config;
 
 public class SeleniumConfig {
 
