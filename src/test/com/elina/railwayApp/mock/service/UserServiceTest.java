@@ -1,4 +1,4 @@
-package com.elina.railwayApp.junit.service;
+package com.elina.railwayApp.mock.service;
 
 import com.elina.railwayApp.DAO.UserDAO;
 import com.elina.railwayApp.model.User;
@@ -12,7 +12,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

@@ -1,7 +1,6 @@
-package com.elina.railwayApp.junit.service;
+package com.elina.railwayApp.mock.service;
 
 import com.elina.railwayApp.DAO.StationDAO;
-import com.elina.railwayApp.exception.BusinessLogicException;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Status;
 import com.elina.railwayApp.service.Implementation.StationServiceImpl;

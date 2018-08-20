@@ -1,4 +1,4 @@
-package com.elina.railwayApp.junit.service;
+package com.elina.railwayApp.mock.service;
 
 import com.elina.railwayApp.DAO.TrainDAO;
 import com.elina.railwayApp.DTO.TrainDTO;

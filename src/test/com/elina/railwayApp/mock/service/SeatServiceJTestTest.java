@@ -1,4 +1,4 @@
-package com.elina.railwayApp.junit.service;
+package com.elina.railwayApp.mock.service;
 
 import com.elina.railwayApp.DAO.SeatDAO;
 import com.elina.railwayApp.model.Seat;
@@ -13,12 +13,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SeatServiceTest {
+public class SeatServiceJTestTest {
 
     private Seat seat;
     private Train train;

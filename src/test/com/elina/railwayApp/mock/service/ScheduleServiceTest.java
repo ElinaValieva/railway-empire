@@ -1,9 +1,7 @@
-package com.elina.railwayApp.junit.service;
+package com.elina.railwayApp.mock.service;
 
 import com.elina.railwayApp.DAO.ScheduleDAO;
 import com.elina.railwayApp.configuration.common.Utils;
-import com.elina.railwayApp.exception.BusinessLogicException;
-import com.elina.railwayApp.exception.ErrorCode;
 import com.elina.railwayApp.model.Schedule;
 import com.elina.railwayApp.model.Station;
 import com.elina.railwayApp.model.Train;
@@ -17,7 +15,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
