@@ -1,4 +1,4 @@
-package com.elina.railwayApp.junit.configuration.common;
+package com.elina.railwayApp.mock.configuration.common;
 
 import com.elina.railwayApp.configuration.common.Utils;
 import org.junit.Test;
@@ -27,10 +27,10 @@ public class UtilsTest {
 
     @Test
     public void checkTransfer() throws ParseException {
-        Date dateDeparture = Utils.parseToDate("2018-08-01");
-        Date dateArrival = Utils.parseToDate("2018-08-06");
+        Date dateDeparture = Utils.parseToDate("2018-08-22 13:00:38.0");
+        Date dateArrival = Utils.parseToDate("2018-08-22 23:50:00.0");
         int deltaMin = 15;
-        int deltaMax = 60;
+        int deltaMax = 360;
         assertFalse(Utils.checkTransfer(dateDeparture, dateArrival, deltaMin, deltaMax));
     }
 }

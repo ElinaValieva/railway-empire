@@ -1,4 +1,4 @@
-package com.elina.railwayApp.junit;
+package com.elina.railwayApp.mock;
 
 
 import lombok.extern.log4j.Log4j;
