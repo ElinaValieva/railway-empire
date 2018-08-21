@@ -18,6 +18,7 @@ public class AutoTestForMaps {
     public void createDriver() {
         System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         driver = new WebDriverRailway();
+        driver.manage().window().fullscreen();
         driver.get(SeleniumConfig.LOGIN_URL);
     }
 
@@ -65,7 +66,7 @@ public class AutoTestForMaps {
                 .presenceOfElementLocated(By.xpath("//button[@id='addAllBtn']")))
                 .click();
 
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         // ---- Logout
 
@@ -73,7 +74,43 @@ public class AutoTestForMaps {
                 .presenceOfElementLocated(By.xpath("//a[contains(text(),'Sign out')]")))
                 .click();
 
-        Thread.sleep(1000);
+        // ---- Log as USER
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.id("userNameUser")))
+                .sendKeys("bob@mail.ru");
+
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.id("passwordUser")))
+                .sendKeys("pass");
+
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//button[@id = 'loginUser']")))
+                .click();
+
+        // ---- Look at all trips on map
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//a[contains(text(),'Map')]")))
+                .click();
+
+        Thread.sleep(6000);
+
+        // ---- Look at all trips
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//a[contains(text(),'Trips')]")))
+                .click();
+
+        Thread.sleep(2000);
+
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.id("65")))
+                .click();
+
+        Thread.sleep(3000);
+
+        webDriverWait.until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//a[contains(text(),'Sign out')]")))
+                .click();
+
     }
 
     @After

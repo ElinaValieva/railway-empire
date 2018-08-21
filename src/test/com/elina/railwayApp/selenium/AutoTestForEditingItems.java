@@ -12,10 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-/**
- * Business case:
- * - login, add new train
- */
 public class AutoTestForEditingItems {
 
     private WebDriver driver = null;
@@ -24,6 +20,7 @@ public class AutoTestForEditingItems {
     public void createDriver() {
         System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         driver = new WebDriverRailway();
+        driver.manage().window().fullscreen();
         driver.get(SeleniumConfig.LOGIN_URL);
     }
 
@@ -67,7 +64,7 @@ public class AutoTestForEditingItems {
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("(//input[@type='text'])[7]")))
-                .sendKeys("T1001");
+                .sendKeys("T1011");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//form[@id='trainId']/button")))
@@ -88,7 +85,7 @@ public class AutoTestForEditingItems {
                 .click();
 
         webDriverWait.until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//button[@id='T1001']")))
+                .presenceOfElementLocated(By.xpath("//button[@id='T1011']")))
                 .click();
 
         webDriverWait.until(ExpectedConditions
@@ -97,7 +94,7 @@ public class AutoTestForEditingItems {
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//input[@id='swal-input1']")))
-                .sendKeys("T000");
+                .sendKeys("T1010");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.cssSelector("button.swal2-confirm.swal2-styled")))
@@ -127,7 +124,7 @@ public class AutoTestForEditingItems {
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("(//input[@type='text'])[6]")))
-                .sendKeys("T000");
+                .sendKeys("T1010");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//input[@value='2018-00-00T00:00:00']")))
@@ -150,7 +147,7 @@ public class AutoTestForEditingItems {
                 .presenceOfElementLocated(By.xpath("//button[@id='addTrainBtn']/img")))
                 .click();
         webDriverWait.until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("(//button[@id='T000'])[2]")))
+                .presenceOfElementLocated(By.xpath("(//button[@id='T1010'])[2]")))
                 .click();
 
         webDriverWait.until(ExpectedConditions

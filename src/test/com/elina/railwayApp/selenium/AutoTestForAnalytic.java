@@ -10,10 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- * Business case:
- * - login, show all charts and logout
- */
 public class AutoTestForAnalytic {
 
     private WebDriver driver = null;
@@ -22,6 +18,7 @@ public class AutoTestForAnalytic {
     public void createDriver() {
         System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         driver = new WebDriverRailway();
+        driver.manage().window().fullscreen();
         driver.get(SeleniumConfig.LOGIN_URL);
     }
 

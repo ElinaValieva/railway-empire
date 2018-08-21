@@ -18,12 +18,13 @@ public class AutoTestForBookingTicket {
     public void createDriver() {
         System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         driver = new WebDriverRailway();
+        driver.manage().window().fullscreen();
         driver.get(SeleniumConfig.LOGIN_URL);
     }
 
     /**
      * 1. Log as user
-     * 2. Find schedule Voronezh - Moscow 22 Aug
+     * 2. Find schedule Minsk - Voronezh 22 Aug
      * 3. Book ticket
      * 4. Look all trips on map
      * 5. Look all tickets
@@ -32,12 +33,12 @@ public class AutoTestForBookingTicket {
      * @throws InterruptedException
      */
     @Test
-    public void automaticTest() {
+    public void automaticTest() throws InterruptedException {
         WebDriverWait webDriverWait = new WebDriverWait(driver, SeleniumConfig.TIME_OUT);
         // ---- Log as USER
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("userNameUser")))
-                .sendKeys("bob@mail.ru");
+                .sendKeys("patric@mail.ru");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("passwordUser")))
@@ -54,27 +55,27 @@ public class AutoTestForBookingTicket {
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("stationDepartureSearchingByStationsAndDates")))
-                .sendKeys("Voronezh");
+                .sendKeys("Ufa");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("stationArrivalSearchingByStationsAndDates")))
-                .sendKeys("Moscow");
+                .sendKeys("Kazan");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("dateDepartureSearchingByStationsAndDates")))
-                .sendKeys("22.08.2018");
+                .sendKeys("21.08.2018");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//button[@id='searchingBtnByStationsAndDates']")))
                 .click();
 
         webDriverWait.until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//button[@id='160']")))
+                .presenceOfElementLocated(By.xpath("//button[@id='169']")))
                 .click();
 
         // ---- Book ticket
         webDriverWait.until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//ul[@id='place']/li[16]")))
+                .presenceOfElementLocated(By.xpath("//ul[@id='place']/li[30]")))
                 .click();
 
         webDriverWait.until(ExpectedConditions
@@ -90,10 +91,14 @@ public class AutoTestForBookingTicket {
                 .presenceOfElementLocated(By.xpath("//a[contains(text(),'Trips')]")))
                 .click();
 
+        Thread.sleep(3000);
+
         // ---- Look at all trips on map
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.id("showTripsOnMapID")))
                 .click();
+
+        Thread.sleep(3000);
 
         // ---- Log out
         webDriverWait.until(ExpectedConditions
