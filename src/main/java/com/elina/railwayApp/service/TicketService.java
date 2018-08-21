@@ -21,7 +21,7 @@ public interface TicketService {
 
     void add(Ticket ticket);
 
-    void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException;
+    Ticket add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException;
 
     void delete(Ticket ticket);
 

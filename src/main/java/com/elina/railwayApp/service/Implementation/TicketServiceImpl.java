@@ -60,9 +60,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
+    public synchronized Ticket add(TicketDTO ticketDTO, User user) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
         Schedule schedule = scheduleService.getById(ticketDTO.getSchedule());
-
         if (schedule == null || user == null)
             throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
 
@@ -75,8 +74,9 @@ public class TicketServiceImpl implements TicketService {
         Train train = schedule.getTrain();
         Seat seat = seatService.getByTrainAndCarriageAndSeat(train, ticketDTO.getSeatDTO().getCarriage(), ticketDTO.getSeatDTO().getSeat());
 
+
         if (seat == null || !checkSeatUntilBooking(seat, schedule))
-            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+            throw new BusinessLogicException(ErrorCode.NULL_SEAT.getMessage());
 
         Ticket ticket = new Ticket();
         ticket.setSchedule(schedule);
@@ -84,8 +84,10 @@ public class TicketServiceImpl implements TicketService {
         ticket.setUser(user);
         ticket.setPrice(distanceService.calculateDirectTripPrice(schedule));
         add(ticket);
-        ticketBuilderPDF.createTicket(ticket);
+        // ticketBuilderPDF.createTicket(ticket);
+        System.out.println("This ticket booked by " + user.getFirstName());
         log.info("TICKET BOOKED WITH SUCCESS STATUS");
+        return ticket;
     }
 
     @Override
