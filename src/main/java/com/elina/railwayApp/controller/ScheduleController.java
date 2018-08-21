@@ -3,6 +3,7 @@ package com.elina.railwayApp.controller;
 import com.elina.railwayApp.DTO.*;
 import com.elina.railwayApp.configuration.common.URLs;
 import com.elina.railwayApp.exception.BusinessLogicException;
+import com.elina.railwayApp.model.Ticket;
 import com.elina.railwayApp.model.User;
 import com.elina.railwayApp.service.ScheduleService;
 import com.elina.railwayApp.service.TicketService;
@@ -164,11 +165,12 @@ public class ScheduleController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(URLs.BOOK_TICKET_OF_DIRECT_TRIP)
-    public void bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
+    public ResponseEntity<?> bookTicket(@RequestBody TicketDTO ticketDTO) throws BusinessLogicException, DocumentException, MessagingException, IOException, ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userService.findUserByEmail(userName);
-        ticketService.add(ticketDTO, user);
+        Ticket ticket = ticketService.add(ticketDTO, user);
+        return ResponseEntity.ok(ticket);
     }
 
     /**

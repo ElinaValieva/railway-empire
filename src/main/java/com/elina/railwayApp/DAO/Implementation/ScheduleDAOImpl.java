@@ -192,4 +192,12 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
                 .setParameter("date", date)
                 .getResultList();
     }
+
+    @Override
+    public List<E> getAll() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " +
+                        "order by dateDeparture desc ")
+                .list();
+    }
 }

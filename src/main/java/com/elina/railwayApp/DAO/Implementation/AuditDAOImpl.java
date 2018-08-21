@@ -22,4 +22,10 @@ public class AuditDAOImpl<E extends Audit> extends GenericDAOImpl<E> implements 
                 .setParameter("date", date)
                 .getResultList();
     }
+
+    public List<E> getAll() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Audit order by date desc ")
+                .getResultList();
+    }
 }

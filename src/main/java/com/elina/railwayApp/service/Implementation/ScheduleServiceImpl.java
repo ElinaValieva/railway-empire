@@ -254,8 +254,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
         Map<Station, List<Schedule>> mapStationsForTransfer = new HashMap<>();
-        for (Schedule schedule :
-                schedules) {
+        for (Schedule schedule : schedules) {
             if (mapStationsForTransfer.get(schedule.getStationDeparture()) == null) {
                 List<Schedule> listSchedulesForCurrentSchedule = getByStationArrivalAndDate(schedule);
                 if (!listSchedulesForCurrentSchedule.isEmpty())
@@ -281,14 +280,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         Station stationArrival = stationService.getByName(scheduleDTO.getStationArrivalName());
         List<Schedule> schedules = mapStationForTransfer.get(stationDeparture);
         List<TransferScheduleDTO> transferScheduleDTOS = new ArrayList<>();
-        for (Schedule schedule :
-                schedules) {
+        for (Schedule schedule : schedules) {
             if (!schedule.getStationArrival().equals(stationArrival)) {
                 List<Schedule> transferSchedule = mapStationForTransfer.get(schedule.getStationArrival());
                 if (transferSchedule != null) {
-                    transferSchedule.stream()
+                    transferSchedule = transferSchedule.stream()
                             .filter(x -> x.getStationArrival().equals(stationArrival)
-                                    && schedule.getDateArrival().before(x.getDateDeparture()) &&
+                                    && schedule.getDateArrival().before(x.getDateDeparture()) ||
                                     Utils.checkTransfer(schedule.getDateArrival(), x.getDateDeparture(), MIN_DELTA_TRANSFER, MAX_DELTA_TRANSFER))
                             .collect(Collectors.toList());
 
