@@ -258,9 +258,10 @@ $(function () {
         var idDeparture = $(this).attr('id').split('arr')[1];
         var idArrival = $(this).attr('id').split('dep')[1].split('arr')[0];
         window.location = "/seat?id=" + idDeparture;
-        window.open('http://localhost:8080/seat?id=' + idArrival);
+        window.open('http://localhost:8000/seat?id=' + idArrival);
     });
 });
+
 
 var getSchedules = function () {
     var token = $("meta[name='_csrf']").attr("content");

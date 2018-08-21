@@ -29,7 +29,8 @@ public enum ErrorCode {
     WRONG_BIRTHDAY(21, "Wrong birthday date. Try to change it."),
     USER_NOT_FOUND(22, "Wrong login or pass. Try again."),
     WRONG_LOGIN(23, "This login already used. Try again"),
-    TIME_OUT(24, "Time out..");
+    TIME_OUT(24, "Time out.."),
+    NULL_SEAT(25, "Wrong parameters for seat, not found.");
 
     private int code;
     private String reason;

@@ -6,8 +6,8 @@ $(function () {
     var values = [];
     var dateFrom, dateTo;
 
-    $('#dateFrom').val("2018-06-29");
-    $('#dateTo').val("2018-07-29");
+    $('#dateFrom').val("2018-08-10");
+    $('#dateTo').val("2018-08-22");
     $('#chartStationBtn').click(function (event) {
         event.preventDefault();
         $('#dateTo').prop('hidden', false);
@@ -76,13 +76,14 @@ $(function () {
         data = chart.values;
         for (var i = 0; i < labels.length; i++)
             colors.push(randomColor('orange'));
-        chartBar("profit", 'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
+        chartDoughnut("profit", 'PROFIT FROM BOOKING TICKET from ' + dateFrom + " to " + dateTo);
     });
 
     var chartPie = function (label, text) {
         $('#bar-chart').prop('hidden', true);
         $('#line-chart').prop('hidden', true);
         $('#pie-chart').prop('hidden', false);
+        $('#doughnut-chart').prop('hidden', true);
         Chart.defaults.global.defaultFontColor = 'orange';
         new Chart(document.getElementById("pie-chart"), {
             type: 'pie',
@@ -107,6 +108,7 @@ $(function () {
         $('#pie-chart').prop('hidden', true);
         $('#bar-chart').prop('hidden', true);
         $('#line-chart').prop('hidden', false);
+        $('#doughnut-chart').prop('hidden', true);
         Chart.defaults.global.defaultFontColor = 'orange';
         new Chart(document.getElementById("line-chart"), {
             type: 'line',
@@ -136,6 +138,7 @@ $(function () {
         $('#pie-chart').prop('hidden', true);
         $('#line-chart').prop('hidden', true);
         $('#bar-chart').prop('hidden', false);
+        $('#doughnut-chart').prop('hidden', true);
         Chart.defaults.global.defaultFontColor = 'orange';
         new Chart(document.getElementById("bar-chart"), {
             type: 'bar',
@@ -156,6 +159,39 @@ $(function () {
                     text: text,
                 },
 
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    };
+
+    var chartDoughnut = function (label, text) {
+        $('#pie-chart').prop('hidden', true);
+        $('#line-chart').prop('hidden', true);
+        $('#bar-chart').prop('hidden', true);
+        $('#doughnut-chart').prop('hidden', false);
+        Chart.defaults.global.defaultFontColor = 'orange';
+        new Chart(document.getElementById("doughnut-chart"), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: label,
+                        backgroundColor: colors,
+                        data: data
+                    }
+                ]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    values: data
+                },
+                title: {
+                    display: true,
+                    text: text,
+                },
                 responsive: true,
                 maintainAspectRatio: false
             }

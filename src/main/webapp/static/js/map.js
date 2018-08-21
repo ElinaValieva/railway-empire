@@ -99,13 +99,13 @@ function init() {
             }, timeout);
             marker.addListener('click', function () {
                 swalWithBootstrapButtons({
-                    title: position.name,
+                    title: 'Do you want to remove ' + position.name + '?',
                     text: 'latitude = ' + position.latitude + ', longitude = ' + position.longitude,
                     type: 'info',
                     showCancelButton: true,
                     showCloseButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: "No, don't remove it!",
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: "No",
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {

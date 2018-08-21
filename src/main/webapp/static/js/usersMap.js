@@ -96,7 +96,7 @@ function init() {
                     text: 'last visit was on ' + position.scheduleDateArrival,
                     type: 'info',
                     showCloseButton: true,
-                    confirmButtonText: 'I want to leave feedback',
+                    confirmButtonText: 'OK',
                     reverseButtons: true
                 });
             });

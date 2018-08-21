@@ -80,8 +80,8 @@ background-size: cover">
         <br>
         <div class="row">
             <div class="col">
-                <h4 class="text-warning font-weight-bold" id="labelFrom">DATE FROM</h4><input type="date" id="dateFrom"
-                                                                                              class="form-control">
+                <h4 class="text-warning font-weight-bold" id="labelFrom">DATE FROM</h4>
+                <input type="date" id="dateFrom" class="form-control">
             </div>
             <div class="col">
                 <h4 class="text-warning font-weight-bold" id="labelTo">DATE TO</h4><input type="date" id="dateTo"
@@ -92,6 +92,7 @@ background-size: cover">
         <div style="width: 1100px; height: 500px">
             <canvas hidden id="bar-chart" height="50" style="background: #1d2124"></canvas>
             <canvas hidden id="pie-chart" height="120" style="background: #1d2124"></canvas>
+            <canvas hidden id="doughnut-chart" height="50" style="background: #1d2124"></canvas>
             <canvas hidden id="line-chart" height="50" style="background: #1d2124"></canvas>
         </div>
     </div>
