@@ -1,6 +1,6 @@
-# :tw-1f687: RAILWAY EMPIRE
+# 🚇 RAILWAY EMPIRE
 
-> **  WEB APPLICATION FOR RAILWAY EMPIRE COMPANY.**
+> WEB APPLICATION FOR RAILWAY EMPIRE COMPANY.
 
 ## Technologies
 - Spring framework
@@ -23,6 +23,6 @@
 
 
 ## Additional applications
-######  :tw-1f687:  [Railway Empire Client](https://github.com/ElinaValieva/railway-empire-client "Railway Empire Client")
-######  :tw-1f550:  [Board Timeschedule Railway Empire](https://github.com/ElinaValieva/board-for-railway-empire "Board Timeschedule Railway Empire")
-###### :tw-1f4da:  [Technical Description Document](http://tsd "Technical description document")
+###  🚇  [Railway Empire Client](https://github.com/ElinaValieva/railway-empire-client "Railway Empire Client")
+###  🕑  [Board Timeschedule Railway Empire](https://github.com/ElinaValieva/board-for-railway-empire "Board Timeschedule Railway Empire")
+### :book:  [Technical Description Document](http://tsd "Technical description document")
