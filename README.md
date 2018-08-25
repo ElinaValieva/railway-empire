@@ -11,11 +11,13 @@
 - MySQL 5.7
 - Tomcat 7
 - Maven
+- Rabbit MQ
 - Lombok
 - Spring security
 - Spring mail
 - Javascript
-- Jquery
+- JQuery
+- Vue.js
 - JSP
 - Bootstrap
 - Google API
