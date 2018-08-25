@@ -30,6 +30,12 @@
     start.sql
     initial.sql
 
+### [Configure RabbitMQ](https://afedyanin.wordpress.com/2014/11/06/rabbitmq-how-to-install/)
+
+
+### [Configure Tomcat](https://www.wikihow.com/Install-Tomcat-on-Windows-7)
+
+
 ### Project Configuration
     mvc clean install
 
