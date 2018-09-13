@@ -12,9 +12,9 @@ var getStation = function () {
     return getRequest(urlSearching);
 };
 
-var deleteStation = function (name) {
+var deleteStation = function (name, callback) {
     var urlSearching = "/station/delete/" + name;
-    deleteRequest(urlSearching, "You delete station");
+    deleteRequest2(urlSearching, "You delete station", callback);
 };
 
 var getCoordinates = function (city) {
@@ -57,10 +57,10 @@ var addStation = function (name, coordinatesX, coordinatesY) {
     }
 };
 
-var updateStation = function (station) {
+var updateStation = function (station, callback) {
 
     var urlSearching = "/station/update";
-    putRequest(station, urlSearching, "You edit station.");
+    putRequest2(station, urlSearching, "You edit station.", callback);
 };
 
 var reestablishStation = function (station) {

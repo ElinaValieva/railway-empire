@@ -12,7 +12,10 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <jsp:include page="header.jsp"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="/static/css/railway.css">
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_USER')">

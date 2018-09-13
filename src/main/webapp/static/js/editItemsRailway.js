@@ -53,15 +53,13 @@ $(function () {
                 cntCarriage: cntCarriages,
                 cntSeats: cntSeats
             };
-            updateTrain(trainDTO);
-            updateTrains();
+            updateTrain(trainDTO, updateTrains);
         }).catch(swal.noop);
     });
 
     $(this).on('click', '.deleteTrain', function () {
         var trainName = $(this).attr('id');
-        deleteTrain(trainName);
-        updateTrains();
+        deleteTrain(trainName, updateTrains);
     });
 
     var updateTrains = function () {
@@ -109,15 +107,13 @@ $(function () {
                 latitude: latitude,
                 longitude: longitude
             };
-            updateStation(stationDTO);
-            updateStations();
+            updateStation(stationDTO, updateStations);
         }).catch(swal.noop);
     });
 
     $(this).on('click', '.deleteStation', function () {
         var stationName = $(this).attr('id');
-        deleteStation(stationName);
-        updateStations();
+        deleteStation(stationName, updateStations);
     });
 
     var updateStations = function () {
@@ -172,15 +168,13 @@ $(function () {
                 dateDeparture: $('#swal-input4').val().replace('T', ' ') + ':00',
                 dateArrival: $('#swal-input5').val().replace('T', ' ') + ':00'
             };
-            updateSchedule(schedule);
-            updateSchedules();
+            updateSchedule(schedule, updateSchedules);
         }).catch(swal.noop);
     });
 
     $(this).on('click', '.deleteSchedule', function () {
         var id = $(this).attr('id');
-        deleteSchedule(id);
-        updateSchedules();
+        deleteSchedule(id, updateSchedules);
     });
 
     $(this).on('click', '.openScheduleTicket', function () {
