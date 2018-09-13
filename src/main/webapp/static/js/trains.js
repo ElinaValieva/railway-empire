@@ -33,15 +33,15 @@ var getAllTrains = function () {
     return getRequest(urlSearching);
 };
 
-var deleteTrain = function (name) {
+var deleteTrain = function (name, callback) {
     var urlSearching = "/train/delete/" + name;
-    deleteRequest(urlSearching, "You delete train");
+    deleteRequest2(urlSearching, "You delete train", callback);
 };
 
 
-var updateTrain = function (train) {
+var updateTrain = function (train, callback) {
     var urlSearching = "/train/update";
-    putRequest(train, urlSearching, "You edit train.");
+    putRequest2(train, urlSearching, "You edit train.", callback);
 };
 
 

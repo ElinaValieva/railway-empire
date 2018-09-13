@@ -290,14 +290,14 @@ var getSchedules = function () {
     return dataResponse;
 };
 
-var deleteSchedule = function (id) {
+var deleteSchedule = function (id, callback) {
     var urlSearching = "/schedule/delete/" + id;
-    deleteRequest(urlSearching, "You delete schedule");
+    deleteRequest2(urlSearching, "You delete schedule", callback);
 };
 
-var updateSchedule = function (schedule) {
+var updateSchedule = function (schedule, callback) {
     var urlSearching = "/schedule/update";
-    putRequest(schedule, urlSearching, "You edit schedule.");
+    putRequest2(schedule, urlSearching, "You edit schedule.", callback);
 };
 
 var addSchedule = function () {
