@@ -85,7 +85,7 @@ public class StationServiceJTest {
 
     @Test
     public void getAllDeletedStations() {
-        Assert.assertFalse(stationService.getAllDeletedStations().size() > 0);
+        Assert.assertTrue(stationService.getAllDeletedStations().size() > 0);
     }
 
     @Test
