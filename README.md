@@ -29,8 +29,8 @@
     mysql -u root –p
     GRANT ALL PRIVILEGES ON *.* TO username@'localhost' IDENTIFIED BY 'pass'
     CREATE DATABASE railwaydb
-    start.sql
-    initial.sql
+    schema.sql
+    data.sql
 
 ### [Configure RabbitMQ](https://afedyanin.wordpress.com/2014/11/06/rabbitmq-how-to-install/)
 

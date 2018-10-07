@@ -1,4 +1,4 @@
-create table train
+create table if not exists train
 (
 	id int auto_increment
 		primary key,
@@ -16,7 +16,7 @@ create index train_status_id_fk
 	on train (status_id)
 ;
 
-create table user
+create table if not exists user
 (
 	id int auto_increment
 		primary key,
@@ -32,7 +32,7 @@ create table user
 engine=InnoDB
 ;
 
-create table user_role
+create table if not exists user_role
 (
 	user_id int null,
 	role_id int null,
@@ -52,7 +52,7 @@ create index user_role_user_id_fk
 	on user_role (user_id)
 ;
 
-create table station
+create table if not exists station
 (
 	id int auto_increment
 		primary key,
@@ -72,7 +72,7 @@ create index station_status_id_fk
 	on station (status_id)
 ;
 
-create table status
+create table if not exists status
 (
 	id int auto_increment
 		primary key,
@@ -84,7 +84,7 @@ engine=InnoDB
 ;
 
 
-create table audit
+create table if not exists audit
 (
 	id int auto_increment
 		primary key,
@@ -105,7 +105,7 @@ create index audit_user_id_fk
 	on audit (user_id)
 ;
 
-create table role
+create table if not exists role
 (
 	id int auto_increment
 		primary key,
@@ -116,7 +116,7 @@ create table role
 engine=InnoDB
 ;
 
-create table schedule
+create table if not exists schedule
 (
 	id int auto_increment
 		primary key,
@@ -149,7 +149,7 @@ create index schedule_train_id_fk
 	on schedule (train_id)
 ;
 
-create table seat
+create table if not exists seat
 (
 	id int auto_increment
 		primary key,
@@ -168,7 +168,7 @@ create index seat_train_id_fk
 	on seat (train_id)
 ;
 
-create table ticket
+create table if not exists ticket
 (
 	id int auto_increment
 		primary key,
