@@ -1,18 +1,37 @@
 package com.elina.railwayApp.selenium.config;
 
-public class SeleniumConfig {
+import lombok.extern.log4j.Log4j;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-    public final static String LOGIN_URL = "http://localhost:8000/login";
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
-    public final static String BOARD_URL = "http://localhost:8080/boardRailway/";
+@Log4j
+public enum SeleniumConfig {
+    SELENIUM_CONFIG_LOGIN_URL("login.url"),
+    SELENIUM_CONFIG_BOARD_URL("board.url"),
+    SELENIUM_CONFIG_CLIENT_URL("client.url"),
+    SELENIUM_CONFIG_MAIL("mail.url"),
+    SELENIUM_CONFIG_TIMEOUT("timeout.value");
 
-    public final static String ANGULAR_URL = "http://localhost:4300";
+    private String config;
+    private Properties properties;
+    private Logger logger = LogManager.getLogger(SeleniumConfig.class.getName());
 
-    public final static String MAIL_URL ="https://mail.ru/";
+    SeleniumConfig(String config) {
+        properties = new Properties();
+        try {
+            properties.load(new FileReader(SeleniumConfig.class.getClassLoader().getResource("selenoum.properties").getFile()));
+        } catch (IOException e) {
+            logger.error("", e);
+        }
+        this.config = config;
+    }
 
-    public final static String PROPERTY_DRIVER = "webdriver.chrome.driver";
+    public String getConfig(){
+        return properties.getProperty(config);
+    }
 
-    public final static String PROPERTY_DRIVER_PATH = "C:/chromedriver_win32/chromedriver.exe";
-
-    public final static Integer TIME_OUT = 20;
 }
