@@ -18,10 +18,8 @@ public class AutoTestForEditingItems {
 
     @Before
     public void createDriver() {
-        System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         driver = new WebDriverRailway();
-        driver.manage().window().fullscreen();
-        driver.get(SeleniumConfig.LOGIN_URL);
+        driver.get(SeleniumConfig.SELENIUM_CONFIG_LOGIN_URL.getConfig());
     }
 
     /**
@@ -36,7 +34,8 @@ public class AutoTestForEditingItems {
      */
     @Test
     public void automaticTest() throws InterruptedException {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, SeleniumConfig.TIME_OUT);
+        Integer timeout = Integer.valueOf(SeleniumConfig.SELENIUM_CONFIG_TIMEOUT.getConfig());
+        WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
 
         // ---- Log as MANAGER
 

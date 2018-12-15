@@ -29,10 +29,8 @@ public class AutoCreateMultiSchedule {
 
     @Before
     public void createDriver() {
-        System.setProperty(SeleniumConfig.PROPERTY_DRIVER, SeleniumConfig.PROPERTY_DRIVER_PATH);
         webDriver = new WebDriverRailway();
-        webDriver.manage().window().maximize();
-        webDriver.get(SeleniumConfig.LOGIN_URL);
+        webDriver.get(SeleniumConfig.SELENIUM_CONFIG_LOGIN_URL.getConfig());
     }
 
     /**
@@ -47,7 +45,8 @@ public class AutoCreateMultiSchedule {
      */
     @Test
     public void automaticTest() throws InterruptedException {
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, SeleniumConfig.TIME_OUT);
+        Integer timeout = Integer.valueOf(SeleniumConfig.SELENIUM_CONFIG_TIMEOUT.getConfig());
+        WebDriverWait webDriverWait = new WebDriverWait(webDriver, timeout);
 
         // ---- Log as ADMIN in main App
         webDriverWait.until(ExpectedConditions
@@ -129,7 +128,7 @@ public class AutoCreateMultiSchedule {
         ((JavascriptExecutor) webDriver).executeScript("window.open()");
         ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
         webDriver.switchTo().window(tabs.get(1));
-        webDriver.get(SeleniumConfig.BOARD_URL);
+        webDriver.get(SeleniumConfig.SELENIUM_CONFIG_BOARD_URL.getConfig());
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//div[@id='j_idt11:menu']/div[3]/span")))
@@ -145,7 +144,7 @@ public class AutoCreateMultiSchedule {
         ((JavascriptExecutor) webDriver).executeScript("window.open()");
         tabs = new ArrayList<>(webDriver.getWindowHandles());
         webDriver.switchTo().window(tabs.get(2));
-        webDriver.get(SeleniumConfig.ANGULAR_URL);
+        webDriver.get(SeleniumConfig.SELENIUM_CONFIG_CLIENT_URL.getConfig());
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.name("username")))
@@ -231,11 +230,11 @@ public class AutoCreateMultiSchedule {
         ((JavascriptExecutor) webDriver).executeScript("window.open()");
         tabs = new ArrayList<>(webDriver.getWindowHandles());
         webDriver.switchTo().window(tabs.get(3));
-        webDriver.get(SeleniumConfig.MAIL_URL);
+        webDriver.get(SeleniumConfig.SELENIUM_CONFIG_MAIL.getConfig());
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.name("login")))
-                .sendKeys("veaufa@mail.ru");
+                .sendKeys("railway@mail.ru");
 
         webDriverWait.until(ExpectedConditions
                 .presenceOfElementLocated(By.name("password")))
