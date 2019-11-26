@@ -1,25 +1,17 @@
 # 🚇 RAILWAY EMPIRE
 
-> WEB APPLICATION FOR RAILWAY EMPIRE COMPANY.
+> WEB APPLICATION FOR RAILWAY EMPIRE.
 
-![ы](https://media.giphy.com/media/1rN42BcwLSQqDXNztc/giphy.gif)
+![ы](https://github.com/ElinaValieva/railway-empire/blob/master/railway.gif)
 
 
 ## Technologies
 - Spring framework
-- Hibernate 5
-- MySQL 5.7
-- Tomcat 7
-- Maven
+- Spring security, Spring mail
+- Hibernate 5, MySQL 5.7
+- Tomcat 7, Maven
 - Rabbit MQ
-- Lombok
-- Spring security
-- Spring mail
-- Javascript
-- JQuery
-- Vue.js
-- JSP
-- Bootstrap
+- Javascript, JQuery, Vue.js, Bootstrap, JSP
 - Google API
 
 
@@ -37,7 +29,7 @@
 
 
 ### Project Configuration
-    mvc clean install
+    mvn clean install
 
 
 ## Additional applications and document
