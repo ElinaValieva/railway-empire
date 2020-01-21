@@ -28,7 +28,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jstl.version>1.2</jstl.version>
         <spring.securiry>5.0.6.RELEASE</spring.securiry>
-        <springframework.version>5.0.6.RELEASE</springframework.version>
+        <springframework.version>5.2.3.RELEASE</springframework.version>
         <hibernate.version>5.3.1.Final</hibernate.version>
         <mysql.connector.version>8.0.11</mysql.connector.version>
         <mail.version>1.4</mail.version>
